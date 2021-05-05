@@ -1,0 +1,86 @@
+﻿<Window x:Class="gtest_gui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:gtest_gui.ViewModel"
+        xmlns:local="clr-namespace:gtest_gui"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:GTestGuiViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch"
+          >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64"/>
+            <RowDefinition Height="*" MinHeight="64"/>
+            <RowDefinition Height="64"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Margin="16, 0"
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="128"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="128"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       Text="対象ファイル："
+                       Style="{StaticResource TextBlockRightStyle}"
+                       />
+            <TextBox Grid.Column="1"
+                     Text="{Binding TestFilePath}"
+                     ToolTip="テストファイル"
+                     Style="{StaticResource TextBoxCommonStyle}"
+                     />
+            <Button Grid.Column="2"
+                    Content="参照"
+                    Style="{StaticResource ButtonCommonStyle}"
+                    Command="{Binding SetTestFileByUserCommand}"
+                    />
+        </Grid>
+        <DataGrid x:Name="dataGrid" 
+                  Grid.Row="1"
+                  Style="{StaticResource DataGridViewCommonStyle}"
+                  ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding TestInfo.TestItems, Mode=TwoWay}"
+                  >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn IsReadOnly="False" Header="実行">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Command="{Binding DataContext.ChangeTestSelectedByUserCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                      />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="テスト対象"
+                                    Width="*"
+                                    Binding="{Binding Name, Mode=TwoWay}"
+                                    />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2"
+                    Style="{StaticResource StackPanelHorizontalRightStyle}"
+                    >
+            <Button Content="実行"
+                    Style="{StaticResource ButtonCommonStyle}"
+                    IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
+                    Command="{Binding RunTestCommand}"
+                    />
+        </StackPanel>
+    </Grid>
+</Window>

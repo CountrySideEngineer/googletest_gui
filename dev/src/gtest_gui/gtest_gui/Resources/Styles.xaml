@@ -1,0 +1,60 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- TextBlock -->
+    <Style x:Key="TextBlockRightStyle" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="16, 8, 8, 8"/>
+        <Setter Property="Padding" Value="16, 8, 0, 8"/>
+    </Style>
+    
+    <!-- TextBox -->
+    <Style x:Key="TextBoxCommonStyle" TargetType="TextBox">
+        <Setter Property="Margin" Value="8, 16"/>
+        <Setter Property="Padding" Value="0, 0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+
+    <!-- ボタン -->
+    <Style x:Key="ButtonCommonStyle"  TargetType="Button">
+        <Setter Property="Margin" Value="8, 16"/>
+        <Setter Property="Padding" Value="32, 8"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+
+    <!-- DataGridView -->
+    <Style x:Key="DataGridViewCommonStyle" TargetType="DataGrid">
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="CanUserDeleteRows" Value="False"/>
+        <Setter Property="CanUserReorderColumns" Value="False"/>
+        <Setter Property="CanUserResizeColumns" Value="True"/>
+        <Setter Property="CanUserResizeRows" Value="True"/>
+        <Setter Property="CanUserSortColumns" Value="True"/>
+        <Setter Property="Margin" Value="16"/>
+    </Style>
+
+    <!-- DataGridColumnHeaderのヘッダ -->
+    <Style x:Key="DataGridViewColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="16, 8"/>
+        <Setter Property="MinWidth" Value="64"/>
+    </Style>
+    
+    <!-- StackPanel -->
+    <Style x:Key="StackPanelCommnonStyle" TargetType="StackPanel">
+        <Setter Property="Margin" Value="16, 0"/>
+    </Style>
+    <Style x:Key="StackPanelHorizontalStyle" TargetType="StackPanel" BasedOn="{StaticResource StackPanelCommnonStyle}">
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+    <Style x:Key="StackPanelHorizontalRightStyle" TargetType="StackPanel" BasedOn="{StaticResource StackPanelHorizontalStyle}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+</ResourceDictionary>
