@@ -43,6 +43,11 @@ namespace gtest_gui.ViewModel
 		protected DelegateCommand _runTestCommand;
 
 		/// <summary>
+		/// Load test data from test execution file.
+		/// </summary>
+		protected DelegateCommand _loadTestCommand;
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public GTestGuiViewModel()
@@ -129,6 +134,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Execute test.
+		/// </summary>
 		public DelegateCommand RunTestCommand
 		{
 			get
@@ -138,6 +146,21 @@ namespace gtest_gui.ViewModel
 					this._runTestCommand = new DelegateCommand(this.RunTestCommandExecute);
 				}
 				return this._runTestCommand;
+			}
+		}
+
+		/// <summary>
+		/// Load test data from file.
+		/// </summary>
+		public DelegateCommand LoadTestCommand
+		{
+			get
+			{
+				if (null == this._loadTestCommand)
+				{
+					this._loadTestCommand = new DelegateCommand(this.LoadTestCommandExecute);
+				}
+				return this._loadTestCommand;
 			}
 		}
 
@@ -155,9 +178,7 @@ namespace gtest_gui.ViewModel
 			{
 				this.TestFilePath = dialog.FileName;
 
-				var runner = new TestRunner();
-				TestInformation testInfo = runner.GetTestList(this.TestFilePath);
-				this.TestInfo = testInfo;
+				this.LoadTestCommandExecute();
 			}
 		}
 
@@ -177,6 +198,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Execute test.
+		/// </summary>
 		public void RunTestCommandExecute()
 		{
 			var runner = new TestRunner
@@ -184,6 +208,23 @@ namespace gtest_gui.ViewModel
 				Target = this.TestFilePath
 			};
 			runner.Run(this.TestInfo);
+		}
+
+		/// <summary>
+		/// Load test from file.
+		/// </summary>
+		public void LoadTestCommandExecute()
+		{
+			try
+			{
+				var runner = new TestRunner();
+				TestInformation testInfo = runner.GetTestList(this.TestFilePath);
+				this.TestInfo = testInfo;
+			}
+			catch (Exception ex)
+			{
+				Debug.Write(ex.Message);
+			}
 		}
 	}
 }
