@@ -87,7 +87,7 @@
             <Button Grid.Column="1"
                     Content="再読み込み"
                     Style="{StaticResource ButtonCommonStyle}"
-                    IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
+                    IsEnabled="{Binding CanReloadTest}"
                     Command="{Binding LoadTestCommand}"
                     />
             <Button Grid.Column="2"

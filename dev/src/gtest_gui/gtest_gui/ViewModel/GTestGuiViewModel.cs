@@ -26,6 +26,11 @@ namespace gtest_gui.ViewModel
 		protected bool _canRunTest;
 
 		/// <summary>
+		/// Field of which a test data can reload or not.
+		/// </summary>
+		protected bool _canReloadTest;
+
+		/// <summary>
 		/// Field of test information.
 		/// </summary>
 		protected TestInformation _testInfo;
@@ -54,6 +59,7 @@ namespace gtest_gui.ViewModel
 		{
 			this.TestFilePath = string.Empty;
 			this.CanRunTest = false;
+			this.CanReloadTest = false;
 		}
 
 		/// <summary>
@@ -101,6 +107,22 @@ namespace gtest_gui.ViewModel
 			{
 				this._canRunTest = value;
 				this.RaisePropertyChanged("CanRunTest");
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether the test datas can be reload or not.
+		/// </summary>
+		public bool CanReloadTest
+		{
+			get
+			{
+				return this._canReloadTest;
+			}
+			set
+			{
+				this._canReloadTest = value;
+				this.RaisePropertyChanged("CanReloadTest");
 			}
 		}
 
@@ -222,6 +244,8 @@ namespace gtest_gui.ViewModel
 				var reader = new TestResultReader();
 				reader.ReadTest(testInfo);
 				this.TestInfo = testInfo;
+
+				this.CanReloadTest = true;
 			}
 			catch (Exception ex)
 			{
