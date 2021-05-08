@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using gtest2html;
 
 namespace gtest_gui.Model
 {
@@ -17,12 +18,18 @@ namespace gtest_gui.Model
 		public bool IsSelected { get; set; }
 
 		/// <summary>
+		/// Result of test.
+		/// </summary>
+		public string Result { get; set; }
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public TestItem()
 		{
 			this.Name = string.Empty;
 			this.IsSelected = false;
+			this.Result = string.Empty;
 		}
 	}
 }

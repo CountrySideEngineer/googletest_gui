@@ -219,6 +219,8 @@ namespace gtest_gui.ViewModel
 			{
 				var runner = new TestRunner();
 				TestInformation testInfo = runner.GetTestList(this.TestFilePath);
+				var reader = new TestResultReader();
+				reader.ReadTest(testInfo);
 				this.TestInfo = testInfo;
 			}
 			catch (Exception ex)
