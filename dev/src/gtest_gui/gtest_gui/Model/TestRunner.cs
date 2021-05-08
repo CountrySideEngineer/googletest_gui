@@ -179,7 +179,7 @@ namespace gtest_gui.Model
 		{
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
-            string logFileName = fileName + "_" + dateTimeNow + ".log";
+            string logFileName = fileName + "_" + dateTimeNow + ".xml";
             string logFilePath = @".\log\" + logFileName;
 
             return logFilePath;

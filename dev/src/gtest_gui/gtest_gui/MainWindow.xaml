@@ -71,6 +71,10 @@
                                     Width="*"
                                     Binding="{Binding Name, Mode=TwoWay}"
                                     />
+                <DataGridTextColumn Header="結果"
+                                    Width="80"
+                                    Binding="{Binding Result}"
+                                    />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="2"

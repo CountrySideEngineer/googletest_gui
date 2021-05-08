@@ -45,7 +45,7 @@ namespace gtest_gui.Model
 			if (Directory.Exists(dirPath))
 			{
 				string logFileTemplate = fileName + "_*.xml";
-				string[] xmlFiles = Directory.GetFiles(@".\log", logFileTemplate);
+				string[] xmlFiles = Directory.GetFiles(@".\log\", logFileTemplate);
 				testResultFiles = new List<string>(xmlFiles);
 			}
 			else
