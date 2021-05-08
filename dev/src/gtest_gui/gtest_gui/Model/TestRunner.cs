@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -59,7 +60,7 @@ namespace gtest_gui.Model
         /// <summary>
         /// Run test
         /// </summary>
-        /// <param name="path">Path to fine to run.</param>
+        /// <param name="path">Path to file to run test.</param>
         public virtual void Run(string path, TestInformation information)
 		{
             var targetTestItems = information.TestItems.Where(_ => _.IsSelected);
@@ -78,11 +79,13 @@ namespace gtest_gui.Model
                 testFilterOption += item.Name;
                 isTop = false;
 			}
+            string testLogFilePath = this.GetTestLogFilePath(path);
+            string testLogOption = "--gtest_output=xml:" + testLogFilePath;
 			var app = new ProcessStartInfo
 			{
 				FileName = path,
 				UseShellExecute = false,
-				Arguments = testFilterOption,
+				Arguments = testLogOption + " " + testFilterOption,
 			};
             Process proc = this.Run(app);
             proc.WaitForExit();
@@ -165,6 +168,21 @@ namespace gtest_gui.Model
                 }
 			}
             return testItems;
+		}
+
+        /// <summary>
+        /// Create path of log file.
+        /// </summary>
+        /// <param name="filePath">Path to file to run test.</param>
+        /// <returns>Path to file of log.</returns>
+        protected string GetTestLogFilePath(string filePath)
+		{
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string logFileName = fileName + "_" + dateTimeNow + ".log";
+            string logFilePath = @".\log\" + logFileName;
+
+            return logFilePath;
 		}
     }
 }
