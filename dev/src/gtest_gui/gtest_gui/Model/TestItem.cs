@@ -31,5 +31,27 @@ namespace gtest_gui.Model
 			this.IsSelected = false;
 			this.Result = string.Empty;
 		}
+
+		public override bool Equals(object obj)
+		{
+			bool isEqual = false;
+			try
+			{
+				var src = (TestItem)obj;
+				if (this.Name.Equals(src.Name))
+				{
+					isEqual = true;
+				}
+				else
+				{
+					isEqual = false;
+				}
+			}
+			catch (InvalidCastException)
+			{
+				isEqual = false;
+			}
+			return isEqual;
+		}
 	}
 }

@@ -230,6 +230,7 @@ namespace gtest_gui.ViewModel
 				Target = this.TestFilePath
 			};
 			runner.Run(this.TestInfo);
+			this.LoadTestCommandExecute();
 		}
 
 		/// <summary>
@@ -243,6 +244,16 @@ namespace gtest_gui.ViewModel
 				TestInformation testInfo = runner.GetTestList(this.TestFilePath);
 				var reader = new TestResultReader();
 				reader.ReadTest(testInfo);
+				if (null != this.TestInfo)
+				{
+					foreach (var testItem in this.TestInfo.TestItems)
+					{
+						var newTestItem = testInfo.TestItems
+							.Where(_ => _.Equals(testItem))
+							.FirstOrDefault();
+						newTestItem.IsSelected = testItem.IsSelected;
+					}
+				}
 				this.TestInfo = testInfo;
 
 				this.CanReloadTest = true;
