@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:gtest_gui.ViewModel"
         xmlns:local="clr-namespace:gtest_gui"
+        xmlns:converter="clr-namespace:gtest_gui.View.Converter"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
@@ -15,6 +16,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <converter:Result2EnableConverter x:Key="resultEnableConveter"/>
+            <converter:Result2VisibilityConverter x:Key="resultVisibilityConverter"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid VerticalAlignment="Stretch"
@@ -108,6 +111,8 @@
                         <DataTemplate>
                             <Button Content="詳細"
                                     Style="{StaticResource DataGridColumnButtonStyle}"
+                                    IsEnabled="{Binding Result, Converter={StaticResource resultEnableConveter}}"
+                                    Visibility="{Binding Result, Converter={StaticResource resultVisibilityConverter}}"
                                 />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
