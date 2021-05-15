@@ -56,7 +56,10 @@
                   ItemsSource="{Binding TestInfo.TestItems, Mode=TwoWay}"
                   >
             <DataGrid.Columns>
-                <DataGridTemplateColumn IsReadOnly="False" Header="実行">
+                <DataGridTemplateColumn IsReadOnly="False" 
+                                        Header="実行"
+                                        CanUserResize="False"
+                                        >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -70,11 +73,25 @@
                 <DataGridTextColumn Header="テスト対象"
                                     Width="*"
                                     Binding="{Binding Name, Mode=TwoWay}"
-                                    />
+                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
                 <DataGridTextColumn Header="結果"
                                     Width="80"
+                                    CanUserResize="False"
                                     Binding="{Binding Result}"
+                                    ElementStyle="{StaticResource DataGridColumnCenterTextStyle}"
                                     />
+                <DataGridTemplateColumn IsReadOnly="False"
+                                        Header="履歴"
+                                        CanUserResize="False"
+                                        >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="詳細"
+                                    Style="{StaticResource DataGridColumnButtonStyle}"
+                                />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="2"

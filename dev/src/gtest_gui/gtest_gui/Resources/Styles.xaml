@@ -8,7 +8,25 @@
         <Setter Property="Margin" Value="16, 8, 8, 8"/>
         <Setter Property="Padding" Value="16, 8, 0, 8"/>
     </Style>
-    
+    <Style x:Key="DataGridColumnBaseTextStyle" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    <Style x:Key="DataGridColumnLeftTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnBaseTextStyle}" >
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+    <Style x:Key="DataGridColumnCenterTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnBaseTextStyle}" >
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="DataGridColumnRightTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnBaseTextStyle}" >
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+    <Style x:Key="DataGridColumnTestItemNameTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnLeftTextStyle}" >
+        <Setter Property="Margin" Value="8, 0, 8, 0"/>
+    </Style>
+
     <!-- TextBox -->
     <Style x:Key="TextBoxCommonStyle" TargetType="TextBox">
         <Setter Property="Margin" Value="8, 16"/>
@@ -26,6 +44,13 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="DataGridColumnButtonStyle" TargetType="Button">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
     <!-- DataGridView -->
