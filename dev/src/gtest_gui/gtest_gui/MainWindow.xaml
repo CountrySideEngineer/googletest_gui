@@ -78,8 +78,28 @@
                                     Width="80"
                                     CanUserResize="False"
                                     Binding="{Binding Result}"
+                                    IsReadOnly="True"
                                     ElementStyle="{StaticResource DataGridColumnCenterTextStyle}"
-                                    />
+                                    >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Result}" Value="OK">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Foreground" Value="mediumseagreen" />
+                                    <Setter Property="FontWeight" Value="ExtraBold"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Result}" Value="NG">
+                                    <Setter Property="Background" Value="Red"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="FontWeight" Value="ExtraBold"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn IsReadOnly="False"
                                         Header="履歴"
                                         CanUserResize="False"

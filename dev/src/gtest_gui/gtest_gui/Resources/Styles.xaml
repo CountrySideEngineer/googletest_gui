@@ -71,6 +71,13 @@
         <Setter Property="MinWidth" Value="64"/>
     </Style>
     
+    <!-- DataGridCell -->
+    <Style x:Key="DataGridResultCellBaseStyle" TargetType="DataGridCell">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="16, 8"/>
+        <Setter Property="MinWidth" Value="64"/>
+    </Style>
+    
     <!-- StackPanel -->
     <Style x:Key="StackPanelCommnonStyle" TargetType="StackPanel">
         <Setter Property="Margin" Value="16, 0"/>
