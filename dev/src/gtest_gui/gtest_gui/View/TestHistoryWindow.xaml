@@ -14,10 +14,52 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="112"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Margin="16, 16, 16, 8"
+              >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Grid.Row="0"
+                        Margin="8"
+                >
+                <TextBlock Text="テスト名："
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           Padding="24, 8, 8, 8"
+                       />
+                <TextBlock Text="{Binding TestName}"
+                           VerticalAlignment="Center"
+                       />
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Grid.Row="1"
+                        Margin="8"
+                >
+                <TextBlock Text="テスト結果"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Padding="24, 8, 8, 8"
+                       />
+                <TextBlock Text="{Binding TestResult}"
+                           VerticalAlignment="Center"
+                       />
+
+            </StackPanel>
+        </Grid>
         <DataGrid x:Name="dataGrid"
+                  Grid.Row="1"
                   Style="{StaticResource DataGridViewCommonStyle}"
                   ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
-                  AutoGenerateColumns="False"
+                  AutoGenerateColumns="False" Margin="16,8,16,16"
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="実行日時"
