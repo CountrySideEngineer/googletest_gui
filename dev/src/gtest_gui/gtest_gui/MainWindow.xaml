@@ -57,6 +57,7 @@
                   ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding TestInfo.TestItems, Mode=TwoWay}"
+                  SelectedIndex="{Binding SelectedTestIndex}"
                   >
             <DataGrid.Columns>
                 <DataGridTemplateColumn IsReadOnly="False" 

@@ -31,6 +31,11 @@ namespace gtest_gui.ViewModel
 		protected bool _canReloadTest;
 
 		/// <summary>
+		/// Current selected test index.
+		/// </summary>
+		protected int _selectedTestIndex;
+
+		/// <summary>
 		/// Field of test information.
 		/// </summary>
 		protected TestInformation _testInfo;
@@ -123,6 +128,22 @@ namespace gtest_gui.ViewModel
 			{
 				this._canReloadTest = value;
 				this.RaisePropertyChanged("CanReloadTest");
+			}
+		}
+
+		/// <summary>
+		/// Current selected test index.
+		/// </summary>
+		public int SelectedTestIndex
+		{
+			get
+			{
+				return this._selectedTestIndex;
+			}
+			set
+			{
+				this._selectedTestIndex = value;
+				this.RaisePropertyChanged(nameof(SelectedTestIndex));
 			}
 		}
 
