@@ -1,0 +1,39 @@
+﻿<Window x:Class="gtest_gui.View.TestHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:gtest_gui.View"
+        mc:Ignorable="d"
+        Title="TestHistoryWindow" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <DataGrid x:Name="dataGrid"
+                  Style="{StaticResource DataGridViewCommonStyle}"
+                  ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
+                  AutoGenerateColumns="False"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="実行日時"
+                                    Width="*"
+                                    Binding="{Binding Timestamp, Mode=TwoWay}"
+                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+                <DataGridTextColumn Header="実行時間"
+                                    Width="*"
+                                    Binding="{Binding Time, Mode=TwoWay}"
+                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+                <DataGridTextColumn Header="実行結果"
+                                    Width="*"
+                                    Binding="{Binding Judge, Mode=TwoWay}"
+                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
