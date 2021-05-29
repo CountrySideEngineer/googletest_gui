@@ -1,5 +1,6 @@
 ﻿using gtest_gui.Command;
 using gtest_gui.Model;
+using gtest_gui.MoveWindow;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,8 @@ namespace gtest_gui.ViewModel
 		protected DelegateCommand _changeTestSelectedByUserCommand;
 
 		protected DelegateCommand _runTestCommand;
+
+		protected DelegateCommand _showHistoryCommand;
 
 		/// <summary>
 		/// Load test data from test execution file.
@@ -207,6 +210,18 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		public DelegateCommand ShowHistoryCommand
+		{
+			get
+			{
+				if (null == this._showHistoryCommand)
+				{
+					this._showHistoryCommand = new DelegateCommand(this.ShowHistoryCommandExecute);
+				}
+				return this._showHistoryCommand;
+			}
+		}
+
 		/// <summary>
 		/// Actual command function to select target test file.
 		/// </summary>
@@ -283,6 +298,12 @@ namespace gtest_gui.ViewModel
 			{
 				Debug.Write(ex.Message);
 			}
+		}
+
+		public void ShowHistoryCommandExecute()
+		{
+			var mover = new Move2History();
+			mover.MoveWindows(this);
 		}
 	}
 }

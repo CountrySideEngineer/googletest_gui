@@ -114,6 +114,7 @@
                                     Style="{StaticResource DataGridColumnButtonStyle}"
                                     IsEnabled="{Binding Result, Converter={StaticResource resultEnableConveter}}"
                                     Visibility="{Binding Result, Converter={StaticResource resultVisibilityConverter}}"
+                                    Command="{Binding DataContext.ShowHistoryCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                 />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
