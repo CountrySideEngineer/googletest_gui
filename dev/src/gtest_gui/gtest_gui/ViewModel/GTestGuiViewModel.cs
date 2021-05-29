@@ -303,7 +303,7 @@ namespace gtest_gui.ViewModel
 		public void ShowHistoryCommandExecute()
 		{
 			var mover = new Move2History();
-			mover.MoveWindows(this);
+			mover.Move(this);
 		}
 	}
 }

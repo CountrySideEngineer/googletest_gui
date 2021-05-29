@@ -11,7 +11,7 @@ namespace gtest_gui.MoveWindow
 {
 	public class Move2History : IMoveWindow
 	{
-		public void MoveWindows(object srcContext)
+		public void Move(object srcContext)
 		{
 			var srcViewModel = (GTestGuiViewModel)srcContext;
 			int selectedTestIndex = srcViewModel.SelectedTestIndex;

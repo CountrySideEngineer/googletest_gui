@@ -6,6 +6,6 @@ namespace gtest_gui.MoveWindow
 {
 	public interface IMoveWindow
 	{
-		public void MoveWindows(object srcContext);
+		public void Move(object srcContext);
 	}
 }
