@@ -11,6 +11,10 @@ namespace gtest_gui.MoveWindow
 {
 	public class Move2History : IMoveWindow
 	{
+		/// <summary>
+		/// Move to test history window.
+		/// </summary>
+		/// <param name="srcContext">Data to show in the window.</param>
 		public void Move(object srcContext)
 		{
 			var srcViewModel = (GTestGuiViewModel)srcContext;
