@@ -1,4 +1,5 @@
-﻿using gtest2html;
+﻿using gtest_gui.Model;
+using gtest2html;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,13 +24,19 @@ namespace gtest_gui.ViewModel
 		protected IEnumerable<TestCase> _testCases;
 
 		/// <summary>
+		/// Field of test item.
+		/// </summary>
+		protected TestItem _testItem;
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public TestHistoryViewModel()
 		{
+			this._testCases = null;
+			this._testItem = null;
 			this.TestName = string.Empty;
 			this.TestResult = string.Empty;
-			this._testCases = null;
 		}
 
 		/// <summary>
@@ -75,7 +82,33 @@ namespace gtest_gui.ViewModel
 			}
 			set
 			{
+				this._testResult = value;
 				this.RaisePropertyChanged(nameof(TestResult));
+			}
+		}
+
+		/// <summary>
+		/// Test item to show history in this view model.
+		/// </summary>
+		public TestItem TestItem
+		{
+			get
+			{
+				return this._testItem;
+			}
+			set
+			{
+				this._testItem = value;
+				try
+				{
+					this.TestName = this._testItem.Name;
+					this.TestResult = this._testItem.Result;
+				}
+				catch (NullReferenceException)
+				{
+					this.TestName = string.Empty;
+					this.TestResult = string.Empty;
+				}
 			}
 		}
 	}
