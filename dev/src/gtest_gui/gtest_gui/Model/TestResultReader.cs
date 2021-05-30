@@ -15,7 +15,7 @@ namespace gtest_gui.Model
 		/// Read test data corresponding to the test execution file.
 		/// </summary>
 		/// <param name="testInfo">Test information file includes the test execution file.</param>
-		public void ReadTest(TestInformation testInfo)
+		public virtual void ReadTest(TestInformation testInfo)
 		{
 			try
 			{
@@ -38,7 +38,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="fileName">Test execution file path.</param>
 		/// <returns>Collection of test result file path.</returns>
-		protected IEnumerable<string> GetTestResultFiles(string fileName)
+		protected virtual IEnumerable<string> GetTestResultFiles(string fileName)
 		{
 			string dirPath = @".\log";
 			List<string> testResultFiles = null;
@@ -60,7 +60,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testFiles">Collection of test result file path.</param>
 		/// <returns>Colelction of <para>TestSuites</para> read from files.</returns>
-		protected IEnumerable<TestSuites> GetTestSuites(IEnumerable<string> testFiles)
+		protected virtual IEnumerable<TestSuites> GetTestSuites(IEnumerable<string> testFiles)
 		{
 			var testSuitesList = new List<TestSuites>();
 			foreach (var testFile in testFiles)
@@ -77,7 +77,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testSuitesList">Collection of <para>TestSuites</para> object.</param>
 		/// <returns>Collection of <para>TestSuite</para>.</returns>
-		protected IEnumerable<TestSuite> GetTestSuite(IEnumerable<TestSuites> testSuitesList)
+		protected virtual IEnumerable<TestSuite> GetTestSuite(IEnumerable<TestSuites> testSuitesList)
 		{
 			var testSuiteList = new List<TestSuite>();
 			foreach (var testSuitesItem in testSuitesList)
@@ -93,7 +93,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testFile">Path to test result path.</param>
 		/// <returns><para>TestSuites</para> object read from test result file.</returns>
-		protected TestSuites GetTestSuites(string testFile)
+		protected virtual TestSuites GetTestSuites(string testFile)
 		{
 			using (var reader = new StreamReader(testFile, false))
 			{
@@ -109,7 +109,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testSuiteList">Collection of <para>TestSuite</para> object.</param>
 		/// <returns></returns>
-		protected IEnumerable<TestCase> GetAllTestCases(IEnumerable<TestSuite> testSuiteList)
+		protected virtual IEnumerable<TestCase> GetAllTestCases(IEnumerable<TestSuite> testSuiteList)
 		{
 			var testCases = new List<TestCase>();
 			foreach (var testSuite in testSuiteList)
@@ -124,7 +124,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testResultFiles">Collection of test result file.</param>
 		/// <returns>Collection of <para>TestCase</para> object.</returns>
-		protected IEnumerable<TestCase> GetAllTestCases(IEnumerable<string> testResultFiles)
+		protected virtual IEnumerable<TestCase> GetAllTestCases(IEnumerable<string> testResultFiles)
 		{
 			IEnumerable<TestSuites> testSuitesList = this.GetTestSuites(testResultFiles);
 			IEnumerable<TestSuite> testSuite = this.GetTestSuite(testSuitesList);
@@ -138,7 +138,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testinfo"><para>TestInformation</para> object to set the result.</param>
 		/// <param name="testCases">Collection of <para>TestCase</para> object.</param>
-		protected void SetTestResult(TestInformation testinfo, IEnumerable<TestCase> testCases)
+		protected virtual void SetTestResult(TestInformation testinfo, IEnumerable<TestCase> testCases)
 		{
 			foreach (var testItem in testinfo.TestItems)
 			{
