@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Linq;
 using gtest_gui.Model;
+using gtest2html;
 
 namespace gtest_gui.MoveWindow
 {
@@ -19,11 +20,23 @@ namespace gtest_gui.MoveWindow
 		{
 			var srcViewModel = (GTestGuiViewModel)srcContext;
 			int selectedTestIndex = srcViewModel.SelectedTestIndex;
-			var testItems = srcViewModel.TestInfo.TestItems;
-			TestItem  testItem = testItems.ElementAt(selectedTestIndex);
+			TestItem testItem = srcViewModel.TestInfo.TestItems.ElementAt(selectedTestIndex);
+			string testFilePath = srcViewModel.TestFilePath;
+			TestInformation testInfo = new TestInformation
+			{
+				TestFile = testFilePath,
+				TestItems = new List<TestItem>
+				{
+					testItem
+				}
+			};
+			var reader = new TestHistoryReader();
+			IEnumerable<TestCase> testCases = reader.ReadTest(testInfo);
+
 			var dstViewModel = new TestHistoryViewModel
 			{
-				TestItem = testItem
+				TestItem = testItem,
+				TestCases = testCases
 			};
 			var historyWindow = new TestHistoryWindow()
 			{
@@ -31,6 +44,21 @@ namespace gtest_gui.MoveWindow
 			};
 
 			historyWindow.ShowDialog();
+		}
+
+		protected IEnumerable<TestCase> ExtractTestHistory(string testFilePath, TestItem testItem)
+		{
+			var testInfo = new TestInformation()
+			{
+				TestFile = testFilePath,
+				TestItems = new List<TestItem>
+				{
+					testItem
+				}
+			};
+			var reader = new TestHistoryReader();
+			IEnumerable<TestCase> testCases = reader.ReadTest(testInfo);
+			return testCases;
 		}
 	}
 }
