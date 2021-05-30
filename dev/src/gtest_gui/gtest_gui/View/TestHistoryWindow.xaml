@@ -28,31 +28,23 @@
             <StackPanel VerticalAlignment="Center"
                         Orientation="Horizontal"
                         Grid.Row="0"
-                        Margin="8"
                 >
                 <TextBlock Text="テスト名："
-                           VerticalAlignment="Stretch"
-                           HorizontalAlignment="Stretch"
-                           Padding="24, 8, 8, 8"
-                       />
+                           Style="{StaticResource TextBlockRightStyle}"
+                           />
                 <TextBlock Text="{Binding TestName}"
-                           VerticalAlignment="Center"
-                       />
+                           Style="{StaticResource TextBlockLeftStyle}"
+                           />
             </StackPanel>
             <StackPanel VerticalAlignment="Center"
                         Orientation="Horizontal"
                         Grid.Row="1"
-                        Margin="8"
-                >
-                <TextBlock Text="テスト結果"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                           Padding="24, 8, 8, 8"
-                       />
+                        >
+                <TextBlock Text="テスト結果："
+                           Style="{StaticResource TextBlockRightStyle}"/>
                 <TextBlock Text="{Binding TestResult}"
-                           VerticalAlignment="Center"
-                       />
-
+                           Style="{StaticResource TextBlockOkNgLeftStyle}"
+                           />
             </StackPanel>
         </Grid>
         <DataGrid x:Name="dataGrid"
@@ -60,6 +52,7 @@
                   Style="{StaticResource DataGridViewCommonStyle}"
                   ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
                   AutoGenerateColumns="False" Margin="16,8,16,16"
+                  ItemsSource="{Binding TestCases}"
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="実行日時"
@@ -72,7 +65,7 @@
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
                 <DataGridTextColumn Header="実行結果"
                                     Width="*"
-                                    Binding="{Binding Judge, Mode=TwoWay}"
+                                    Binding="{Binding Judge}"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
             </DataGrid.Columns>
         </DataGrid>
