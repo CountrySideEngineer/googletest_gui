@@ -31,6 +31,7 @@
                 >
                 <TextBlock Text="テスト名："
                            Style="{StaticResource TextBlockRightStyle}"
+                           Width="80"
                            />
                 <TextBlock Text="{Binding TestName}"
                            Style="{StaticResource TextBlockLeftStyle}"
@@ -41,7 +42,9 @@
                         Grid.Row="1"
                         >
                 <TextBlock Text="テスト結果："
-                           Style="{StaticResource TextBlockRightStyle}"/>
+                           Style="{StaticResource TextBlockRightStyle}"
+                           Width="80"
+                           />
                 <TextBlock Text="{Binding TestResult}"
                            Style="{StaticResource TextBlockOkNgLeftStyle}"
                            />
@@ -62,11 +65,13 @@
                 <DataGridTextColumn Header="実行時間"
                                     Width="*"
                                     Binding="{Binding Time, Mode=TwoWay}"
-                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+                                    ElementStyle="{StaticResource DataGridColumnRightTextStyle}" />
                 <DataGridTextColumn Header="実行結果"
                                     Width="*"
                                     Binding="{Binding Judge}"
-                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+                                    ElementStyle="{StaticResource DataGridColumnCenterTextStyle}" 
+                                    CellStyle="{StaticResource DataGridCellOkNgStyle}"
+                                    />
             </DataGrid.Columns>
         </DataGrid>
 

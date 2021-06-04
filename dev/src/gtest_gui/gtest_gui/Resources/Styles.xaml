@@ -4,14 +4,14 @@
     <Style x:Key="TextBlockRightStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Right"/>
         <Setter Property="Margin" Value="16, 8, 8, 8"/>
         <Setter Property="Padding" Value="16, 8, 0, 8"/>
     </Style>
     <Style x:Key="TextBlockLeftStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="Margin" Value="8, 8, 16, 8"/>
         <Setter Property="Padding" Value="8, 8, 16, 8"/>
     </Style>
@@ -24,8 +24,8 @@
                 <Setter Property="FontSize" Value="12"/>
             </Trigger>
             <Trigger Property="Text" Value="NG">
-                <Setter Property="Background" Value="Red"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Foreground" Value="Red"/>
                 <Setter Property="FontWeight" Value="ExtraBold"/>
                 <Setter Property="FontSize" Value="14"/>
             </Trigger>
@@ -100,7 +100,23 @@
         <Setter Property="Padding" Value="16, 8"/>
         <Setter Property="MinWidth" Value="64"/>
     </Style>
-    
+    <Style x:Key="DataGridCellOkNgStyle" TargetType="DataGridCell">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource self}, Path=Content.Text}" Value="OK">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Foreground" Value="mediumseagreen" />
+                <Setter Property="FontWeight" Value="ExtraBold"/>
+                <Setter Property="FontSize" Value="12"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource self}, Path=Content.Text}" Value="NG">
+                <Setter Property="Background" Value="Red"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="ExtraBold"/>
+                <Setter Property="FontSize" Value="14"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- StackPanel -->
     <Style x:Key="StackPanelCommnonStyle" TargetType="StackPanel">
         <Setter Property="Margin" Value="16, 0"/>
