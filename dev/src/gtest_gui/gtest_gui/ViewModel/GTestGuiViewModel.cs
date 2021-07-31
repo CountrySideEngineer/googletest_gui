@@ -22,6 +22,11 @@ namespace gtest_gui.ViewModel
 		protected string _testFilePath;
 
 		/// <summary>
+		/// Title of application shown in tilte bar.
+		/// </summary>
+		protected string _applicationTitle;
+
+		/// <summary>
 		/// Field of which a test can run or not.
 		/// </summary>
 		protected bool _canRunTest;
@@ -83,6 +88,29 @@ namespace gtest_gui.ViewModel
 			{
 				this._testFilePath = value;
 				this.RaisePropertyChanged("TestFilePath");
+
+				string applicationTitle = "gtest_gui";
+				if ((!(string.IsNullOrEmpty(this.TestFilePath))) && (System.IO.File.Exists(this.TestFilePath)))
+				{
+					applicationTitle += (" - " + System.IO.Path.GetFileName(this.TestFilePath));
+				}
+				this.ApplicationTitle = applicationTitle;
+			}
+		}
+
+		/// <summary>
+		/// Application title in application bar.
+		/// </summary>
+		public string ApplicationTitle
+		{
+			get
+			{
+				return this._applicationTitle;
+			}
+			set
+			{
+				this._applicationTitle = value;
+				this.RaisePropertyChanged(nameof(this.ApplicationTitle));
 			}
 		}
 
