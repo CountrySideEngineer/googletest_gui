@@ -25,17 +25,17 @@
           HorizontalAlignment="Stretch"
           >
         <Grid.RowDefinitions>
-            <RowDefinition Height="64"/>
+            <RowDefinition Height="auto" MinHeight="48"/>
             <RowDefinition Height="*" MinHeight="64"/>
-            <RowDefinition Height="64"/>
+            <RowDefinition Height="auto" MinHeight="48"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
               Margin="16, 0"
               >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="128"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="128"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                        Text="対象ファイル："
@@ -44,11 +44,11 @@
             <TextBox Grid.Column="1"
                      Text="{Binding TestFilePath}"
                      ToolTip="テストファイル"
-                     Style="{StaticResource TextBoxCommonStyle}"
+                     Style="{StaticResource TargetFileInputTextBox}"
                      />
             <Button Grid.Column="2"
                     Content="参照"
-                    Style="{StaticResource ButtonCommonStyle}"
+                    Style="{StaticResource RightSideReferenceButtonStyle}"
                     Command="{Binding SetTestFileByUserCommand}"
                     />
         </Grid>
@@ -105,21 +105,22 @@
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="2"
-              Margin="16, 0">
+              >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="128"/>
-                <ColumnDefinition Width="128"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto" MinWidth="120"/>
+                <ColumnDefinition Width="auto" MinWidth="120"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1"
+            <Button Grid.Column="2"
                     Content="再読み込み"
-                    Style="{StaticResource ButtonCommonStyle}"
+                    Style="{StaticResource LeftSideInButtonCollection}"
                     IsEnabled="{Binding CanReloadTest}"
                     Command="{Binding LoadTestCommand}"
                     />
-            <Button Grid.Column="2"
+            <Button Grid.Column="3"
                 Content="実行"
-                    Style="{StaticResource ButtonCommonStyle}"
+                    Style="{StaticResource RightSideInButtonCollection}"
                     IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
                     Command="{Binding RunTestCommand}"
                     />
