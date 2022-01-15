@@ -36,7 +36,7 @@ namespace gtest_gui.MoveWindow
 			var dstViewModel = new TestHistoryViewModel
 			{
 				TestItem = testItem,
-				TestCases = testCases
+				TestCases = testCases.ToList()
 			};
 			var historyWindow = new TestHistoryWindow()
 			{

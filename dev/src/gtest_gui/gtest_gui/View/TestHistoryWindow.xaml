@@ -56,15 +56,17 @@
                   ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
                   AutoGenerateColumns="False" Margin="16,8,16,16"
                   ItemsSource="{Binding TestCases}"
+                  IsReadOnly="True"
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="実行日時"
                                     Width="*"
-                                    Binding="{Binding Timestamp, Mode=TwoWay}"
-                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+                                    Binding="{Binding Timestamp}"
+                                    ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}"
+                                    />
                 <DataGridTextColumn Header="実行時間"
                                     Width="*"
-                                    Binding="{Binding Time, Mode=TwoWay}"
+                                    Binding="{Binding Time}"
                                     ElementStyle="{StaticResource DataGridColumnRightTextStyle}" />
                 <DataGridTextColumn Header="実行結果"
                                     Width="*"

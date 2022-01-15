@@ -21,7 +21,7 @@ namespace gtest_gui.ViewModel
 		/// <summary>
 		/// Field of test cases.
 		/// </summary>
-		protected IEnumerable<TestCase> _testCases;
+		protected List<TestCase> _testCases;
 
 		/// <summary>
 		/// Field of test item.
@@ -42,7 +42,7 @@ namespace gtest_gui.ViewModel
 		/// <summary>
 		/// List of test case, TestCase object.
 		/// </summary>
-		public IEnumerable<TestCase> TestCases
+		public List<TestCase> TestCases
 		{
 			get
 			{
