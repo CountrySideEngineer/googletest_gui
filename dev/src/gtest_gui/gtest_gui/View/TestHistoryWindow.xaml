@@ -15,38 +15,43 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="112"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
-              Margin="16, 16, 16, 8"
               >
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="auto" MinHeight="32" />
+                <RowDefinition Height="auto" MinHeight="32" />
             </Grid.RowDefinitions>
             <StackPanel VerticalAlignment="Center"
                         Orientation="Horizontal"
                         Grid.Row="0"
+                        Margin="16, 0"
                 >
                 <TextBlock Text="テスト名："
                            Style="{StaticResource TextBlockRightStyle}"
                            Width="80"
+                           Margin="0, 0"
                            />
                 <TextBlock Text="{Binding TestName}"
                            Style="{StaticResource TextBlockLeftStyle}"
+                           Margin="0, 0"
                            />
             </StackPanel>
             <StackPanel VerticalAlignment="Center"
                         Orientation="Horizontal"
                         Grid.Row="1"
+                        Margin="16, 0"
                         >
                 <TextBlock Text="テスト結果："
                            Style="{StaticResource TextBlockRightStyle}"
                            Width="80"
+                           Margin="0"
                            />
                 <TextBlock Text="{Binding TestResult}"
                            Style="{StaticResource TextBlockOkNgLeftStyle}"
+                           Margin="0"
                            />
             </StackPanel>
         </Grid>
@@ -54,7 +59,7 @@
                   Grid.Row="1"
                   Style="{StaticResource DataGridViewCommonStyle}"
                   ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
-                  AutoGenerateColumns="False" Margin="16,8,16,16"
+                  AutoGenerateColumns="False"
                   ItemsSource="{Binding TestCases}"
                   IsReadOnly="True"
                   >
