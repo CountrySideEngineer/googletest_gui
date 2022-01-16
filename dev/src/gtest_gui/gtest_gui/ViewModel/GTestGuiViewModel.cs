@@ -1,4 +1,5 @@
 ﻿using gtest_gui.Command;
+using gtest_gui.Command.Argument;
 using gtest_gui.Model;
 using gtest_gui.MoveWindow;
 using Microsoft.Win32;
@@ -289,11 +290,9 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void RunTestCommandExecute()
 		{
-			var runner = new TestRunner
-			{
-				Target = this.TestFilePath
-			};
-			runner.Run(this.TestInfo);
+			var command = new TestExecuteCommand();
+			var argument = new TestCommandArgument(this.TestFilePath, this.TestInfo);
+			this.ExecuteCommand(command, argument);
 			this.LoadTestCommandExecute();
 		}
 
@@ -304,28 +303,39 @@ namespace gtest_gui.ViewModel
 		{
 			try
 			{
-				var runner = new TestRunner();
-				TestInformation testInfo = runner.GetTestList(this.TestFilePath);
-				var reader = new TestResultReader();
-				reader.ReadTest(testInfo);
+				var command = new LoadTestLogCommand();
+				var argument = new TestCommandArgument(this.TestFilePath, this.TestInfo);
+				TestInformation testInformation = (TestInformation)ExecuteCommand(command, argument);
 				if (null != this.TestInfo)
 				{
 					foreach (var testItem in this.TestInfo.TestItems)
 					{
-						var newTestItem = testInfo.TestItems
+						var newTestItem = TestInfo.TestItems
 							.Where(_ => _.Equals(testItem))
 							.FirstOrDefault();
 						newTestItem.IsSelected = testItem.IsSelected;
 					}
 				}
-				this.TestInfo = testInfo;
+				this.TestInfo = testInformation;
 
 				this.CanReloadTest = true;
 			}
 			catch (Exception ex)
 			{
-				Debug.Write(ex.Message);
+				Debug.WriteLine(ex.Message);
 			}
+		}
+
+		/// <summary>
+		/// Execute command.
+		/// </summary>
+		/// <param name="command">Command object to execute.</param>
+		/// <param name="commandArg">Command argument.</param>
+		/// <returns>Result of command.</returns>
+		protected object ExecuteCommand(ITestCommand command, TestCommandArgument commandArg)
+		{
+			object cmdResult = command.ExecuteCommand(commandArg);
+			return cmdResult;
 		}
 
 		public void ShowHistoryCommandExecute()
