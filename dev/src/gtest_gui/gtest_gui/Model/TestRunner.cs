@@ -64,31 +64,51 @@ namespace gtest_gui.Model
         public virtual void Run(string path, TestInformation information)
 		{
             var targetTestItems = information.TestItems.Where(_ => _.IsSelected);
-            var testFilterOption = string.Empty;
-            bool isTop = true;
             foreach (var item in targetTestItems)
+            {
+                this.RunTest(path, item);
+            }
+        }
+
+        /// <summary>
+        /// Run a test.
+        /// </summary>
+        /// <param name="path">Path to file to run test.</param>
+        /// <param name="testItem">Test parameter.</param>
+        protected virtual void RunTest(string path, TestItem testItem)
+		{
+            Process process = this.Start(path, testItem);
+            process.WaitForExit();
+
+            //Get and output log 
+            string outputData = process.StandardOutput.ReadToEnd();
+            string logFilePath = this.GetLogFilePath(path, testItem);
+            using (var writer = new StreamWriter(logFilePath))
 			{
-                if (isTop)
-				{
-                    testFilterOption = "--gtest_filter=";   //Option prefix to filter test case.
-				}
-				else
-				{
-                    testFilterOption += ":";
-				}
-                testFilterOption += item.Name;
-                isTop = false;
-			}
-            string testLogFilePath = this.GetTestLogFilePath(path);
-            string testLogOption = "--gtest_output=xml:" + testLogFilePath;
-			var app = new ProcessStartInfo
-			{
-				FileName = path,
-				UseShellExecute = false,
-				Arguments = testLogOption + " " + testFilterOption,
-			};
-            Process proc = this.Run(app);
-            proc.WaitForExit();
+                writer.Write(outputData);
+            }
+        }
+
+        /// <summary>
+        /// Run a test 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="testItem"></param>
+        /// <returns></returns>
+        protected virtual Process Start(string path, TestItem testItem)
+		{
+            var filterOption = $"--gtest_filter={testItem.Name}";
+            string testLogFileName = this.GetTestResultFilePath(path, testItem);
+            var outputOption = $"--gtest_output=xml:{testLogFileName}";
+            var app = new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                Arguments = $"{outputOption} {filterOption}"
+            };
+            Process process = this.Start(app);
+            return process;
 		}
 
         /// <summary>
@@ -96,7 +116,7 @@ namespace gtest_gui.Model
         /// </summary>
         /// <param name="processInfo">Proces object to run test.</param>
         /// <returns>Process object the test run.</returns>
-        protected virtual Process Run(ProcessStartInfo processInfo)
+        protected virtual Process Start(ProcessStartInfo processInfo)
 		{
             Process proc = Process.Start(processInfo);
 
@@ -119,7 +139,7 @@ namespace gtest_gui.Model
 				RedirectStandardOutput = true
 			};
 
-			Process proc = this.Run(app);
+			Process proc = this.Start(app);
             string stdOutput = proc.StandardOutput.ReadToEnd();
             IEnumerable<TestItem> testItems = this.OutputToTestItem(stdOutput);
             var testInfo = new TestInformation
@@ -171,18 +191,60 @@ namespace gtest_gui.Model
 		}
 
         /// <summary>
-        /// Create path of log file.
+        /// Crate path to test result file in XML format.
         /// </summary>
         /// <param name="filePath">Path to file to run test.</param>
         /// <returns>Path to file of log.</returns>
-        protected string GetTestLogFilePath(string filePath)
+        protected string GetTestResultFilePath(string filePath)
 		{
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
-            string logFileName = fileName + "_" + dateTimeNow + ".xml";
+            string logFileName = $"{fileName}_{dateTimeNow}.xml";
             string logFilePath = @".\log\" + logFileName;
 
             return logFilePath;
 		}
+
+        /// <summary>
+        /// Create path to test result file in XML format.
+        /// </summary>
+        /// <param name="filePath">Path to file to run test.</param>
+        /// <param name="testItem">Test item information.</param>
+        /// <returns>Path to test result file.</returns>
+        protected string GetTestResultFilePath(string filePath, TestItem testItem)
+		{
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string logFileName = $"{fileName}_{testItem.Name}_{dateTimeNow}.xml";
+            string logFilePath = @".\log\" + logFileName;
+
+            return logFilePath;
+        }
+
+        /// <summary>
+        /// Create path to log file the test output.
+        /// </summary>
+        /// <param name="filePath">Path to file </param>
+        /// <returns>Path to file of log.</returns>
+        protected string GetLogFilePath(string filePath)
+		{
+            string resultFilePath = this.GetTestResultFilePath(filePath);
+            string logFilePath = Path.ChangeExtension(resultFilePath, "log");
+            return logFilePath;
+        }
+
+        /// <summary>
+        /// Create path to log file the test output.
+        /// </summary>
+        /// <param name="filePath">Path to file.</param>
+        /// <param name="testItem">Test item information.</param>
+        /// <returns>Path to log file.</returns>
+        protected string GetLogFilePath(string filePath, TestItem testItem)
+		{
+            string resultFilePath = this.GetTestResultFilePath(filePath, testItem);
+            string logFilePath = Path.ChangeExtension(resultFilePath, "log");
+            return logFilePath;
+		}
+
     }
 }
