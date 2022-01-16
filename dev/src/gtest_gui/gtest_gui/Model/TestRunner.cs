@@ -123,6 +123,16 @@ namespace gtest_gui.Model
 		}
 
         /// <summary>
+        /// Get test information
+        /// </summary>
+        /// <returns>Test information object.</returns>
+        public virtual TestInformation GetTestList()
+		{
+            TestInformation testInformation = this.GetTestList(this.Target);
+            return testInformation;
+		}
+
+        /// <summary>
         /// Get test information.
         /// </summary>
         /// <param name="path">Path to test file.</param>
