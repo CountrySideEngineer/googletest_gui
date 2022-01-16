@@ -92,14 +92,13 @@ namespace gtest_gui.Model
         /// <summary>
         /// Run a test 
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="testItem"></param>
-        /// <returns></returns>
+        /// <param name="path">Path to file.</param>
+        /// <param name="testItem">Test information.</param>
+        /// <returns>Test running process.</returns>
         protected virtual Process Start(string path, TestItem testItem)
 		{
-            var filterOption = $"--gtest_filter={testItem.Name}";
-            string testLogFileName = this.GetTestResultFilePath(path, testItem);
-            var outputOption = $"--gtest_output=xml:{testLogFileName}";
+            string filterOption = this.GetFilterOption(path, testItem);
+            string outputOption = this.GetXmlOutputOption(path, testItem);
             var app = new ProcessStartInfo
             {
                 FileName = path,
@@ -246,5 +245,29 @@ namespace gtest_gui.Model
             return logFilePath;
 		}
 
+        /// <summary>
+        /// Create test filter option of google test framework.
+        /// </summary>
+        /// <param name="fileName">Test file path.</param>
+        /// <param name="testItem">Test item information.</param>
+        /// <returns>Test filter string.</returns>
+        protected string GetFilterOption(string fileName, TestItem testItem)
+        {
+            string filterOption = $"--gtest_filter={testItem.Name}";
+            return filterOption;
+		}
+
+        /// <summary>
+        /// Create test result output in XML format option.
+        /// </summary>
+        /// <param name="fileName">Test file path.</param>
+        /// <param name="testItem">Test item information.</param>
+        /// <returns>Test output filter option.</returns>
+        protected string GetXmlOutputOption(string fileName, TestItem testItem)
+		{
+            string testLogFileName = this.GetTestResultFilePath(fileName);
+            string xmlOption = $"--gtest_output=xml:{testLogFileName}";
+            return xmlOption;
+		}
     }
 }
