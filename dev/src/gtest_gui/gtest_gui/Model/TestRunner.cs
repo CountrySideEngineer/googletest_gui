@@ -200,7 +200,7 @@ namespace gtest_gui.Model
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
             string logFileName = $"{fileName}_{dateTimeNow}.xml";
-            string logFilePath = @".\log\" + logFileName;
+            string logFilePath = @$".\log\{logFileName}";
 
             return logFilePath;
 		}
@@ -216,7 +216,7 @@ namespace gtest_gui.Model
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
             string logFileName = $"{fileName}_{testItem.Name}_{dateTimeNow}.xml";
-            string logFilePath = @".\log\" + logFileName;
+            string logFilePath = @$".\log\{logFileName}";
 
             return logFilePath;
         }
