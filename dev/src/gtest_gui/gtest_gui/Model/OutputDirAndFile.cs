@@ -38,8 +38,8 @@ namespace gtest_gui.Model
 			List<string> paths = new List<string>()
 			{
 				this.LogDirPath(),
-				this.OutputDirPath(testName),
-				this.ReportDirPath(testName)
+				this.OutputDirPath(),
+				this.ReportDirPath()
 			};
 			IEnumerable<DirectoryInfo> dirInfos = this.SetUpTestOutputDirecotries(paths);
 
@@ -94,9 +94,8 @@ namespace gtest_gui.Model
 		/// <summary>
 		/// Create output directory path.
 		/// </summary>
-		/// <param name="testName">Test name.</param>
 		/// <returns>Output directory path.</returns>
-		public virtual string OutputDirPath(string testName)
+		public virtual string OutputDirPath()
 		{
 			string logDirPath = this.LogDirPath();
 			string outputDirPath = $@"{logDirPath}\output";
@@ -106,9 +105,8 @@ namespace gtest_gui.Model
 		/// <summary>
 		/// Create report directory path.
 		/// </summary>
-		/// <param name="testName">Test name.</param>
 		/// <returns>Repotr directory path.</returns>
-		public virtual string ReportDirPath(string testName)
+		public virtual string ReportDirPath()
 		{
 			string logDirPath = this.LogDirPath();
 			string reportDirPath = $@"{logDirPath}\report";
@@ -126,7 +124,7 @@ namespace gtest_gui.Model
 			{
 				string logFileName = this.TestLogAndReportName(testName);
 				string logFileNameWithExt = $"{logFileName}.log";
-				string logFilePath = $@"{this.RootDirPath}\{logFileNameWithExt}";
+				string logFilePath = $@"{this.OutputDirPath()}\{logFileNameWithExt}";
 				return logFilePath;
 			}
 			catch (NullReferenceException)
@@ -146,7 +144,7 @@ namespace gtest_gui.Model
 			{
 				string reportFileName = this.TestLogAndReportName(testName);
 				string reportFileNameWithExt = $@"{reportFileName}.xml";
-				string reportFilePath = $@"{this.RootDirPath}\{reportFileNameWithExt}";
+				string reportFilePath = $@"{this.ReportDirPath()}\{reportFileNameWithExt}";
 				return reportFilePath;
 			}
 			catch (NullReferenceException)

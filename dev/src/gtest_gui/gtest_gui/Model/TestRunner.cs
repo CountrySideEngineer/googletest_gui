@@ -15,9 +15,9 @@ namespace gtest_gui.Model
         public string Target { get; set; }
 
         /// <summary>
-        /// Path to test report file.
+        /// Test log and file information.
         /// </summary>
-        public string Report { get; set; }
+        public OutputDirAndFile OutputDirFile { get; set; }
 
         /// <summary>
         /// Default constructor.
@@ -25,7 +25,7 @@ namespace gtest_gui.Model
         public TestRunner()
 		{
             this.Target = string.Empty;
-            this.Report = string.Empty;
+            this.OutputDirFile = null;
 		}
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace gtest_gui.Model
         public TestRunner(string target)
         {
             this.Target = target;
-            this.Report = string.Empty;
+            this.OutputDirFile = null;
         }
 
         /// <summary>
@@ -43,10 +43,10 @@ namespace gtest_gui.Model
         /// </summary>
         /// <param name="target">Path to test file.</param>
         /// <param name="report">Path to report file to output.</param>
-        public TestRunner(string target, string report)
+        public TestRunner(string target, OutputDirAndFile outputDirFile)
         {
             this.Target = target;
-            this.Report = report;
+            this.OutputDirFile = outputDirFile;
         }
 
         /// <summary>
@@ -64,9 +64,10 @@ namespace gtest_gui.Model
         public virtual void Run(string path, TestInformation information)
 		{
             var targetTestItems = information.TestItems.Where(_ => _.IsSelected);
-            foreach (var item in targetTestItems)
+            foreach (var testItem in targetTestItems)
             {
-                this.RunTest(path, item);
+                this.OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
+                this.RunTest(path, testItem);
             }
         }
 
@@ -82,7 +83,7 @@ namespace gtest_gui.Model
 
             //Get and output log 
             string outputData = process.StandardOutput.ReadToEnd();
-            string logFilePath = this.GetLogFilePath(path, testItem);
+            string logFilePath = this.OutputDirFile.TestLogFilePath(testItem.Name);
             using (var writer = new StreamWriter(logFilePath))
 			{
                 writer.Write(outputData);
@@ -200,62 +201,6 @@ namespace gtest_gui.Model
 		}
 
         /// <summary>
-        /// Crate path to test result file in XML format.
-        /// </summary>
-        /// <param name="filePath">Path to file to run test.</param>
-        /// <returns>Path to file of log.</returns>
-        protected string GetTestResultFilePath(string filePath)
-		{
-            string fileName = Path.GetFileNameWithoutExtension(filePath);
-            var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
-            string logFileName = $"{fileName}_{dateTimeNow}.xml";
-            string logFilePath = @$".\log\{logFileName}";
-
-            return logFilePath;
-		}
-
-        /// <summary>
-        /// Create path to test result file in XML format.
-        /// </summary>
-        /// <param name="filePath">Path to file to run test.</param>
-        /// <param name="testItem">Test item information.</param>
-        /// <returns>Path to test result file.</returns>
-        protected string GetTestResultFilePath(string filePath, TestItem testItem)
-		{
-            string fileName = Path.GetFileNameWithoutExtension(filePath);
-            var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
-            string logFileName = $"{fileName}_{testItem.Name}_{dateTimeNow}.xml";
-            string logFilePath = @$".\log\{logFileName}";
-
-            return logFilePath;
-        }
-
-        /// <summary>
-        /// Create path to log file the test output.
-        /// </summary>
-        /// <param name="filePath">Path to file </param>
-        /// <returns>Path to file of log.</returns>
-        protected string GetLogFilePath(string filePath)
-		{
-            string resultFilePath = this.GetTestResultFilePath(filePath);
-            string logFilePath = Path.ChangeExtension(resultFilePath, "log");
-            return logFilePath;
-        }
-
-        /// <summary>
-        /// Create path to log file the test output.
-        /// </summary>
-        /// <param name="filePath">Path to file.</param>
-        /// <param name="testItem">Test item information.</param>
-        /// <returns>Path to log file.</returns>
-        protected string GetLogFilePath(string filePath, TestItem testItem)
-		{
-            string resultFilePath = this.GetTestResultFilePath(filePath, testItem);
-            string logFilePath = Path.ChangeExtension(resultFilePath, "log");
-            return logFilePath;
-		}
-
-        /// <summary>
         /// Create test filter option of google test framework.
         /// </summary>
         /// <param name="fileName">Test file path.</param>
@@ -275,8 +220,8 @@ namespace gtest_gui.Model
         /// <returns>Test output filter option.</returns>
         protected string GetXmlOutputOption(string fileName, TestItem testItem)
 		{
-            string testLogFileName = this.GetTestResultFilePath(fileName);
-            string xmlOption = $"--gtest_output=xml:{testLogFileName}";
+            string xmlFilePath = this.OutputDirFile.TestReportFilePath(testItem.Name);
+            string xmlOption = $"--gtest_output=xml:{xmlFilePath}";
             return xmlOption;
 		}
     }

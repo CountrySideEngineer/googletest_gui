@@ -2,6 +2,7 @@
 using gtest_gui.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace gtest_gui.Command
@@ -19,10 +20,12 @@ namespace gtest_gui.Command
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			string filePath = cmdArgument.TargetFilePath;
+			var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory());
 			TestInformation testInformation = cmdArgument.TestInfo;
 			var testRunner = new TestRunner
 			{
-				Target = filePath
+				Target = filePath,
+				OutputDirFile = outputDirInfo
 			};
 			testRunner.Run(testInformation);
 			return (int)0;
