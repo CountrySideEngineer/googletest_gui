@@ -12,21 +12,36 @@ namespace gtest_gui.Model
 		/// </summary>
 		public string RootDirPath { get; protected set; }
 
+		public string TestExeFileName { get; protected set; }
+
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public OutputDirAndFile()
 		{
 			this.RootDirPath = Directory.GetCurrentDirectory();
+			this.TestExeFileName = string.Empty;
 		}
 
 		/// <summary>
 		/// Constructor with argument.
 		/// </summary>
-		/// <param name="rootDitPath">Root dir path user specified.</param>
-		public OutputDirAndFile(string rootDitPath)
+		/// <param name="rootDirPath">Root dir path user specified.</param>
+		public OutputDirAndFile(string rootDirPath)
 		{
-			this.RootDirPath = rootDitPath;
+			this.RootDirPath = rootDirPath;
+			this.TestExeFileName = string.Empty;
+		}
+
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="rootDirPath"></param>
+		/// <param name="testExeFileName"></param>
+		public OutputDirAndFile(string rootDirPath, string testExeFileName)
+		{
+			this.RootDirPath = rootDirPath;
+			this.TestExeFileName = testExeFileName;
 		}
 
 		/// <summary>
@@ -88,7 +103,13 @@ namespace gtest_gui.Model
 		/// <returns></returns>
 		public virtual string LogDirPath()
 		{
-			return $@"{this.RootDirPath}\log";
+			string logDirPath = $@"{this.RootDirPath}\log";
+			if ((!string.IsNullOrEmpty(this.TestExeFileName)) &&
+				(!string.IsNullOrWhiteSpace(this.TestExeFileName)))
+			{
+				logDirPath = $@"{logDirPath}\{this.TestExeFileName}";
+			}
+			return logDirPath;
 		}
 
 		/// <summary>
@@ -176,6 +197,5 @@ namespace gtest_gui.Model
 				throw;
 			}
 		}
-
 	}
 }

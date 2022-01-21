@@ -19,12 +19,13 @@ namespace gtest_gui.Command
 		/// <returns>Returns always 0.</returns>
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			string filePath = cmdArgument.TargetFilePath;
-			var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory());
+			string testFilePath = cmdArgument.TargetFilePath;
+			string testFileName = System.IO.Path.GetFileNameWithoutExtension(testFilePath);
+			var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFileName);
 			TestInformation testInformation = cmdArgument.TestInfo;
 			var testRunner = new TestRunner
 			{
-				Target = filePath,
+				Target = testFilePath,
 				OutputDirFile = outputDirInfo
 			};
 			testRunner.Run(testInformation);
