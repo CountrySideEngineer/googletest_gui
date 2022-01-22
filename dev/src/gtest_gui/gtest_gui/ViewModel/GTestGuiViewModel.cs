@@ -71,32 +71,9 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public GTestGuiViewModel()
 		{
-			this.TestFilePath = string.Empty;
+			this.TestInfo = new TestInformation();
 			this.CanRunTest = false;
 			this.CanReloadTest = false;
-		}
-
-		/// <summary>
-		/// Test file path.
-		/// </summary>
-		public string TestFilePath
-		{
-			get
-			{
-				return this._testFilePath;
-			}
-			set
-			{
-				this._testFilePath = value;
-				this.RaisePropertyChanged("TestFilePath");
-
-				string applicationTitle = "gtest_gui";
-				if ((!(string.IsNullOrEmpty(this.TestFilePath))) && (System.IO.File.Exists(this.TestFilePath)))
-				{
-					applicationTitle += (" - " + System.IO.Path.GetFileName(this.TestFilePath));
-				}
-				this.ApplicationTitle = applicationTitle;
-			}
 		}
 
 		/// <summary>
@@ -106,12 +83,13 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				return this._applicationTitle;
-			}
-			set
-			{
-				this._applicationTitle = value;
-				this.RaisePropertyChanged(nameof(this.ApplicationTitle));
+				string applicationTitle = "gtest_gui";
+				if ((!string.IsNullOrEmpty(this.TestInfo.TestFile)) &&
+					(!string.IsNullOrWhiteSpace(this.TestInfo.TestFile)))
+				{
+					applicationTitle += $" - {this.TestInfo.TestFile}";
+				}
+				return applicationTitle;
 			}
 		}
 
@@ -127,7 +105,8 @@ namespace gtest_gui.ViewModel
 			set
 			{
 				this._testInfo = value;
-				this.RaisePropertyChanged("TestInfo");
+				this.RaisePropertyChanged(nameof(TestInfo));
+				this.RaisePropertyChanged(nameof(ApplicationTitle));
 			}
 		}
 
@@ -263,7 +242,7 @@ namespace gtest_gui.ViewModel
 			};
 			if (true == dialog.ShowDialog())
 			{
-				this.TestFilePath = dialog.FileName;
+				this.TestInfo.TestFile = dialog.FileName;
 
 				this.LoadTestCommandExecute();
 			}
@@ -291,7 +270,7 @@ namespace gtest_gui.ViewModel
 		public void RunTestCommandExecute()
 		{
 			var command = new TestExecuteCommand();
-			var argument = new TestCommandArgument(this.TestFilePath, this.TestInfo);
+			var argument = new TestCommandArgument(this.TestInfo);
 			this.ExecuteCommand(command, argument);
 			this.LoadTestCommandExecute();
 		}
@@ -304,7 +283,7 @@ namespace gtest_gui.ViewModel
 			try
 			{
 				var command = new LoadTestLogCommand();
-				var argument = new TestCommandArgument(this.TestFilePath, this.TestInfo);
+				var argument = new TestCommandArgument(this.TestInfo);
 				TestInformation testInformation = (TestInformation)ExecuteCommand(command, argument);
 				if (null != this.TestInfo)
 				{

@@ -42,7 +42,7 @@
                        Style="{StaticResource TextBlockRightStyle}"
                        />
             <TextBox Grid.Column="1"
-                     Text="{Binding TestFilePath}"
+                     Text="{Binding TestInfo.TestFile, Mode=TwoWay}"
                      ToolTip="テストファイル"
                      Style="{StaticResource TargetFileInputTextBox}"
                      />

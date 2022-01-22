@@ -19,7 +19,7 @@ namespace gtest_gui.Command
 		/// <returns>Returs test log as <para>TestInformation</para> object.</returns>
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			string filePath = cmdArgument.TargetFilePath;
+			string filePath = cmdArgument.TestInfo.TestFile;
 			var testRunner = new TestRunner()
 			{
 				Target = filePath
