@@ -18,43 +18,21 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" MinHeight="32" />
-                <RowDefinition Height="auto" MinHeight="32" />
-            </Grid.RowDefinitions>
-            <StackPanel VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Grid.Row="0"
-                        Margin="16, 0"
+        <StackPanel VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Grid.Row="0"
+                    Margin="16, 0"
                 >
-                <TextBlock Text="テスト名："
+            <TextBlock Text="テスト名："
                            Style="{StaticResource TextBlockRightStyle}"
                            Width="80"
                            Margin="0, 0"
                            />
-                <TextBlock Text="{Binding TestName}"
+            <TextBlock Text="{Binding TestInformation.TestItems[0].Name}"
                            Style="{StaticResource TextBlockLeftStyle}"
                            Margin="0, 0"
                            />
-            </StackPanel>
-            <StackPanel VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Grid.Row="1"
-                        Margin="16, 0"
-                        >
-                <TextBlock Text="テスト結果："
-                           Style="{StaticResource TextBlockRightStyle}"
-                           Width="80"
-                           Margin="0"
-                           />
-                <TextBlock Text="{Binding TestInformation.TestItems[0].Result}"
-                           Style="{StaticResource TextBlockOkNgLeftStyle}"
-                           Margin="0"
-                           />
-            </StackPanel>
-        </Grid>
+        </StackPanel>
         <DataGrid x:Name="dataGrid"
                   Grid.Row="1"
                   Style="{StaticResource DataGridViewCommonStyle}"
