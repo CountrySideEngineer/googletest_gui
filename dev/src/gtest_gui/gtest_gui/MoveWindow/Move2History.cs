@@ -21,7 +21,7 @@ namespace gtest_gui.MoveWindow
 			var srcViewModel = (GTestGuiViewModel)srcContext;
 			int selectedTestIndex = srcViewModel.SelectedTestIndex;
 			TestItem testItem = srcViewModel.TestInfo.TestItems.ElementAt(selectedTestIndex);
-			string testFilePath = srcViewModel.TestFilePath;
+			string testFilePath = srcViewModel.TestInfo.TestFile;
 			TestInformation testInfo = new TestInformation
 			{
 				TestFile = testFilePath,
@@ -30,19 +30,16 @@ namespace gtest_gui.MoveWindow
 					testItem
 				}
 			};
-			var reader = new TestHistoryReader();
-			IEnumerable<TestCase> testCases = reader.ReadTest(testInfo);
 
 			var dstViewModel = new TestHistoryViewModel
 			{
-				TestItem = testItem,
-				TestCases = testCases.ToList()
+				TestInformation = testInfo
 			};
 			var historyWindow = new TestHistoryWindow()
 			{
 				DataContext = dstViewModel
 			};
-
+			dstViewModel.LoadTestHistoryCommandExecute();
 			historyWindow.ShowDialog();
 		}
 

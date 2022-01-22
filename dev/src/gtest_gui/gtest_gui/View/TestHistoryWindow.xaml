@@ -49,7 +49,7 @@
                            Width="80"
                            Margin="0"
                            />
-                <TextBlock Text="{Binding TestResult}"
+                <TextBlock Text="{Binding TestInformation.TestItems[0].Result}"
                            Style="{StaticResource TextBlockOkNgLeftStyle}"
                            Margin="0"
                            />

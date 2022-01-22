@@ -1,7 +1,10 @@
-﻿using gtest_gui.Model;
+﻿using gtest_gui.Command;
+using gtest_gui.Command.Argument;
+using gtest_gui.Model;
 using gtest2html;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace gtest_gui.ViewModel
@@ -9,24 +12,19 @@ namespace gtest_gui.ViewModel
 	public class TestHistoryViewModel : ViewModelBase
 	{
 		/// <summary>
-		/// Test name field.
-		/// </summary>
-		protected string _testName;
-
-		/// <summary>
-		/// Test result field.
-		/// </summary>
-		protected string _testResult;
-
-		/// <summary>
 		/// Field of test cases.
 		/// </summary>
 		protected List<TestCase> _testCases;
 
 		/// <summary>
-		/// Field of test item.
+		/// Test name.
 		/// </summary>
-		protected TestItem _testItem;
+		protected TestInformation _testName;
+
+		/// <summary>
+		/// Test information.
+		/// </summary>
+		protected TestInformation _testInformation;
 
 		/// <summary>
 		/// Default constructor.
@@ -34,9 +32,6 @@ namespace gtest_gui.ViewModel
 		public TestHistoryViewModel()
 		{
 			this._testCases = null;
-			this._testItem = null;
-			this.TestName = string.Empty;
-			this.TestResult = string.Empty;
 		}
 
 		/// <summary>
@@ -55,61 +50,42 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
-		/// <summary>
-		/// Tes name property.
-		/// </summary>
 		public string TestName
 		{
 			get
 			{
-				return this._testName;
+				try
+				{
+					return this.TestInformation.TestItems.ElementAt(0).Name;
+				}
+				catch (Exception)
+				{
+					return string.Empty;
+				}
+			}
+		}
+
+		public TestInformation TestInformation
+		{
+			get
+			{
+				return this._testInformation;
 			}
 			set
 			{
-				this._testName = value;
+				this._testInformation = value;
+				this.RaisePropertyChanged(nameof(TestInformation));
 				this.RaisePropertyChanged(nameof(TestName));
 			}
 		}
 
-		/// <summary>
-		/// Test result property.
-		/// </summary>
-		public string TestResult
+		public void LoadTestHistoryCommandExecute()
 		{
-			get
-			{
-				return this._testResult;
-			}
-			set
-			{
-				this._testResult = value;
-				this.RaisePropertyChanged(nameof(TestResult));
-			}
-		}
-
-		/// <summary>
-		/// Test item to show history in this view model.
-		/// </summary>
-		public TestItem TestItem
-		{
-			get
-			{
-				return this._testItem;
-			}
-			set
-			{
-				this._testItem = value;
-				try
-				{
-					this.TestName = this._testItem.Name;
-					this.TestResult = this._testItem.Result;
-				}
-				catch (NullReferenceException)
-				{
-					this.TestName = string.Empty;
-					this.TestResult = string.Empty;
-				}
-			}
+			var commandArg = new TestCommandArgument(this.TestInformation);
+			var command = new LoadTestHistoryCommand();
+			IEnumerable<TestCase> testCases = (IEnumerable<TestCase>)command.ExecuteCommand(commandArg);
+			List<TestCase> testCaseList = testCases.ToList();
+			this.TestCases = testCaseList;
 		}
 	}
 }

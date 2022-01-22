@@ -9,6 +9,22 @@ namespace gtest_gui.Model
 {
 	public class TestHistoryReader : TestResultReader
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public TestHistoryReader() : base() { }
+
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="target">Test execution file path.</param>
+		/// <param name="outputDirFile"><para>OutputDirAndFile</para> object.</param>
+		/// <remarks>If the <para>outputDirFile</para> is not set, null will be passed.</remarks>
+		public TestHistoryReader(string target, OutputDirAndFile outputDirFile = null) 
+			: base(target, outputDirFile)
+		{}
+
+
 		public new IEnumerable<TestCase> ReadTest(TestInformation testInfo)
 		{
 			try
