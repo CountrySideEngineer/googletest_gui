@@ -24,13 +24,10 @@
                     Margin="16, 0"
                 >
             <TextBlock Text="テスト名："
-                           Style="{StaticResource TextBlockRightStyle}"
-                           Width="80"
-                           Margin="0, 0"
+                       Style="{StaticResource TextBlockRightStyle}"
                            />
             <TextBlock Text="{Binding TestInformation.TestItems[0].Name}"
-                           Style="{StaticResource TextBlockLeftStyle}"
-                           Margin="0, 0"
+                       Style="{StaticResource TextBlockLeftStyle}"
                            />
         </StackPanel>
         <DataGrid x:Name="dataGrid"
