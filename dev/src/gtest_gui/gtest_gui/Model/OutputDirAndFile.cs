@@ -12,6 +12,9 @@ namespace gtest_gui.Model
 		/// </summary>
 		public string RootDirPath { get; protected set; }
 
+		/// <summary>
+		/// Test execute file name.
+		/// </summary>
 		public string TestExeFileName { get; protected set; }
 
 		/// <summary>
@@ -139,7 +142,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testName">Test Name</param>
 		/// <returns>Log file name.</returns>
-		public virtual string TestLogFilePath(string testName)
+		public virtual string LogFilePath(string testName)
 		{
 			try
 			{
@@ -195,6 +198,26 @@ namespace gtest_gui.Model
 				 * So, it is not needed to handle the exception and notify it to user.
 				 */
 				throw;
+			}
+		}
+
+		/// <summary>
+		/// Returns collection of test report file path.
+		/// </summary>
+		/// <returns>Collection of test report file path.</returns>
+		public virtual IEnumerable<string> GetTestReportFiles()
+		{
+			var testReportDir = this.ReportDirPath();
+			if (Directory.Exists(testReportDir))
+			{
+				string repotrFileTemplate = "*.xml";
+				string[] reportFiles = Directory.GetFiles(testReportDir, repotrFileTemplate);
+				IEnumerable<string> testReportFiles = new List<string>(reportFiles);
+				return testReportFiles;
+			}
+			else
+			{
+				throw new DirectoryNotFoundException();
 			}
 		}
 	}

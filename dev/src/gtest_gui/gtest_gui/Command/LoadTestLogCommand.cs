@@ -2,6 +2,7 @@
 using gtest_gui.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace gtest_gui.Command
@@ -24,7 +25,9 @@ namespace gtest_gui.Command
 				Target = filePath
 			};
 			TestInformation testInformation = testRunner.GetTestList();
-			var reader = new TestResultReader();
+			string testExeFile = System.IO.Path.GetFileNameWithoutExtension(filePath);
+			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testExeFile);
+			var reader = new TestResultReader(filePath, outputDirFile);
 			reader.ReadTest(testInformation);
 
 			return testInformation;

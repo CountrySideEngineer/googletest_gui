@@ -42,7 +42,7 @@ namespace gtest_gui.Model
         /// Constructor
         /// </summary>
         /// <param name="target">Path to test file.</param>
-        /// <param name="report">Path to report file to output.</param>
+        /// <param name="outputDirFile">OutputDirAndFile object handle test log and report.</param>
         public TestRunner(string target, OutputDirAndFile outputDirFile)
         {
             this.Target = target;
@@ -83,7 +83,7 @@ namespace gtest_gui.Model
 
             //Get and output log 
             string outputData = process.StandardOutput.ReadToEnd();
-            string logFilePath = this.OutputDirFile.TestLogFilePath(testItem.Name);
+            string logFilePath = this.OutputDirFile.LogFilePath(testItem.Name);
             using (var writer = new StreamWriter(logFilePath))
 			{
                 writer.Write(outputData);

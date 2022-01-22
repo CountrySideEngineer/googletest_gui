@@ -12,6 +12,37 @@ namespace gtest_gui.Model
 	public class TestResultReader
 	{
 		/// <summary>
+		/// Path to test execution file.
+		/// </summary>
+		public string Target { get; set; }
+
+		/// <summary>
+		/// The log and file information.
+		/// </summary>
+		public OutputDirAndFile OutputDirFile { get; set; }
+
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public TestResultReader()
+		{
+			this.Target = string.Empty;
+			this.OutputDirFile = null;
+		}
+
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="target">Test target file path.</param>
+		/// <param name="outputDirFile">OutputDirAndFile object</param>
+		/// <remarks>If the <para>outputDirFile</para> is not set, null will be passed.</remarks>
+		public TestResultReader(string target, OutputDirAndFile outputDirFile = null)
+		{
+			this.Target = target;
+			this.OutputDirFile = outputDirFile;
+		}
+
+		/// <summary>
 		/// Read test data corresponding to the test execution file.
 		/// </summary>
 		/// <param name="testInfo">Test information file includes the test execution file.</param>
@@ -38,21 +69,18 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="fileName">Test execution file path.</param>
 		/// <returns>Collection of test result file path.</returns>
+		/// <exception cref="DirectoryNotFoundException">The report output directory can not found.</exception>
 		protected virtual IEnumerable<string> GetTestResultFiles(string fileName)
 		{
-			string dirPath = @".\log";
-			List<string> testResultFiles = null;
-			if (Directory.Exists(dirPath))
+			try
 			{
-				string logFileTemplate = fileName + "_*.xml";
-				string[] xmlFiles = Directory.GetFiles(@".\log\", logFileTemplate);
-				testResultFiles = new List<string>(xmlFiles);
+				IEnumerable<string> reportFiles = this.OutputDirFile.GetTestReportFiles();
+				return reportFiles;
 			}
-			else
+			catch (DirectoryNotFoundException ex)
 			{
-				throw new DirectoryNotFoundException();
+				throw ex;
 			}
-			return testResultFiles;
 		}
 
 		/// <summary>
