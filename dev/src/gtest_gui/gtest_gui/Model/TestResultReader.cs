@@ -172,7 +172,7 @@ namespace gtest_gui.Model
 			{
 				try
 				{
-					var classAndCaseName = testItem.Name.Split(".");
+					var classAndCaseName = testItem.Name.Split('.');
 					string className = classAndCaseName[0];
 					string name = classAndCaseName[1];
 					var testCase = testCases.Where(_ =>

@@ -168,7 +168,7 @@ namespace gtest_gui.Model
         /// <returns>List of test items read from <para>output</para>.</returns>
         protected IEnumerable<TestItem> OutputToTestItem(string output)
 		{
-            var outputInArray = output.Split("\r\n");
+            var outputInArray = output.Replace("\r\n", "\n").Split(new[] { '\n', '\r' });
             /*
              * The head item in array is expalanation of test, for example test file.
              * Skip the data because it is not information about test case.
