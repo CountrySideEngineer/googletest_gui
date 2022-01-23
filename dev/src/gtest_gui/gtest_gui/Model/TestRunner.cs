@@ -67,26 +67,7 @@ namespace gtest_gui.Model
             foreach (var testItem in targetTestItems)
             {
                 this.OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
-                this.RunTest(path, testItem);
-            }
-        }
-
-        /// <summary>
-        /// Run a test.
-        /// </summary>
-        /// <param name="path">Path to file to run test.</param>
-        /// <param name="testItem">Test parameter.</param>
-        protected virtual void RunTest(string path, TestItem testItem)
-		{
-            Process process = this.Start(path, testItem);
-            process.WaitForExit();
-
-            //Get and output log 
-            string outputData = process.StandardOutput.ReadToEnd();
-            string logFilePath = this.OutputDirFile.LogFilePath(testItem.Name);
-            using (var writer = new StreamWriter(logFilePath))
-			{
-                writer.Write(outputData);
+                this.Run(path, testItem, this.OutputLog);
             }
         }
 
@@ -96,19 +77,44 @@ namespace gtest_gui.Model
         /// <param name="path">Path to file.</param>
         /// <param name="testItem">Test information.</param>
         /// <returns>Test running process.</returns>
-        protected virtual Process Start(string path, TestItem testItem)
+        protected virtual Process Run(string path, TestItem testItem, Action<StreamReader, TestItem> postTest)
 		{
             string filterOption = this.GetFilterOption(path, testItem);
             string outputOption = this.GetXmlOutputOption(path, testItem);
-            var app = new ProcessStartInfo
+            Process process = null;
+            var procStartInfo = new ProcessStartInfo
             {
                 FileName = path,
+                CreateNoWindow = false,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 Arguments = $"{outputOption} {filterOption}"
             };
-            Process process = this.Start(app);
+            using (process = new Process())
+			{
+                process.StartInfo = procStartInfo;
+                process.Start();
+                process.WaitForExit();
+
+                postTest?.Invoke(process.StandardOutput, testItem);
+            }
             return process;
+		}
+
+        /// <summary>
+        /// Output log into file.
+        /// </summary>
+        /// <param name="testOutputStream">Stream to read log from.</param>
+        /// <param name="testItem">Test item to run.</param>
+        protected virtual void OutputLog(StreamReader testOutputStream, TestItem testItem)
+		{
+            string outputData = testOutputStream.ReadToEnd();
+            string logFilePath = this.OutputDirFile.LogFilePath(testItem.Name);
+            using (var writer = new StreamWriter(logFilePath))
+			{
+                writer.Write(outputData);
+			}
 		}
 
         /// <summary>
@@ -121,83 +127,6 @@ namespace gtest_gui.Model
             Process proc = Process.Start(processInfo);
 
             return proc;
-		}
-
-        /// <summary>
-        /// Get test information
-        /// </summary>
-        /// <returns>Test information object.</returns>
-        public virtual TestInformation GetTestList()
-		{
-            TestInformation testInformation = this.GetTestList(this.Target);
-            return testInformation;
-		}
-
-        /// <summary>
-        /// Get test information.
-        /// </summary>
-        /// <param name="path">Path to test file.</param>
-        /// <returns>Test information object</returns>
-        public virtual TestInformation GetTestList(string path)
-		{
-            //Setup test configuration.
-			var app = new ProcessStartInfo
-			{
-				FileName = path,
-				Arguments = "--gtest_list_tests",
-				UseShellExecute = false,
-				RedirectStandardOutput = true
-			};
-
-			Process proc = this.Start(app);
-            string stdOutput = proc.StandardOutput.ReadToEnd();
-            IEnumerable<TestItem> testItems = this.OutputToTestItem(stdOutput);
-            var testInfo = new TestInformation
-            {
-                TestFile = path,
-                TestItems = testItems
-            };
-
-            return testInfo;
-        }
-
-        /// <summary>
-        /// Convert output of google test file.
-        /// </summary>
-        /// <param name="output">Standard output data.</param>
-        /// <returns>List of test items read from <para>output</para>.</returns>
-        protected IEnumerable<TestItem> OutputToTestItem(string output)
-		{
-            var outputInArray = output.Replace("\r\n", "\n").Split(new[] { '\n', '\r' });
-            /*
-             * The head item in array is expalanation of test, for example test file.
-             * Skip the data because it is not information about test case.
-             */
-            outputInArray = outputInArray.Where((source, index) => 0 < index).ToArray();
-
-            var testSuiteName = string.Empty;
-            var testItems = new List<TestItem>();
-            foreach (var item in outputInArray)
-			{
-                if (item.EndsWith("."))
-				{
-                    testSuiteName = item;
-				}
-				else
-				{
-                    var testName = item.Trim();
-                    if (!(string.IsNullOrEmpty(testName)))
-					{
-                        var testItem = new TestItem
-                        {
-                            Name = testSuiteName + testName,
-                            IsSelected = false
-                        };
-                        testItems.Add(testItem);
-                    }
-                }
-			}
-            return testItems;
 		}
 
         /// <summary>

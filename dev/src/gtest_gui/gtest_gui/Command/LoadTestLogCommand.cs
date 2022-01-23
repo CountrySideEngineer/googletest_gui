@@ -20,11 +20,11 @@ namespace gtest_gui.Command
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			string filePath = cmdArgument.TestInfo.TestFile;
-			var testRunner = new TestRunner()
+			var testListReader = new TestListReader()
 			{
-				Target = filePath
+				TestFilePath = filePath
 			};
-			TestInformation testInformation = testRunner.GetTestList();
+			TestInformation testInformation = testListReader.Run();
 			string testExeFile = System.IO.Path.GetFileNameWithoutExtension(filePath);
 			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testExeFile);
 			var reader = new TestResultReader(filePath, outputDirFile);
