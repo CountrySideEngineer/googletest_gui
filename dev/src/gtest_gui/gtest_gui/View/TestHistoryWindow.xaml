@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gtest_gui.View"
         mc:Ignorable="d"
-        Title="TestHistoryWindow" Height="450" Width="800">
+        Title="実行履歴"
+        Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
