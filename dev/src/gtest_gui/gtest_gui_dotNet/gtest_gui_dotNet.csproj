@@ -80,6 +80,12 @@
     <Compile Include="..\gtest_gui\Model\OutputDirAndFile.cs">
       <Link>Model\OutputDirAndFile.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Model\OutputLogBuilder.cs">
+      <Link>Model\OutputLogBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Model\TestDataFinishedEventArgs.cs">
+      <Link>Model\TestDataFinishedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Model\TestHistoryReader.cs">
       <Link>Model\TestHistoryReader.cs</Link>
     </Compile>
