@@ -2,6 +2,7 @@
 using gtest_gui.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -28,6 +29,9 @@ namespace gtest_gui.Command
 				Target = testFilePath,
 				OutputDirFile = outputDirInfo
 			};
+			var outputLogBuilder = new OutputLogBuilder(outputDirInfo);
+			testRunner.TestDataReceivedEventHandler += outputLogBuilder.OnDataReceived;
+			testRunner.TestDataFinisedEventHandler += outputLogBuilder.OnDataReceiveFinished;
 			testRunner.Run(testInformation);
 			return (int)0;
 		}

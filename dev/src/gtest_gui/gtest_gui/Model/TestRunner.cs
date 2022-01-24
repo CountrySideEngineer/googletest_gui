@@ -20,6 +20,30 @@ namespace gtest_gui.Model
         public OutputDirAndFile OutputDirFile { get; set; }
 
         /// <summary>
+        /// Delegate to raise event that a test data receive finished event.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event argument</param>
+        public delegate void TestDataFinishedEvent(object sender, TestDataFinishedEventArgs e);
+
+        /// <summary>
+        /// Event handler to handle a test finished.
+        /// </summary>
+        public event TestDataFinishedEvent TestDataFinisedEventHandler;
+
+        /// <summary>
+        /// Delegate to raise event that test output received event.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Event argument.</param>
+        public delegate void TestDataReceivedEvent(object sender, DataReceivedEventArgs e);
+
+        /// <summary>
+        /// Event handler to handle data received.
+        /// </summary>
+        public event TestDataReceivedEvent TestDataReceivedEventHandler;
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public TestRunner()
@@ -67,7 +91,12 @@ namespace gtest_gui.Model
             foreach (var testItem in targetTestItems)
             {
                 this.OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
-                this.Run(path, testItem, this.OutputLog);
+                this.Run(path, testItem);
+                var eventArg = new TestDataFinishedEventArgs()
+                {
+                    TestItem = testItem
+				};
+				this.TestDataFinisedEventHandler?.Invoke(this, eventArg);
             }
         }
 
@@ -77,11 +106,12 @@ namespace gtest_gui.Model
         /// <param name="path">Path to file.</param>
         /// <param name="testItem">Test information.</param>
         /// <returns>Test running process.</returns>
-        protected virtual Process Run(string path, TestItem testItem, Action<StreamReader, TestItem> postTest)
+        protected virtual Process Run(string path, TestItem testItem)
 		{
             string filterOption = this.GetFilterOption(path, testItem);
             string outputOption = this.GetXmlOutputOption(path, testItem);
             Process process = null;
+
             var procStartInfo = new ProcessStartInfo
             {
                 FileName = path,
@@ -94,12 +124,27 @@ namespace gtest_gui.Model
             using (process = new Process())
 			{
                 process.StartInfo = procStartInfo;
+                process.OutputDataReceived += this.OnOutputDataReceivedEvent;
                 process.Start();
+                process.BeginOutputReadLine();
                 process.WaitForExit();
-
-                postTest?.Invoke(process.StandardOutput, testItem);
+                process.CancelOutputRead();
+                process.OutputDataReceived -= this.OnOutputDataReceivedEvent;
             }
             return process;
+		}
+
+        /// <summary>
+        /// Data received from execution process output.
+        /// </summary>
+        /// <param name="sender">event sender.</param>
+        /// <param name="e">Event argument.</param>
+        protected virtual void OnOutputDataReceivedEvent(object sender, DataReceivedEventArgs e)
+		{
+            if (null != e.Data)
+			{
+                this.TestDataReceivedEventHandler?.Invoke(this, e);
+			}
 		}
 
         /// <summary>
