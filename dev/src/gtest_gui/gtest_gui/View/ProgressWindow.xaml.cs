@@ -1,4 +1,5 @@
-﻿using System;
+﻿using gtest_gui.MoveWindow;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -38,11 +39,31 @@ namespace gtest_gui.View
 			SetWindowLong(handle, GWL_STYLE, style);
 		}
 
-
-
 		public ProgressWindow()
 		{
 			InitializeComponent();
+		}
+
+		/// <summary>
+		/// DataContextChanged event handler
+		/// </summary>
+		/// <param name="sender">Event sender</param>
+		/// <param name="e">Event argument.</param>
+		private void Window_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			var viewModel = (ProgressWindowsViewModel)e.NewValue;
+			viewModel.CloseWindowEvent += this.OnWindowClose;
+		}
+
+		/// <summary>
+		/// WindowClose event handler.
+		/// Close this window.
+		/// </summary>
+		/// <param name="sender">Event sender</param>
+		/// <param name="e">Event argument.</param>
+		private void OnWindowClose(object sender, EventArgs e)
+		{
+			Close();
 		}
 	}
 }

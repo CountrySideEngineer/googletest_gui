@@ -34,6 +34,10 @@ namespace gtest_gui.MoveWindow
 		/// </summary>
 		protected int _denominator;
 
+		public delegate void CloseWindowsEventHandler(object sender, EventArgs e);
+		public CloseWindowsEventHandler CloseWindowEvent;
+
+
 		/// <summary>
 		/// Property of title.
 		/// </summary>
@@ -116,6 +120,7 @@ namespace gtest_gui.MoveWindow
 		/// </summary>
 		/// <param name="sender">Event sender.</param>
 		/// <param name="arg">Event argument.</param>
+		/// <remarks>If the "progress" value is greater than 100, this method publishes window close event.</remarks>
 		public void OnProgressChanged(object sender, ProgressChangedCommandArgument arg)
 		{
 			ProgressInfo progressInfo = arg.ProgressInfo;
@@ -124,6 +129,12 @@ namespace gtest_gui.MoveWindow
 			Progress = progressInfo.Progress;
 			Numerator = progressInfo.Numerator;
 			Denominator = progressInfo.Denominator;
+
+			if (100 <= Progress)
+			{
+				CloseWindowEvent?.Invoke(this, null);
+			}
 		}
+
 	}
 }
