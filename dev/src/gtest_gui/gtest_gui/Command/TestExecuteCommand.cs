@@ -1,5 +1,7 @@
 ﻿using gtest_gui.Command.Argument;
 using gtest_gui.Model;
+using gtest_gui.MoveWindow;
+using gtest_gui.View;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,8 +34,38 @@ namespace gtest_gui.Command
 			var outputLogBuilder = new OutputLogBuilder(outputDirInfo);
 			testRunner.TestDataReceivedEventHandler += outputLogBuilder.OnDataReceived;
 			testRunner.TestDataFinisedEventHandler += outputLogBuilder.OnDataReceiveFinished;
-			testRunner.Run(testInformation);
+
+			var viewModel = new ProgressWindowsViewModel();
+			var progress = new Progress<ProgressInfo>(this.OnProgressChanged);
+
+			var dataContext = new ProgressWindowsViewModel();
+			ProgressChangedEventHandler += dataContext.OnProgressChanged;
+			var window = new ProgressWindow()
+			{
+				DataContext = dataContext
+			};
+			testRunner.RunAsync(testInformation, progress);
+			window.ShowDialog();
+
 			return (int)0;
+		}
+
+		public delegate void ProgressChangedEvent(object sender, ProgressChangedCommandArgument e);
+		public ProgressChangedEvent ProgressChangedEventHandler;
+
+		public void OnProgressChanged(ProgressInfo progressInfo)
+		{
+			Debug.WriteLine($"      Title = {progressInfo.Title}");
+			Debug.WriteLine($"       Name = {progressInfo.ProcessName}");
+			Debug.WriteLine($"   Progress = {progressInfo.Progress}");
+			Debug.WriteLine($"  Numerator = {progressInfo.Numerator}");
+			Debug.WriteLine($"Denominator = {progressInfo.Denominator}");
+
+			ProgressChangedEventHandler?.Invoke(this,
+				new ProgressChangedCommandArgument
+				{
+					ProgressInfo = progressInfo
+				});
 		}
 	}
 }
