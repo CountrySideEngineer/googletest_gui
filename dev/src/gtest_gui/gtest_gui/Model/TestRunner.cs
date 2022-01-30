@@ -100,65 +100,9 @@ namespace gtest_gui.Model
             var targetTestItems = information.TestItems.Where(_ => _.IsSelected);
             foreach (var testItem in targetTestItems)
             {
-                this.OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
-                this.Run(path, testItem);
-                var eventArg = new TestDataFinishedEventArgs()
-                {
-                    TestItem = testItem
-				};
-				this.TestDataFinisedEventHandler?.Invoke(this, eventArg);
+                RunTestProc(path, testItem);
             }
         }
-
-        public virtual void RunAsync(TestInformation information, IProgress<ProgressInfo> progress)
-		{
-            Task task = this.RunTask(this.Target, information, progress);
-		}
-
-        protected virtual async Task RunTask(string path, TestInformation information, IProgress<ProgressInfo> progress)
-		{
-            Task task = Task.Run(() =>
-            {
-                var targetTestItems = information.TestItems.Where(_ => _.IsSelected);
-                int testCount = targetTestItems.Count();
-                if (!(0 < testCount))
-				{
-                    return;
-				}
-                var baseProgInfo = new ProgressInfo()
-                {
-                    Title = path,
-                    Denominator = testCount
-                };
-                int testIndex = 0;
-                foreach (var testItem in targetTestItems)
-				{
-                    var preProgInfo = new ProgressInfo(baseProgInfo);
-                    preProgInfo.ProcessName = testItem.Name;
-                    preProgInfo.Progress = (testIndex * 100) / testCount;
-                    preProgInfo.Numerator = testIndex;
-                    progress.Report(preProgInfo);
-
-                    this.OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
-                    this.Run(path, testItem);
-                    var eventArg = new TestDataFinishedEventArgs()
-                    {
-                        TestItem = testItem
-                    };
-                    this.TestDataFinisedEventHandler?.Invoke(this, eventArg);
-
-                    testIndex++;
-                    var postProgInfo = new ProgressInfo(preProgInfo);
-                    postProgInfo.Progress = (testIndex * 100) / testCount;
-                    postProgInfo.Numerator = testIndex;
-                    progress.Report(postProgInfo);
-                }
-            });
-            await task;
-
-            return;
-		}
-
 
         /// <summary>
         /// Run a test 
@@ -192,6 +136,28 @@ namespace gtest_gui.Model
                 process.OutputDataReceived -= this.OnOutputDataReceivedEvent;
             }
             return process;
+		}
+
+        /// <summary>
+        /// Run a test case with pre- and post procedure.
+        /// Pre-procedure is to setup directories to output log and report.
+        /// Post-procedure is to notify a test finished by event.
+        /// </summary>
+        /// <param name="path">Path to file to execute.</param>
+        /// <param name="testItem">Test item information.</param>
+        public virtual void RunTestProc(string path, TestItem testItem)
+		{
+            //pre-procedure.
+            this.OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
+
+            this.Run(path, testItem);
+
+            //post procedure.
+            var eventArg = new TestDataFinishedEventArgs()
+            {
+                TestItem = testItem
+            };
+            this.TestDataFinisedEventHandler?.Invoke(this, eventArg);
 		}
 
         /// <summary>
