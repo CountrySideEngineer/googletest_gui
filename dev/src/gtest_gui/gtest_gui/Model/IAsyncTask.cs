@@ -6,6 +6,6 @@ namespace gtest_gui.Model
 {
 	public interface IAsyncTask<T>
 	{
-		public void RunTask(IProgress<T> progress);
+		void RunTask(IProgress<T> progress);
 	}
 }

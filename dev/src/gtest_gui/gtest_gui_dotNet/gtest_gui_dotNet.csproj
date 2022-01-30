@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\gtest_gui\Command\Argument\ProgressChangedCommandArgument.cs">
+      <Link>Command\Argument\ProgressChangedCommandArgument.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\Argument\TestCommandArgument.cs">
       <Link>Command\Argument\TestCommandArgument.cs</Link>
     </Compile>
@@ -70,6 +73,9 @@
     <Compile Include="..\gtest_gui\Command\LoadTestLogCommand.cs">
       <Link>Command\LoadTestLogCommand.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Command\TestExecuteAsyncCommand.cs">
+      <Link>Command\TestExecuteAsyncCommand.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\TestExecuteCommand.cs">
       <Link>Command\TestExecuteCommand.cs</Link>
     </Compile>
@@ -77,11 +83,17 @@
       <Link>MainWindow.xaml.cs</Link>
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="..\gtest_gui\Model\IAsyncTask.cs">
+      <Link>Model\IAsyncTask.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Model\OutputDirAndFile.cs">
       <Link>Model\OutputDirAndFile.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Model\OutputLogBuilder.cs">
       <Link>Model\OutputLogBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Model\ProgressInfo.cs">
+      <Link>Model\ProgressInfo.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Model\TestDataFinishedEventArgs.cs">
       <Link>Model\TestDataFinishedEventArgs.cs</Link>
@@ -104,6 +116,9 @@
     <Compile Include="..\gtest_gui\Model\TestRunner.cs">
       <Link>Model\TestRunner.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Model\TestRunnerAsync.cs">
+      <Link>Model\TestRunnerAsync.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Model\TestSuite.cs">
       <Link>Model\TestSuite.cs</Link>
     </Compile>
@@ -113,8 +128,17 @@
     <Compile Include="..\gtest_gui\MoveWindow\Move2History.cs">
       <Link>MoveWindow\Move2History.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2Progress.cs">
+      <Link>MoveWindow\Move2Progress.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2TestProgress.cs">
+      <Link>MoveWindow\Move2TestProgress.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\ViewModel\GTestGuiViewModel.cs">
       <Link>ViewModel\GTestGuiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\ViewModel\ProgressWindowsViewModel.cs">
+      <Link>ViewModel\ProgressWindowsViewModel.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\ViewModel\TestHistoryViewModel.cs">
       <Link>ViewModel\TestHistoryViewModel.cs</Link>
@@ -127,6 +151,10 @@
     </Compile>
     <Compile Include="..\gtest_gui\View\Converter\Result2VisibilityConverter.cs">
       <Link>View\Converter\Result2VisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\View\ProgressWindow.xaml.cs">
+      <Link>View\ProgressWindow.xaml.cs</Link>
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\gtest_gui\View\TestHistoryWindow.xaml.cs">
       <Link>View\TestHistoryWindow.xaml.cs</Link>
@@ -171,6 +199,11 @@
     </Page>
     <Page Include="..\gtest_gui\Resources\Styles.xaml">
       <Link>Resources\Styles.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\gtest_gui\View\ProgressWindow.xaml">
+      <Link>View\ProgressWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
