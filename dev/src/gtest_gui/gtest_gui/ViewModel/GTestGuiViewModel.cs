@@ -265,6 +265,23 @@ namespace gtest_gui.ViewModel
 		}
 
 		/// <summary>
+		/// Update flags meaning the commands this page provides can execute or not.
+		/// </summary>
+		protected void UpdateCanCommandExecute()
+		{
+			//Update parameter flags whether commands the view model provides can execute.
+			//1. Reload command
+			int testInfoItemCount = this.TestInfo.TestItems.Count();
+			if (0 < testInfoItemCount)
+			{
+				this.CanReloadTest = true;
+			}
+
+			//2. Test execute command.
+			ChangeTestSelectedByUserCommandExecute();
+		}
+
+		/// <summary>
 		/// Execute test.
 		/// </summary>
 		public void RunTestCommandExecute()
@@ -290,15 +307,16 @@ namespace gtest_gui.ViewModel
 				{
 					foreach (var testItem in this.TestInfo.TestItems)
 					{
-						var newTestItem = TestInfo.TestItems
+						var newTestItem = testInformation.TestItems
 							.Where(_ => _.Equals(testItem))
 							.FirstOrDefault();
 						newTestItem.IsSelected = testItem.IsSelected;
 					}
+
 				}
 				this.TestInfo = testInformation;
 
-				this.CanReloadTest = true;
+				this.UpdateCanCommandExecute();
 			}
 			catch (Exception ex)
 			{
