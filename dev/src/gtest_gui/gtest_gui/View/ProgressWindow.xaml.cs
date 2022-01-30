@@ -65,5 +65,17 @@ namespace gtest_gui.View
 		{
 			Close();
 		}
+
+		/// <summary>
+		/// Window ContentRendered event handler.
+		/// When the event raised, 
+		/// </summary>
+		/// <param name="sender">Event sender</param>
+		/// <param name="e">Event argument.</param>
+		private void Window_ContentRendered(object sender, EventArgs e)
+		{
+			var viewModel = (ProgressWindowsViewModel)this.DataContext;
+			viewModel.OnProgressStart(this, null);
+		}
 	}
 }

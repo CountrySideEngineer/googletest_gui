@@ -37,6 +37,8 @@ namespace gtest_gui.MoveWindow
 		public delegate void CloseWindowsEventHandler(object sender, EventArgs e);
 		public CloseWindowsEventHandler CloseWindowEvent;
 
+		public delegate void StartProgressEventHandler(object sender, EventArgs e);
+		public StartProgressEventHandler StartProgressEvent;
 
 		/// <summary>
 		/// Property of title.
@@ -91,6 +93,13 @@ namespace gtest_gui.MoveWindow
 		}
 
 		/// <summary>
+		/// Test Progress interface.
+		/// </summary>
+		public IProgress<ProgressInfo> TestProgress { get; set; }
+
+		public IAsyncTask<ProgressInfo> AsyncTask { get; set; }
+
+		/// <summary>
 		/// Property of denominator.
 		/// </summary>
 		public int Denominator
@@ -113,6 +122,34 @@ namespace gtest_gui.MoveWindow
 			Progress = 0;
 			Numerator = 0;
 			Denominator = 0;
+
+			TestProgress = new Progress<ProgressInfo>(OnProgressChanged);
+		}
+
+		public void OnProgressChanged(ProgressInfo progressInfo)
+		{
+			try
+			{
+				Title = progressInfo.Title;
+				ProcessName = progressInfo.ProcessName;
+				Progress = progressInfo.Progress;
+				Numerator = progressInfo.Numerator;
+				Denominator = progressInfo.Denominator;
+
+				if (100 <= Progress)
+				{
+					CloseWindowEvent?.Invoke(this, null);
+				}
+			}
+			catch (NullReferenceException)
+			{
+				//Can the exception ignore...?
+			}
+		}
+
+		public void OnProgressStart(object sender, EventArgs e)
+		{
+			AsyncTask.RunTask(TestProgress);
 		}
 
 		/// <summary>

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title}" Height="120" Width="460" DataContextChanged="Window_DataContextChanged">
+        Title="{Binding Title}" Height="120" Width="460" DataContextChanged="Window_DataContextChanged" ContentRendered="Window_ContentRendered">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -269,7 +269,8 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void RunTestCommandExecute()
 		{
-			var command = new TestExecuteCommand();
+			//var command = new TestExecuteCommand();
+			var command = new TestExecuteAsyncCommand();
 			var argument = new TestCommandArgument(this.TestInfo);
 			this.ExecuteCommand(command, argument);
 			this.LoadTestCommandExecute();
