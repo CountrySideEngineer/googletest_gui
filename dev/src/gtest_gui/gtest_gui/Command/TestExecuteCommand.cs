@@ -20,12 +20,25 @@ namespace gtest_gui.Command
 		/// </summary>
 		/// <param name="cmdArgument">Argument for test including target test file and information to run it.</param>
 		/// <returns>Returns always 0.</returns>
-		public object ExecuteCommand(TestCommandArgument cmdArgument)
+		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			string testFilePath = cmdArgument.TestInfo.TestFile;
+			TestRunner testRunner = SetUpTestRunner(cmdArgument);
+			TestInformation testInfo = cmdArgument.TestInfo;
+			testRunner.Run(testInfo);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Set up TestRunner object with parameters passed with argument, TestCommandArgument.
+		/// </summary>
+		/// <param name="cmdArg">Command argument used to setup TestRunner object.</param>
+		/// <returns>TestRunner object to run test.</returns>
+		protected virtual TestRunner SetUpTestRunner(TestCommandArgument cmdArg)
+		{
+			string testFilePath = cmdArg.TestInfo.TestFile;
 			string testFileName = System.IO.Path.GetFileNameWithoutExtension(testFilePath);
 			var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFileName);
-			TestInformation testInformation = cmdArgument.TestInfo;
 			var testRunner = new TestRunner
 			{
 				Target = testFilePath,
@@ -35,37 +48,7 @@ namespace gtest_gui.Command
 			testRunner.TestDataReceivedEventHandler += outputLogBuilder.OnDataReceived;
 			testRunner.TestDataFinisedEventHandler += outputLogBuilder.OnDataReceiveFinished;
 
-			var viewModel = new ProgressWindowsViewModel();
-			var progress = new Progress<ProgressInfo>(this.OnProgressChanged);
-
-			var dataContext = new ProgressWindowsViewModel();
-			ProgressChangedEventHandler += dataContext.OnProgressChanged;
-			var window = new ProgressWindow()
-			{
-				DataContext = dataContext
-			};
-			testRunner.RunAsync(testInformation, progress);
-			window.ShowDialog();
-
-			return (int)0;
-		}
-
-		public delegate void ProgressChangedEvent(object sender, ProgressChangedCommandArgument e);
-		public ProgressChangedEvent ProgressChangedEventHandler;
-
-		public void OnProgressChanged(ProgressInfo progressInfo)
-		{
-			Debug.WriteLine($"      Title = {progressInfo.Title}");
-			Debug.WriteLine($"       Name = {progressInfo.ProcessName}");
-			Debug.WriteLine($"   Progress = {progressInfo.Progress}");
-			Debug.WriteLine($"  Numerator = {progressInfo.Numerator}");
-			Debug.WriteLine($"Denominator = {progressInfo.Denominator}");
-
-			ProgressChangedEventHandler?.Invoke(this,
-				new ProgressChangedCommandArgument
-				{
-					ProgressInfo = progressInfo
-				});
+			return testRunner;
 		}
 	}
 }
