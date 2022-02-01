@@ -34,9 +34,19 @@ namespace gtest_gui.MoveWindow
 		/// </summary>
 		protected int _denominator;
 
+		/// <summary>
+		/// Delegate to handle "CloseWindow" event.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		public delegate void CloseWindowsEventHandler(object sender, EventArgs e);
 		public CloseWindowsEventHandler CloseWindowEvent;
 
+		/// <summary>
+		/// Delegate to handle "StartPogress" event.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		public delegate void StartProgressEventHandler(object sender, EventArgs e);
 		public StartProgressEventHandler StartProgressEvent;
 
@@ -97,6 +107,9 @@ namespace gtest_gui.MoveWindow
 		/// </summary>
 		public IProgress<ProgressInfo> Progress { get; set; }
 
+		/// <summary>
+		/// Task to run in asynchronously.
+		/// </summary>
 		public IAsyncTask<ProgressInfo> AsyncTask { get; set; }
 
 		/// <summary>
@@ -125,6 +138,11 @@ namespace gtest_gui.MoveWindow
 			Progress = null;
 		}
 
+		/// <summary>
+		/// Event handler notifying start the task.
+		/// </summary>
+		/// <param name="sender">Event sender</param>
+		/// <param name="e">Event argument.</param>
 		public void OnProgressStart(object sender, EventArgs e)
 		{
 			AsyncTask.RunTask(Progress);
