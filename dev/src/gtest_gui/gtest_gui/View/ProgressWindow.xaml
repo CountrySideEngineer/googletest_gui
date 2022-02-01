@@ -35,7 +35,7 @@
             <ProgressBar Grid.Row="0"
                          Grid.Column="0"
                          Margin="8"
-                     Value="{Binding Progress}"/>
+                         Value="{Binding Path=ProgressRate}"/>
             <TextBlock Grid.Column="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"

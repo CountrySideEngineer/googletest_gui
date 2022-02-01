@@ -29,6 +29,16 @@ namespace gtest_gui.Command
 			{
 				AsyncTask = testRunnerAsync
 			};
+			var progress = new Progress<ProgressInfo>((_) =>
+			{
+				var cmdArg = new ProgressChangedCommandArgument()
+				{
+					ProgressInfo = _
+				};
+				viewModel.OnProgressChanged(this, cmdArg);
+
+			});
+			viewModel.Progress = progress;
 			var view = new ProgressWindow()
 			{
 				DataContext = viewModel
