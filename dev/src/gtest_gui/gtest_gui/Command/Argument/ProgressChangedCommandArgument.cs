@@ -1,4 +1,6 @@
 ﻿using gtest_gui.Model;
+using CountrySideEngineer.ProgressWindow.Model;
+using CountrySideEngineer.ProgressWindow.Model.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;

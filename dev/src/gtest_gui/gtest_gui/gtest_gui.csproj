@@ -21,7 +21,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model\IAsyncTask.cs" />
     <Compile Remove="Model\OutputLogBuilder - コピー.cs" />
+    <Compile Remove="Model\ProgressInfo.cs" />
+    <Compile Remove="ViewModel\ProgressWindowsViewModel.cs" />
+    <Compile Remove="ViewModel\ViewModelBase.cs" />
+    <Compile Remove="View\ProgressWindow.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="View\ProgressWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CountrySideEngineer.ViewModel.Base">
+      <HintPath>..\lib\netcoreapp3.1\CountrySideEngineer.ViewModel.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="ProgressWindow.Core">
+      <HintPath>..\lib\netcoreapp3.1\ProgressWindow.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

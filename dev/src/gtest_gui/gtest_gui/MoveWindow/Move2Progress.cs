@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CountrySideEngineer.ProgressWindow.ViewModel;
+using CountrySideEngineer.ProgressWindow.View;
 
 namespace gtest_gui.MoveWindow
 {

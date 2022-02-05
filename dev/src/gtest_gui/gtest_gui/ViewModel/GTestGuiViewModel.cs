@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CountrySideEngineer.ViewModel.Base;
 
 namespace gtest_gui.ViewModel
 {

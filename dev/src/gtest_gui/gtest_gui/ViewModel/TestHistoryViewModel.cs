@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CountrySideEngineer.ViewModel.Base;
 
 namespace gtest_gui.ViewModel
 {

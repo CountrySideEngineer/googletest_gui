@@ -5,6 +5,9 @@ using gtest_gui.View;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CountrySideEngineer.ProgressWindow;
+using CountrySideEngineer.ProgressWindow.Model;
+using CountrySideEngineer.ProgressWindow.ViewModel;
 
 namespace gtest_gui.Command
 {
@@ -24,26 +27,8 @@ namespace gtest_gui.Command
 				TestRunner = testRunner,
 				TestInfo = cmdArgument.TestInfo
 			};
-
-			var viewModel = new ProgressWindowsViewModel()
-			{
-				AsyncTask = testRunnerAsync
-			};
-			var progress = new Progress<ProgressInfo>((_) =>
-			{
-				var cmdArg = new ProgressChangedCommandArgument()
-				{
-					ProgressInfo = _
-				};
-				viewModel.OnProgressChanged(this, cmdArg);
-
-			});
-			viewModel.Progress = progress;
-			var view = new ProgressWindow()
-			{
-				DataContext = viewModel
-			};
-			view.ShowDialog();
+			var view = new CountrySideEngineer.ProgressWindow.ProgressWindow();
+			view.Start(testRunnerAsync);
 
 			return null;
 		}
