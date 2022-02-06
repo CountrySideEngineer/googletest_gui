@@ -119,7 +119,7 @@ namespace gtest_gui.Model
             var procStartInfo = new ProcessStartInfo
             {
                 FileName = path,
-                CreateNoWindow = false,
+                CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -128,12 +128,15 @@ namespace gtest_gui.Model
             using (process = new Process())
 			{
                 process.StartInfo = procStartInfo;
+                process.ErrorDataReceived += this.OnErrorDataReceivedEvent;
                 process.OutputDataReceived += this.OnOutputDataReceivedEvent;
                 process.Start();
                 process.BeginOutputReadLine();
                 process.WaitForExit();
                 process.CancelOutputRead();
                 process.OutputDataReceived -= this.OnOutputDataReceivedEvent;
+                process.ErrorDataReceived -= this.OnErrorDataReceivedEvent;
+                ;
             }
             return process;
 		}
@@ -173,20 +176,13 @@ namespace gtest_gui.Model
 			}
 		}
 
-        /// <summary>
-        /// Output log into file.
-        /// </summary>
-        /// <param name="testOutputStream">Stream to read log from.</param>
-        /// <param name="testItem">Test item to run.</param>
-        protected virtual void OutputLog(StreamReader testOutputStream, TestItem testItem)
-		{
-            string outputData = testOutputStream.ReadToEnd();
-            string logFilePath = this.OutputDirFile.LogFilePath(testItem.Name);
-            using (var writer = new StreamWriter(logFilePath))
-			{
-                writer.Write(outputData);
-			}
-		}
+        protected virtual void OnErrorDataReceivedEvent(object sender, DataReceivedEventArgs e)
+        {
+            if (null != e.Data)
+            {
+                this.TestDataReceivedEventHandler?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Create test filter option of google test framework.

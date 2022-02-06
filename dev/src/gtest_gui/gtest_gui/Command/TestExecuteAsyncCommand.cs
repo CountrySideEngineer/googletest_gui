@@ -8,6 +8,7 @@ using System.Text;
 using CountrySideEngineer.ProgressWindow;
 using CountrySideEngineer.ProgressWindow.Model;
 using CountrySideEngineer.ProgressWindow.ViewModel;
+using System.Diagnostics;
 
 namespace gtest_gui.Command
 {
@@ -21,14 +22,19 @@ namespace gtest_gui.Command
 		/// <remarks>This method will return contorl when the all test finished.</remarks>
 		public override object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			TestRunner testRunner = base.SetUpTestRunner(cmdArgument);
+			var _testRunner = base.SetUpTestRunner(cmdArgument);
+			var _contentWindow = new CountrySideEngineer.ContentWindow.ContentWindow();
+			_testRunner.TestDataReceivedEventHandler += _contentWindow.OnDataReceived;
+			_testRunner.TestDataFinisedEventHandler += _contentWindow.OnDataRefresh;
+			_contentWindow.Start();
 			TestRunnerAsync testRunnerAsync = new TestRunnerAsync()
 			{
-				TestRunner = testRunner,
+				TestRunner = _testRunner,
 				TestInfo = cmdArgument.TestInfo
 			};
 			var view = new CountrySideEngineer.ProgressWindow.ProgressWindow();
 			view.Start(testRunnerAsync);
+			_contentWindow.Finish();
 
 			return null;
 		}

@@ -59,7 +59,7 @@ namespace gtest_gui.Model
 		/// <summary>
 		/// Flush received data into a file.
 		/// </summary>
-		/// <param name="testItem"></param>
+		/// <param name="testItem">Test name.</param>
 		protected void FlushOutput(string testName)
 		{
 			string logFilePath = this.OutputDirFile.LogFilePath(testName);

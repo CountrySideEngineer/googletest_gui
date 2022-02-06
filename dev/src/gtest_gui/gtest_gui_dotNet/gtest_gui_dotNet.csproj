@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ContentWindow">
+      <HintPath>..\lib\ContentWindow.dll</HintPath>
+    </Reference>
     <Reference Include="CountrySideEngineer.ViewModel.Base">
       <HintPath>..\lib\CountrySideEngineer.ViewModel.Base.dll</HintPath>
     </Reference>
