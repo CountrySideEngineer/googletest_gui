@@ -176,6 +176,11 @@ namespace gtest_gui.Model
 			}
 		}
 
+        /// <summary>
+        /// Ouptut standard error content to file.
+        /// </summary>
+        /// <param name="sender">Evnet sender.</param>
+        /// <param name="e">Event arguent.</param>
         protected virtual void OnErrorDataReceivedEvent(object sender, DataReceivedEventArgs e)
         {
             if (null != e.Data)
