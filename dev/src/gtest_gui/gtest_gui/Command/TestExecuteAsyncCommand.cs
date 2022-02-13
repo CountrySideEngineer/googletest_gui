@@ -23,7 +23,8 @@ namespace gtest_gui.Command
 		public override object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			var _testRunner = base.SetUpTestRunner(cmdArgument);
-			var _contentWindow = new CountrySideEngineer.ContentWindow.ContentWindow();
+			string testFileName = System.IO.Path.GetFileNameWithoutExtension(cmdArgument.TestInfo.TestFile);
+			var _contentWindow = new CountrySideEngineer.ContentWindow.ContentWindow(testFileName);
 			_testRunner.TestDataReceivedEventHandler += _contentWindow.OnDataReceived;
 			_testRunner.TestDataFinisedEventHandler += _contentWindow.OnDataRefresh;
 			_contentWindow.Start();
