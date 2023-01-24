@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using gtest2html;
+using gtest_gui.ViewModel;
 
 namespace gtest_gui.Model
 {
-	public class TestItem
+	using ViewModel;
+
+	public class TestItem : ViewModelBase
 	{
 		/// <summary>
 		/// Test name
 		/// </summary>
 		public string Name { get; set; }
 
+		bool _isSelected = false;
 		/// <summary>
 		/// Get and set the value indicates whether the test item is selected to run or not.
 		/// </summary>
-		public bool IsSelected { get; set; }
+		public bool IsSelected
+		{
+			get => _isSelected;
+			set
+			{
+				_isSelected = value;
+				RaisePropertyChanged(nameof(IsSelected));
+			}
+		}
 
 		/// <summary>
 		/// Result of test.
@@ -38,7 +51,7 @@ namespace gtest_gui.Model
 		/// <param name="obj">Instance to compare</param>
 		/// <returns>Returns true if the specified object equal to the current object.
 		/// Otherwise, false.</returns>
-		public override bool Equals(object obj)
+		public bool Equals(object obj)
 		{
 			bool isEqual = false;
 			try

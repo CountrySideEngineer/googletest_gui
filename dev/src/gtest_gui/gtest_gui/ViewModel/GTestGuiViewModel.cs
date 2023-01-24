@@ -342,5 +342,20 @@ namespace gtest_gui.ViewModel
 			var mover = new Move2History();
 			mover.Move(this);
 		}
+
+		protected bool _isCheckAll = false;
+		public bool IsCheckAll
+		{
+			get => _isCheckAll;
+			set
+			{
+				_isCheckAll = value;
+				foreach (TestItem item in TestInfo.TestItems)
+				{
+					item.IsSelected = value;
+				}
+				RaisePropertyChanged(nameof(IsCheckAll));
+			}
+		}
 	}
 }
