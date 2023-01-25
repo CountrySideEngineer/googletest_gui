@@ -121,7 +121,7 @@
                     Command="{Binding LoadTestCommand}"
                     />
             <Button Grid.Column="3"
-                Content="実行"
+                    Content="実行"
                     Style="{StaticResource RightSideInButtonCollection}"
                     IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
                     Command="{Binding RunTestCommand}"
