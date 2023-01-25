@@ -72,9 +72,9 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public GTestGuiViewModel()
 		{
-			this.TestInfo = new TestInformation();
-			this.CanRunTest = false;
-			this.CanReloadTest = false;
+			TestInfo = new TestInformation();
+			CanRunTest = false;
+			CanReloadTest = false;
 		}
 
 		/// <summary>
@@ -85,10 +85,10 @@ namespace gtest_gui.ViewModel
 			get
 			{
 				string applicationTitle = "gtest_gui";
-				if ((!string.IsNullOrEmpty(this.TestInfo.TestFile)) &&
-					(!string.IsNullOrWhiteSpace(this.TestInfo.TestFile)))
+				if ((!string.IsNullOrEmpty(TestInfo.TestFile)) &&
+					(!string.IsNullOrWhiteSpace(TestInfo.TestFile)))
 				{
-					applicationTitle += $" - {this.TestInfo.TestFile}";
+					applicationTitle += $" - {TestInfo.TestFile}";
 				}
 				return applicationTitle;
 			}
@@ -101,13 +101,13 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				return this._testInfo;
+				return _testInfo;
 			}
 			set
 			{
-				this._testInfo = value;
-				this.RaisePropertyChanged(nameof(TestInfo));
-				this.RaisePropertyChanged(nameof(ApplicationTitle));
+				_testInfo = value;
+				RaisePropertyChanged(nameof(TestInfo));
+				RaisePropertyChanged(nameof(ApplicationTitle));
 			}
 		}
 
@@ -118,12 +118,12 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				return this._canRunTest;
+				return _canRunTest;
 			}
 			set
 			{
-				this._canRunTest = value;
-				this.RaisePropertyChanged("CanRunTest");
+				_canRunTest = value;
+				RaisePropertyChanged("CanRunTest");
 			}
 		}
 
@@ -134,12 +134,12 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				return this._canReloadTest;
+				return _canReloadTest;
 			}
 			set
 			{
-				this._canReloadTest = value;
-				this.RaisePropertyChanged("CanReloadTest");
+				_canReloadTest = value;
+				RaisePropertyChanged("CanReloadTest");
 			}
 		}
 
@@ -150,12 +150,12 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				return this._selectedTestIndex;
+				return _selectedTestIndex;
 			}
 			set
 			{
-				this._selectedTestIndex = value;
-				this.RaisePropertyChanged(nameof(SelectedTestIndex));
+				_selectedTestIndex = value;
+				RaisePropertyChanged(nameof(SelectedTestIndex));
 			}
 		}
 
@@ -166,11 +166,11 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				if (null == this._setTestFileByUserCommand)
+				if (null == _setTestFileByUserCommand)
 				{
-					this._setTestFileByUserCommand = new DelegateCommand(this.SetTestFileByUserCommandExecute);
+					_setTestFileByUserCommand = new DelegateCommand(SetTestFileByUserCommandExecute);
 				}
-				return this._setTestFileByUserCommand;
+				return _setTestFileByUserCommand;
 			}
 		}
 
@@ -181,11 +181,11 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				if (null == this._changeTestSelectedByUserCommand)
+				if (null == _changeTestSelectedByUserCommand)
 				{
-					this._changeTestSelectedByUserCommand = new DelegateCommand(this.ChangeTestSelectedByUserCommandExecute);
+					_changeTestSelectedByUserCommand = new DelegateCommand(ChangeTestSelectedByUserCommandExecute);
 				}
-				return this._changeTestSelectedByUserCommand;
+				return _changeTestSelectedByUserCommand;
 			}
 		}
 
@@ -196,11 +196,11 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				if (null == this._runTestCommand)
+				if (null == _runTestCommand)
 				{
-					this._runTestCommand = new DelegateCommand(this.RunTestCommandExecute);
+					_runTestCommand = new DelegateCommand(RunTestCommandExecute);
 				}
-				return this._runTestCommand;
+				return _runTestCommand;
 			}
 		}
 
@@ -211,11 +211,11 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				if (null == this._loadTestCommand)
+				if (null == _loadTestCommand)
 				{
-					this._loadTestCommand = new DelegateCommand(this.LoadTestCommandExecute);
+					_loadTestCommand = new DelegateCommand(LoadTestCommandExecute);
 				}
-				return this._loadTestCommand;
+				return _loadTestCommand;
 			}
 		}
 
@@ -223,11 +223,11 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				if (null == this._showHistoryCommand)
+				if (null == _showHistoryCommand)
 				{
-					this._showHistoryCommand = new DelegateCommand(this.ShowHistoryCommandExecute);
+					_showHistoryCommand = new DelegateCommand(ShowHistoryCommandExecute);
 				}
-				return this._showHistoryCommand;
+				return _showHistoryCommand;
 			}
 		}
 
@@ -243,9 +243,9 @@ namespace gtest_gui.ViewModel
 			};
 			if (true == dialog.ShowDialog())
 			{
-				this.TestInfo.TestFile = dialog.FileName;
+				TestInfo.TestFile = dialog.FileName;
 
-				this.LoadTestCommandExecute();
+				LoadTestCommandExecute();
 			}
 		}
 
@@ -254,14 +254,14 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void ChangeTestSelectedByUserCommandExecute()
 		{
-			var selectedTest = this.TestInfo.TestItems.Where(_ => _.IsSelected == true);
+			IEnumerable<TestItem> selectedTest = TestInfo.TestItems.Where(_ => _.IsSelected);
 			if (0 < selectedTest.Count())
 			{
-				this.CanRunTest = true;
+				CanRunTest = true;
 			}
 			else
 			{
-				this.CanRunTest = false;
+				CanRunTest = false;
 			}
 		}
 
@@ -272,10 +272,10 @@ namespace gtest_gui.ViewModel
 		{
 			//Update parameter flags whether commands the view model provides can execute.
 			//1. Reload command
-			int testInfoItemCount = this.TestInfo.TestItems.Count();
+			int testInfoItemCount = TestInfo.TestItems.Count();
 			if (0 < testInfoItemCount)
 			{
-				this.CanReloadTest = true;
+				CanReloadTest = true;
 			}
 
 			//2. Test execute command.
@@ -289,9 +289,9 @@ namespace gtest_gui.ViewModel
 		{
 			//var command = new TestExecuteCommand();
 			var command = new TestExecuteAsyncCommand();
-			var argument = new TestCommandArgument(this.TestInfo);
-			this.ExecuteCommand(command, argument);
-			this.LoadTestCommandExecute();
+			var argument = new TestCommandArgument(TestInfo);
+			_ = ExecuteCommand(command, argument);
+			LoadTestCommandExecute();
 		}
 
 		/// <summary>
@@ -302,22 +302,20 @@ namespace gtest_gui.ViewModel
 			try
 			{
 				var command = new LoadTestLogCommand();
-				var argument = new TestCommandArgument(this.TestInfo);
+				var argument = new TestCommandArgument(TestInfo);
 				TestInformation testInformation = (TestInformation)ExecuteCommand(command, argument);
-				if (null != this.TestInfo)
+				if (null != TestInfo)
 				{
-					foreach (var testItem in this.TestInfo.TestItems)
+					foreach (var testItem in TestInfo.TestItems)
 					{
 						var newTestItem = testInformation.TestItems
-							.Where(_ => _.Equals(testItem))
-							.FirstOrDefault();
+							.FirstOrDefault(_ => _.Equals(testItem));
 						newTestItem.IsSelected = testItem.IsSelected;
 					}
-
 				}
-				this.TestInfo = testInformation;
+				TestInfo = testInformation;
 
-				this.UpdateCanCommandExecute();
+				UpdateCanCommandExecute();
 			}
 			catch (Exception ex)
 			{
@@ -355,6 +353,7 @@ namespace gtest_gui.ViewModel
 					item.IsSelected = value;
 				}
 				RaisePropertyChanged(nameof(IsCheckAll));
+				ChangeTestSelectedByUserCommandExecute();
 			}
 		}
 	}
