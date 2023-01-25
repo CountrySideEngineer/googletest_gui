@@ -62,10 +62,11 @@
                   SelectedIndex="{Binding SelectedTestIndex}"
                   >
             <DataGrid.Columns>
-                <DataGridTemplateColumn IsReadOnly="False" 
-                                        Header="実行"
-                                        CanUserResize="False"
-                                        >
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox IsChecked="{Binding Path=IsCheckAll}"
+                                  DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext}"/>
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -120,7 +121,7 @@
                     Command="{Binding LoadTestCommand}"
                     />
             <Button Grid.Column="3"
-                Content="実行"
+                    Content="実行"
                     Style="{StaticResource RightSideInButtonCollection}"
                     IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
                     Command="{Binding RunTestCommand}"
