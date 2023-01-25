@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using CountrySideEngineer.ViewModel.Base;
+using System.ComponentModel;
 
 namespace gtest_gui.ViewModel
 {
