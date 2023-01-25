@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using gtest2html;
-using gtest_gui.ViewModel;
+using CountrySideEngineer.ViewModel.Base;
 
 namespace gtest_gui.Model
 {
-	using ViewModel;
-
 	public class TestItem : ViewModelBase
 	{
 		/// <summary>
