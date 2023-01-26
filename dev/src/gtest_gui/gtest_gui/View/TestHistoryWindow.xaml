@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:gtest_gui.View"
         mc:Ignorable="d"
         Title="実行履歴"
-        Height="450" Width="800">
+        Height="280" Width="400"
+        MinHeight="240" MinWidth="320"
+        >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
