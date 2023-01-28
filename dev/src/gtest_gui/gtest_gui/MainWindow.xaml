@@ -20,6 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
             <converter:Result2EnableConverter x:Key="resultEnableConveter"/>
             <converter:Result2VisibilityConverter x:Key="resultVisibilityConverter"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid VerticalAlignment="Stretch"
@@ -43,6 +44,7 @@
             </Button>
             <Button Style="{StaticResource MiddleSideImageButtonStyle}"
                     IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
+                    Visibility="{Binding CanRunTest, Mode=TwoWay, Converter={StaticResource BoolToVisibility}}"
                     Command="{Binding RunTestCommand}"
                     >
                 <Image Source="./Resources/images/Execute_enable.png"
@@ -52,6 +54,7 @@
             </Button>
             <Button Style="{StaticResource RightSideImageButtonStyle}"
                     IsEnabled="{Binding CanReloadTest, Mode=TwoWay}"
+                    Visibility="{Binding CanReloadTest, Mode=TwoWay, Converter={StaticResource BoolToVisibility}}"
                     Command="{Binding LoadTestCommand}"
                     >
                 <Image Source="./Resources/images/Reload_enable.png"
