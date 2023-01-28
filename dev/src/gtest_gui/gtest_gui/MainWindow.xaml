@@ -26,27 +26,39 @@
           HorizontalAlignment="Stretch"
           >
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MinHeight="40"/>
+            <RowDefinition Height="Auto" MinHeight="40"/>
             <RowDefinition Height="*" MinHeight="64"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
-                    Margin="8, 0"
+                    Margin="0"
                     Orientation="Horizontal"
                     >
-            <Button Content="参照"
-                    Style="{StaticResource ReferenceButtonStyle}"
+            <Button Style="{StaticResource LeftSideImageButtonStyle}"
                     Command="{Binding SetTestFileByUserCommand}"
-                    />
-            <Button Content="実行"
-                    Style="{StaticResource ReferenceButtonStyle}"
+                    >
+                <Image Source="./Resources/images/FileOpen_enable.png"
+                       Width="32"
+                       Height="32"
+                       />
+            </Button>
+            <Button Style="{StaticResource MiddleSideImageButtonStyle}"
                     IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
                     Command="{Binding RunTestCommand}"
-                    />
-            <Button Content="再読み込み"
-                    Style="{StaticResource ReferenceButtonStyle}"
-                    IsEnabled="{Binding CanReloadTest}"
+                    >
+                <Image Source="./Resources/images/Execute_enable.png"
+                       MaxHeight="32"
+                       MaxWidth="32"
+                       />
+            </Button>
+            <Button Style="{StaticResource RightSideImageButtonStyle}"
+                    IsEnabled="{Binding CanReloadTest, Mode=TwoWay}"
                     Command="{Binding LoadTestCommand}"
-                    />
+                    >
+                <Image Source="./Resources/images/Reload_enable.png"
+                       Width="32"
+                       Height="32"
+                       />
+            </Button>
         </StackPanel>
         <DataGrid x:Name="dataGrid" 
                   Grid.Row="1"
