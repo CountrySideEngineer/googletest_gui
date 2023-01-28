@@ -43,16 +43,6 @@
                        />
             </Button>
             <Button Style="{StaticResource MiddleSideImageButtonStyle}"
-                    IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
-                    Visibility="{Binding CanRunTest, Mode=TwoWay, Converter={StaticResource BoolToVisibility}}"
-                    Command="{Binding RunTestCommand}"
-                    >
-                <Image Source="./Resources/images/Execute_enable.png"
-                       MaxHeight="32"
-                       MaxWidth="32"
-                       />
-            </Button>
-            <Button Style="{StaticResource RightSideImageButtonStyle}"
                     IsEnabled="{Binding CanReloadTest, Mode=TwoWay}"
                     Visibility="{Binding CanReloadTest, Mode=TwoWay, Converter={StaticResource BoolToVisibility}}"
                     Command="{Binding LoadTestCommand}"
@@ -60,6 +50,16 @@
                 <Image Source="./Resources/images/Reload_enable.png"
                        Width="32"
                        Height="32"
+                       />
+            </Button>
+            <Button Style="{StaticResource RightSideImageButtonStyle}"
+                    IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
+                    Visibility="{Binding CanRunTest, Mode=TwoWay, Converter={StaticResource BoolToVisibility}}"
+                    Command="{Binding RunTestCommand}"
+                    >
+                <Image Source="./Resources/images/Execute_enable.png"
+                       MaxHeight="32"
+                       MaxWidth="32"
                        />
             </Button>
         </StackPanel>
