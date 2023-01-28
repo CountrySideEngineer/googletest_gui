@@ -110,6 +110,8 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="MinWidth" Value="40"/>
         <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style x:Key="LeftSideImageButtonStyle" TargetType="Button" BasedOn="{StaticResource ImageButtonComonStyle}">
         <Setter Property="Margin" Value="8, 8, 4, 4"/>

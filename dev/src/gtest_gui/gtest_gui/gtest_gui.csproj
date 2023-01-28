@@ -30,6 +30,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\images\Execute_diable.png" />
+    <None Remove="Resources\images\Execute_enable.png" />
+    <None Remove="Resources\images\FileOpen_disable.png" />
+    <None Remove="Resources\images\FileOpen_enable.png" />
+    <None Remove="Resources\images\Reload_enable.png" />
+    <None Remove="Resources\images\Reloed_disable.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Remove="View\ProgressWindow.xaml" />
   </ItemGroup>
 
@@ -43,6 +52,15 @@
     <Reference Include="ProgressWindow.Core">
       <HintPath>..\lib\netcoreapp3.1\ProgressWindow.Core.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\images\Execute_diable.png" />
+    <Resource Include="Resources\images\Execute_enable.png" />
+    <Resource Include="Resources\images\FileOpen_disable.png" />
+    <Resource Include="Resources\images\FileOpen_enable.png" />
+    <Resource Include="Resources\images\Reload_enable.png" />
+    <Resource Include="Resources\images\Reloed_disable.png" />
   </ItemGroup>
 
 </Project>
