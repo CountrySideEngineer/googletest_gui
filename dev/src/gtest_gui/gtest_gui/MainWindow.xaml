@@ -70,6 +70,7 @@
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding TestInfo.TestItems, Mode=TwoWay}"
                   SelectedIndex="{Binding SelectedTestIndex}"
+                  IsEnabled="{Binding CanReloadTest}"
                   >
             <DataGrid.Columns>
                 <DataGridTemplateColumn CanUserResize="False">
