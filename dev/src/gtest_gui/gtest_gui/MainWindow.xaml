@@ -20,39 +20,49 @@
             </ResourceDictionary.MergedDictionaries>
             <converter:Result2EnableConverter x:Key="resultEnableConveter"/>
             <converter:Result2VisibilityConverter x:Key="resultVisibilityConverter"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid VerticalAlignment="Stretch"
           HorizontalAlignment="Stretch"
           >
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MinHeight="48"/>
+            <RowDefinition Height="Auto" MinHeight="40"/>
             <RowDefinition Height="*" MinHeight="64"/>
-            <RowDefinition Height="auto" MinHeight="48"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              Margin="16, 0"
-              >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"
-                       Text="対象ファイル："
-                       Style="{StaticResource TextBlockRightStyle}"
-                       />
-            <TextBox Grid.Column="1"
-                     Text="{Binding TestInfo.TestFile, Mode=TwoWay}"
-                     ToolTip="テストファイル"
-                     Style="{StaticResource TargetFileInputTextBox}"
-                     />
-            <Button Grid.Column="2"
-                    Content="参照"
-                    Style="{StaticResource RightSideReferenceButtonStyle}"
+        <StackPanel Grid.Row="0"
+                    Margin="0"
+                    Orientation="Horizontal"
+                    >
+            <Button Style="{StaticResource LeftSideImageButtonStyle}"
                     Command="{Binding SetTestFileByUserCommand}"
-                    />
-        </Grid>
+                    >
+                <Image Source="./Resources/images/FileOpen_enable.png"
+                       Width="32"
+                       Height="32"
+                       />
+            </Button>
+            <Button Style="{StaticResource MiddleSideImageButtonStyle}"
+                    IsEnabled="{Binding CanReloadTest, Mode=TwoWay}"
+                    Visibility="{Binding CanReloadTest, Mode=TwoWay, Converter={StaticResource BoolToVisibility}}"
+                    Command="{Binding LoadTestCommand}"
+                    >
+                <Image Source="./Resources/images/Reload_enable.png"
+                       Width="32"
+                       Height="32"
+                       />
+            </Button>
+            <Button Style="{StaticResource RightSideImageButtonStyle}"
+                    IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
+                    Visibility="{Binding CanRunTest, Mode=TwoWay, Converter={StaticResource BoolToVisibility}}"
+                    Command="{Binding RunTestCommand}"
+                    >
+                <Image Source="./Resources/images/Execute_enable.png"
+                       MaxHeight="32"
+                       MaxWidth="32"
+                       />
+            </Button>
+        </StackPanel>
         <DataGrid x:Name="dataGrid" 
                   Grid.Row="1"
                   Style="{StaticResource DataGridViewCommonStyle}"
@@ -60,6 +70,7 @@
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding TestInfo.TestItems, Mode=TwoWay}"
                   SelectedIndex="{Binding SelectedTestIndex}"
+                  IsEnabled="{Binding CanReloadTest}"
                   >
             <DataGrid.Columns>
                 <DataGridTemplateColumn CanUserResize="False">
@@ -106,26 +117,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="2"
-              >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto" MinWidth="120"/>
-                <ColumnDefinition Width="auto" MinWidth="120"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="2"
-                    Content="再読み込み"
-                    Style="{StaticResource LeftSideInButtonCollection}"
-                    IsEnabled="{Binding CanReloadTest}"
-                    Command="{Binding LoadTestCommand}"
-                    />
-            <Button Grid.Column="3"
-                    Content="実行"
-                    Style="{StaticResource RightSideInButtonCollection}"
-                    IsEnabled="{Binding CanRunTest, Mode=TwoWay}"
-                    Command="{Binding RunTestCommand}"
-                    />
-        </Grid>
     </Grid>
 </Window>

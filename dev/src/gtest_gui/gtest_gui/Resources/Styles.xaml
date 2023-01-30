@@ -1,7 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- TextBlock -->
-    <Style x:Key="TextBlockRightStyle" TargetType="TextBlock">
+    <Style x:Key="TextBlockCommonBaseStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="10.5"/>
+        <Setter Property="FontFamily" Value="Meiryo UI"/>
+    </Style>
+    <Style x:Key="TextBlockRightStyle" TargetType="TextBlock" BasedOn="{StaticResource TextBlockCommonBaseStyle}">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="TextAlignment" Value="Right"/>
@@ -59,10 +63,10 @@
     </Style>
     <Style x:Key="TargetFileInputTextBox" TargetType="TextBox" BasedOn="{StaticResource ResourceKey=TextBoxCommonStyle}">
         <Setter Property="Margin" Value="8, 8"/>
-        <Setter Property="Padding" Value="8, 0"/>
+        <Setter Property="Padding" Value="4, 0"/>
     </Style>
 
-    <!-- ボタン -->
+    <!-- Button -->
     <Style x:Key="ButtonCommonStyle"  TargetType="Button">
         <Setter Property="Margin" Value="8, 8"/>
         <Setter Property="Padding" Value="16, 0"/>
@@ -101,6 +105,23 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
+    <Style x:Key="ImageButtonComonStyle" TargetType="Button" BasedOn="{StaticResource ButtonCommonStyle}">
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinWidth" Value="40"/>
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style x:Key="LeftSideImageButtonStyle" TargetType="Button" BasedOn="{StaticResource ImageButtonComonStyle}">
+        <Setter Property="Margin" Value="8, 8, 4, 4"/>
+    </Style>
+    <Style x:Key="MiddleSideImageButtonStyle" TargetType="Button" BasedOn="{StaticResource ImageButtonComonStyle}">
+        <Setter Property="Margin" Value="4, 8, 4, 4"/>
+    </Style>
+    <Style x:Key="RightSideImageButtonStyle" TargetType="Button" BasedOn="{StaticResource ImageButtonComonStyle}">
+        <Setter Property="Margin" Value="4, 8, 8, 4"/>
+    </Style>
 
     <!-- DataGridView -->
     <Style x:Key="DataGridViewCommonStyle" TargetType="DataGrid">
@@ -110,14 +131,18 @@
         <Setter Property="CanUserResizeColumns" Value="True"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
         <Setter Property="CanUserSortColumns" Value="True"/>
-        <Setter Property="Margin" Value="16, 8"/>
+        <Setter Property="Margin" Value="8, 4, 8, 8"/>
     </Style>
 
     <!-- DataGridColumnHeaderのヘッダ -->
     <Style x:Key="DataGridViewColumnHeaderStyle" TargetType="DataGridColumnHeader">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="16, 8"/>
-        <Setter Property="MinWidth" Value="64"/>
+        <Setter Property="Padding" Value="8, 0"/>
+        <Setter Property="MinWidth" Value="32"/>
+        <Setter Property="MinHeight" Value="24"/>
+        <Setter Property="Height" Value="24" />
+        <Setter Property="FontFamily" Value="Meiryo UI"/>
+        <Setter Property="FontSize" Value="10.5"/>
     </Style>
     
     <!-- DataGridCell -->
