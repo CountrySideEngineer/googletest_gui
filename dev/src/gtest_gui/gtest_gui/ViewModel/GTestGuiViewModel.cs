@@ -305,7 +305,8 @@ namespace gtest_gui.ViewModel
 				var command = new LoadTestLogCommand();
 				var argument = new TestCommandArgument(TestInfo);
 				TestInformation testInformation = (TestInformation)ExecuteCommand(command, argument);
-				if (null != TestInfo)
+				if ((null != TestInfo) &&
+					(TestInfo.Equals(testInformation)))
 				{
 					foreach (var testItem in TestInfo.TestItems)
 					{
@@ -315,7 +316,7 @@ namespace gtest_gui.ViewModel
 					}
 				}
 				TestInfo = testInformation;
-
+				IsCheckAll = false;
 				UpdateCanCommandExecute();
 			}
 			catch (Exception ex)
