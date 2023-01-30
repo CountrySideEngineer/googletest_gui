@@ -316,7 +316,7 @@ namespace gtest_gui.ViewModel
 					}
 				}
 				TestInfo = testInformation;
-
+				IsCheckAll = false;
 				UpdateCanCommandExecute();
 			}
 			catch (Exception ex)
