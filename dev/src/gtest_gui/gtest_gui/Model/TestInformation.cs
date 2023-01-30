@@ -27,5 +27,30 @@ namespace gtest_gui.Model
 
 			this.TestItems = testItems;
 		}
+
+		/// <summary>
+		/// Compare with other TestInformation object.
+		/// </summary>
+		/// <param name="target">Object to compare.</param>
+		/// <returns>If the target equals this, retunrs true, otherwiese false.</returns>
+		public bool Equals(TestInformation target)
+		{
+			try
+			{
+				if (TestFile == target.TestFile)
+				{
+
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch (NullReferenceException)
+			{
+				return false;
+			}
+		}
 	}
 }
