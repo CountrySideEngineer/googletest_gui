@@ -189,7 +189,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="..\gtest_gui\MainWindow.xaml">
       <Link>MainWindow.xaml</Link>
@@ -206,6 +205,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="..\gtest_gui\Resources\images\Execute_diable.png">
+      <Link>Resources\images\Execute_diable.png</Link>
+    </Resource>
+    <Resource Include="..\gtest_gui\Resources\images\Execute_enable.png">
+      <Link>Resources\images\Execute_enable.png</Link>
+    </Resource>
+    <Resource Include="..\gtest_gui\Resources\images\FileOpen_disable.png">
+      <Link>Resources\images\FileOpen_disable.png</Link>
+    </Resource>
+    <Resource Include="..\gtest_gui\Resources\images\FileOpen_enable.png">
+      <Link>Resources\images\FileOpen_enable.png</Link>
+    </Resource>
+    <Resource Include="..\gtest_gui\Resources\images\Reload_enable.png">
+      <Link>Resources\images\Reload_enable.png</Link>
+    </Resource>
+    <Resource Include="..\gtest_gui\Resources\images\Reloed_disable.png">
+      <Link>Resources\images\Reloed_disable.png</Link>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
