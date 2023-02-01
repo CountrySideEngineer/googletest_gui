@@ -247,6 +247,8 @@ namespace gtest_gui.ViewModel
 				TestInfo.TestFile = dialog.FileName;
 
 				LoadTestCommandExecute();
+
+				IsCheckAll = false;
 			}
 		}
 
@@ -316,7 +318,6 @@ namespace gtest_gui.ViewModel
 					}
 				}
 				TestInfo = testInformation;
-				IsCheckAll = false;
 				UpdateCanCommandExecute();
 			}
 			catch (Exception ex)
