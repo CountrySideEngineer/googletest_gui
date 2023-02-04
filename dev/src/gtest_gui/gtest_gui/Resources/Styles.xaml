@@ -98,14 +98,36 @@
     <Style x:Key="RightSideInButtonCollection" TargetType="Button" BasedOn="{StaticResource ButtonCommonStyle}">
         <Setter Property="Margin" Value="8, 8, 16, 8"/>
     </Style>
+    <SolidColorBrush x:Key="NormalButtonForeground" Color="Black"/>
+    <SolidColorBrush x:Key="NormalButtonBackground" Color="Transparent"/>
+    <SolidColorBrush x:Key="MouseOverButtonForeground" Color="White"/>
+    <SolidColorBrush x:Key="MouseOverButtonBackground" Color="SkyBlue"/>
     <Style x:Key="DataGridColumnButtonStyle" TargetType="Button">
         <Setter Property="Margin" Value="0"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource NormalButtonForeground}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="ButtonBorder"
+                            BorderThickness="0" 
+                            Background="{StaticResource NormalButtonBackground}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder"
+                                    Property="Background" Value="{StaticResource MouseOverButtonBackground}" />
+                            <Setter Property="Foreground" Value="{StaticResource MouseOverButtonForeground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="ImageButtonComonStyle" TargetType="Button" BasedOn="{StaticResource ButtonCommonStyle}">
         <Setter Property="Margin" Value="8"/>
@@ -142,7 +164,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="8, 0"/>
         <Setter Property="MinWidth" Value="32"/>
-        <Setter Property="MinHeight" Value="24"/>
         <Setter Property="Height" Value="24" />
         <Setter Property="FontFamily" Value="Meiryo UI"/>
         <Setter Property="FontSize" Value="10.5"/>
@@ -153,8 +174,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="16, 8"/>
         <Setter Property="MinWidth" Value="64"/>
-        <Setter Property="MinHeight" Value="16"/>
-        <Setter Property="BorderBrush" Value="Red"/>
+        <Setter Property="MinHeight" Value="32"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style x:Key="DataGridCellOkNgStyle" TargetType="DataGridCell">
