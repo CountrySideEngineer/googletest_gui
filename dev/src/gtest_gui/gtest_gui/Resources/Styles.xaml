@@ -102,6 +102,7 @@
     <SolidColorBrush x:Key="NormalButtonBackground" Color="Transparent"/>
     <SolidColorBrush x:Key="MouseOverButtonForeground" Color="White"/>
     <SolidColorBrush x:Key="MouseOverButtonBackground" Color="SkyBlue"/>
+    <SolidColorBrush x:Key="MouseOverButtonBorder" Color="DeepSkyBlue"/>
     <Style x:Key="DataGridColumnButtonStyle" TargetType="Button">
         <Setter Property="Margin" Value="0"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -113,7 +114,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Name="ButtonBorder"
-                            BorderThickness="0" 
+                            BorderThickness="2" 
                             Background="{StaticResource NormalButtonBackground}">
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
@@ -122,6 +123,8 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="ButtonBorder"
                                     Property="Background" Value="{StaticResource MouseOverButtonBackground}" />
+                            <Setter TargetName="ButtonBorder"
+                                    Property="BorderBrush" Value="{StaticResource MouseOverButtonBorder}"/>
                             <Setter Property="Foreground" Value="{StaticResource MouseOverButtonForeground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
