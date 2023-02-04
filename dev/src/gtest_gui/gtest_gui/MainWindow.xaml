@@ -91,6 +91,7 @@
                 <DataGridTextColumn Header="テスト対象"
                                     Width="*"
                                     Binding="{Binding Name, Mode=TwoWay}"
+                                    IsReadOnly="True"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
                 <DataGridTextColumn Header="結果"
                                     Width="80"
