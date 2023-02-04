@@ -23,8 +23,8 @@
         <Setter Property="FontSize" Value="12"/>
         <Style.Triggers>
             <Trigger Property="Text" Value="OK">
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="Foreground" Value="mediumseagreen" />
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="Blue" />
                 <Setter Property="FontWeight" Value="ExtraBold"/>
             </Trigger>
             <Trigger Property="Text" Value="NG">
@@ -98,12 +98,49 @@
     <Style x:Key="RightSideInButtonCollection" TargetType="Button" BasedOn="{StaticResource ButtonCommonStyle}">
         <Setter Property="Margin" Value="8, 8, 16, 8"/>
     </Style>
+    <SolidColorBrush x:Key="NormalButtonForeground" Color="Black"/>
+    <SolidColorBrush x:Key="NormalButtonBackground" Color="Transparent"/>
+    <SolidColorBrush x:Key="MouseOverButtonForeground" Color="White"/>
+    <SolidColorBrush x:Key="MouseOverButtonBackground" Color="SkyBlue"/>
+    <SolidColorBrush x:Key="MouseOverButtonBorder" Color="DeepSkyBlue"/>
+    <SolidColorBrush x:Key="PressButtonBorder" Color="SkyBlue"/>
+    <SolidColorBrush x:Key="PressButtonForeground" Color="DeepSkyBlue"/>
+    <SolidColorBrush x:Key="PressButtonBackground" Color="White"/>
     <Style x:Key="DataGridColumnButtonStyle" TargetType="Button">
         <Setter Property="Margin" Value="0"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource NormalButtonForeground}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="ButtonBorder"
+                            BorderThickness="1" 
+                            Background="{StaticResource NormalButtonBackground}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder"
+                                    Property="Background" Value="{StaticResource MouseOverButtonBackground}" />
+                            <Setter TargetName="ButtonBorder"
+                                    Property="BorderBrush" Value="{StaticResource MouseOverButtonBorder}"/>
+                            <Setter Property="Foreground" Value="{StaticResource MouseOverButtonForeground}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ButtonBorder"
+                                    Property="Background" Value="{StaticResource PressButtonBackground}"/>
+                            <Setter TargetName="ButtonBorder"
+                                    Property="BorderBrush" Value="{StaticResource PressButtonBorder}" />
+                            <Setter Property="Foreground" Value="{StaticResource PressButtonForeground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="ImageButtonComonStyle" TargetType="Button" BasedOn="{StaticResource ButtonCommonStyle}">
         <Setter Property="Margin" Value="8"/>
@@ -127,9 +164,10 @@
     <Style x:Key="DataGridViewCommonStyle" TargetType="DataGrid">
         <Setter Property="CanUserAddRows" Value="False"/>
         <Setter Property="CanUserDeleteRows" Value="False"/>
+        <Setter Property="CanUserResizeRows" Value="False"/>
         <Setter Property="CanUserReorderColumns" Value="False"/>
         <Setter Property="CanUserResizeColumns" Value="True"/>
-        <Setter Property="CanUserResizeRows" Value="True"/>
+        <Setter Property="CanUserResizeRows" Value="False"/>
         <Setter Property="CanUserSortColumns" Value="True"/>
         <Setter Property="Margin" Value="8, 4, 8, 8"/>
     </Style>
@@ -139,7 +177,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="8, 0"/>
         <Setter Property="MinWidth" Value="32"/>
-        <Setter Property="MinHeight" Value="24"/>
         <Setter Property="Height" Value="24" />
         <Setter Property="FontFamily" Value="Meiryo UI"/>
         <Setter Property="FontSize" Value="10.5"/>
@@ -150,14 +187,15 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="16, 8"/>
         <Setter Property="MinWidth" Value="64"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style x:Key="DataGridCellOkNgStyle" TargetType="DataGridCell">
         <Style.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource self}, Path=Content.Text}" Value="OK">
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="Foreground" Value="mediumseagreen" />
+                <Setter Property="Foreground" Value="MediumSeaGreen" />
                 <Setter Property="FontWeight" Value="ExtraBold"/>
-                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontSize" Value="14"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource self}, Path=Content.Text}" Value="NG">
                 <Setter Property="Background" Value="Red"/>
