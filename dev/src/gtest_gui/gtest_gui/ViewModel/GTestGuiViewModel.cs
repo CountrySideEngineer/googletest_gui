@@ -244,9 +244,12 @@ namespace gtest_gui.ViewModel
 			};
 			if (true == dialog.ShowDialog())
 			{
-				TestInfo.TestFile = dialog.FileName;
+				TestInformation testInfo = new TestInformation()
+				{
+					TestFile = dialog.FileName
+				};
 
-				LoadTestCommandExecute();
+				LoadTestCommandExecute(testInfo);
 
 				IsCheckAll = false;
 			}
@@ -302,13 +305,17 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void LoadTestCommandExecute()
 		{
+			LoadTestCommandExecute(TestInfo);
+		}
+
+		public void LoadTestCommandExecute(TestInformation baseTestInfo)
+		{
 			try
 			{
 				var command = new LoadTestLogCommand();
-				var argument = new TestCommandArgument(TestInfo);
+				var argument = new TestCommandArgument(baseTestInfo);
 				TestInformation testInformation = (TestInformation)ExecuteCommand(command, argument);
-				if ((null != TestInfo) &&
-					(TestInfo.Equals(testInformation)))
+				if (testInformation.Equals(TestInfo))
 				{
 					foreach (var testItem in TestInfo.TestItems)
 					{
@@ -319,6 +326,10 @@ namespace gtest_gui.ViewModel
 				}
 				TestInfo = testInformation;
 				UpdateCanCommandExecute();
+			}
+			catch (NullReferenceException ex)
+			{
+				Debug.Write(ex.Message);
 			}
 			catch (Exception ex)
 			{
