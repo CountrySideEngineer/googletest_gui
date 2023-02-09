@@ -149,6 +149,33 @@
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="ImageButtonBorder"
+                            BorderThickness="0">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ImageButtonBorder"
+                                    Property="Background" Value="{StaticResource MouseOverButtonBackground}" />
+                            <Setter TargetName="ImageButtonBorder"
+                                    Property="BorderBrush" Value="{StaticResource MouseOverButtonBorder}"/>
+                            <Setter Property="Foreground" Value="{StaticResource MouseOverButtonForeground}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ImageButtonBorder"
+                                    Property="Background" Value="{StaticResource PressButtonBackground}"/>
+                            <Setter TargetName="ImageButtonBorder"
+                                    Property="BorderBrush" Value="{StaticResource PressButtonBorder}" />
+                            <Setter Property="Foreground" Value="{StaticResource PressButtonForeground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="LeftSideImageButtonStyle" TargetType="Button" BasedOn="{StaticResource ImageButtonComonStyle}">
         <Setter Property="Margin" Value="8, 8, 4, 4"/>
