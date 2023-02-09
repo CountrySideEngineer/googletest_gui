@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:gtest_gui.View.Converter"
         xmlns:local="clr-namespace:gtest_gui.View"
         mc:Ignorable="d"
         Title="実行履歴"
@@ -14,6 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <converter:DatetimeConverter x:Key="dateConverter"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -45,7 +47,7 @@
                 <DataGridTextColumn Header="実行日時"
                                     Width="*"
                                     MinWidth="160"
-                                    Binding="{Binding Timestamp}"
+                                    Binding="{Binding Timestamp, Converter={StaticResource dateConverter}}"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}"
                                     />
                 <DataGridTextColumn Header="実行時間"

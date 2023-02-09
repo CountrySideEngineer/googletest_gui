@@ -146,6 +146,9 @@
     <Compile Include="..\gtest_gui\ViewModel\ViewModelBase.cs">
       <Link>ViewModel\ViewModelBase.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\View\Converter\DatetimeConverter.cs">
+      <Link>View\Converter\DatetimeConverter.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\View\Converter\Result2EnableConverter.cs">
       <Link>View\Converter\Result2EnableConverter.cs</Link>
     </Compile>
