@@ -44,15 +44,18 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="実行日時"
                                     Width="*"
+                                    MinWidth="160"
                                     Binding="{Binding Timestamp}"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}"
                                     />
                 <DataGridTextColumn Header="実行時間"
                                     Width="*"
+                                    MinWidth="80"
                                     Binding="{Binding Time}"
                                     ElementStyle="{StaticResource DataGridColumnRightTextStyle}" />
                 <DataGridTextColumn Header="実行結果"
                                     Width="*"
+                                    MinWidth="80"
                                     Binding="{Binding Judge}"
                                     ElementStyle="{StaticResource DataGridColumnCenterTextStyle}" 
                                     CellStyle="{StaticResource DataGridCellOkNgStyle}"
