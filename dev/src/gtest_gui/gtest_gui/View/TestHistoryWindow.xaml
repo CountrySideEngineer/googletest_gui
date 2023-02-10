@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="実行履歴"
         Height="280" Width="400"
-        MinHeight="240" MinWidth="320"
+        MinHeight="240" MinWidth="350"
         >
     <Window.Resources>
         <ResourceDictionary>
@@ -46,7 +46,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="実行日時"
                                     Width="*"
-                                    MinWidth="160"
+                                    MinWidth="140"
                                     Binding="{Binding Timestamp, Converter={StaticResource dateConverter}}"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}"
                                     />

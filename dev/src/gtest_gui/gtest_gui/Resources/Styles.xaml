@@ -50,7 +50,7 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="Padding" Value="0, 0, 8, 0"/>
     </Style>
-    <Style x:Key="DataGridColumnTestItemNameTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnLeftTextStyle}" >
+    <Style x:Key="DataGridColumnTestItemNameTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnRightTextStyle}" >
         <Setter Property="Padding" Value="8, 0, 8, 0"/>
     </Style>
 
