@@ -18,12 +18,23 @@ namespace gtest_gui.Model
 		public string TestExeFileName { get; protected set; }
 
 		/// <summary>
+		/// The time the object created.
+		/// </summary>
+		protected DateTime _newedTimeStamp;
+
+		/// <summary>
+		/// Default time stamp format.
+		/// </summary>
+		public string TimeStampFormat { get; set; } = "yyyyMMddHHmmss";
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public OutputDirAndFile()
 		{
 			this.RootDirPath = Directory.GetCurrentDirectory();
 			this.TestExeFileName = string.Empty;
+			_newedTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -34,6 +45,7 @@ namespace gtest_gui.Model
 		{
 			this.RootDirPath = rootDirPath;
 			this.TestExeFileName = string.Empty;
+			_newedTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -45,6 +57,7 @@ namespace gtest_gui.Model
 		{
 			this.RootDirPath = rootDirPath;
 			this.TestExeFileName = testExeFileName;
+			_newedTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -187,7 +200,7 @@ namespace gtest_gui.Model
 		{
 			try
 			{
-				var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
+				var dateTimeNow = TimeStamp();
 				string fileName = $"{testName}_{dateTimeNow}";
 				return fileName;
 			}
@@ -218,6 +231,34 @@ namespace gtest_gui.Model
 			else
 			{
 				throw new DirectoryNotFoundException();
+			}
+		}
+
+		/// <summary>
+		/// Returns time stamp in string type. 
+		/// </summary>
+		/// <returns>Time stamp in string with format specified by TimeStampFormat property.</returns>
+		public string TimeStamp()
+		{
+			var timeStamp = TimeStampWithFormat(TimeStampFormat);
+			return timeStamp;
+		}
+
+		/// <summary>
+		/// Returns time stamp in string type with format.
+		/// </summary>
+		/// <param name="format">Time stamp format.</param>
+		/// <returns>Time stmap in string.</returns>
+		public string TimeStampWithFormat(string format)
+		{
+			try
+			{
+				var timeStamp = _newedTimeStamp.ToString(format);
+				return timeStamp;
+			}
+			catch (FormatException)
+			{
+				throw;
 			}
 		}
 	}
