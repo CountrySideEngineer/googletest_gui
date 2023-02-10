@@ -3,17 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:gtest_gui.View.Converter"
         xmlns:local="clr-namespace:gtest_gui.View"
         mc:Ignorable="d"
         Title="実行履歴"
         Height="280" Width="400"
-        MinHeight="240" MinWidth="320"
+        MinHeight="240" MinWidth="350"
         >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <converter:DatetimeConverter x:Key="dateConverter"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -44,15 +46,18 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="実行日時"
                                     Width="*"
-                                    Binding="{Binding Timestamp}"
+                                    MinWidth="140"
+                                    Binding="{Binding Timestamp, Converter={StaticResource dateConverter}}"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}"
                                     />
                 <DataGridTextColumn Header="実行時間"
                                     Width="*"
+                                    MinWidth="80"
                                     Binding="{Binding Time}"
                                     ElementStyle="{StaticResource DataGridColumnRightTextStyle}" />
                 <DataGridTextColumn Header="実行結果"
                                     Width="*"
+                                    MinWidth="80"
                                     Binding="{Binding Judge}"
                                     ElementStyle="{StaticResource DataGridColumnCenterTextStyle}" 
                                     CellStyle="{StaticResource DataGridCellOkNgStyle}"

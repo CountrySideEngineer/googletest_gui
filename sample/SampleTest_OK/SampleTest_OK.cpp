@@ -40,7 +40,19 @@ TEST(CMultiple_test, calc_001) {
 	ASSERT_EQ(2, calcResult);
 }
 
-TEST(CMultiple_test, calc_002) {
+TEST(CMultiple_test, calc_002)
+{
+	CMultiple testTarget;
+
+	int inA = 0x7FFF;
+	int inB = 0x7FFF;
+	int calcResult = testTarget.Calc(inA, inB);
+
+	ASSERT_EQ(0x3FFF0001, calcResult);
+}
+
+TEST(CMultiple_test, calc_003)
+{
 	CMultiple testTarget;
 
 	int inA = 0x7FFF;

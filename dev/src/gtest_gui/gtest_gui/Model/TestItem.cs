@@ -49,7 +49,7 @@ namespace gtest_gui.Model
 		/// <param name="obj">Instance to compare</param>
 		/// <returns>Returns true if the specified object equal to the current object.
 		/// Otherwise, false.</returns>
-		public bool Equals(object obj)
+		public override bool Equals(object obj)
 		{
 			bool isEqual = false;
 			try

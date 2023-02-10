@@ -90,6 +90,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="テスト対象"
                                     Width="*"
+                                    CanUserResize="False"
                                     Binding="{Binding Name, Mode=TwoWay}"
                                     IsReadOnly="True"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
