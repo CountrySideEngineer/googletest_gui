@@ -34,12 +34,23 @@ namespace gtest2html
 		[XmlElement("testsuite")]
 		public List<TestSuite> TestItems { get; set; }
 
+		/// <summary>
+		/// Test name.
+		/// </summary>
 		public string TestName { get; set; }
 
+		/// <summary>
+		/// Test suite xml file path.
+		/// </summary>
+		public string FilePath { get; set; }
+
+		/// <summary>
+		/// Test data xml file name.
+		/// </summary>
 		public string HtmlFileName { 
 			get
 			{
-				return this.TestName + ".html";
+				return TestName + ".html";
 			}
 		}
 	}

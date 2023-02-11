@@ -127,6 +127,7 @@ namespace gtest_gui.Model
 			{
 				var serializer = new XmlSerializer(typeof(TestSuites));
 				var testSuites = (TestSuites)serializer.Deserialize(reader);
+				testSuites.FilePath = testFile;
 
 				return testSuites;
 			}
