@@ -10,7 +10,7 @@ namespace gtest_gui.Command
 	/// <summary>
 	/// Command class to get test log.
 	/// </summary>
-	public class LoadTestLogCommand : ITestCommand
+	public class LoadTestCommand : ITestCommand
 	{
 		/// <summary>
 		/// Execute command to read 
