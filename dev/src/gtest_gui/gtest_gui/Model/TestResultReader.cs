@@ -93,7 +93,7 @@ namespace gtest_gui.Model
 			var testSuitesList = new List<TestSuites>();
 			foreach (var testFile in testFiles)
 			{
-				var testSuites = this.GetTestSuites(testFile);
+				var testSuites = GetTestSuites(testFile);
 				testSuitesList.Add(testSuites);
 
 			}
@@ -155,9 +155,9 @@ namespace gtest_gui.Model
 		/// <returns>Collection of <para>TestCase</para> object.</returns>
 		protected virtual IEnumerable<TestCase> GetAllTestCases(IEnumerable<string> testResultFiles)
 		{
-			IEnumerable<TestSuites> testSuitesList = this.GetTestSuites(testResultFiles);
-			IEnumerable<TestSuite> testSuite = this.GetTestSuite(testSuitesList);
-			IEnumerable<TestCase> testCases = this.GetAllTestCases(testSuite);
+			IEnumerable<TestSuites> testSuitesList = GetTestSuites(testResultFiles);
+			IEnumerable<TestSuite> testSuite = GetTestSuite(testSuitesList);
+			IEnumerable<TestCase> testCases = GetAllTestCases(testSuite);
 
 			return testCases;
 		}
