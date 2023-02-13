@@ -10,20 +10,25 @@ namespace gtest_gui.Command
 {
 	public class LoadTestLogCommand : ITestCommand
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public LoadTestLogCommand() { }
+
+		/// <summary>
+		/// Execute command to load test log.
+		/// </summary>
+		/// <param name="cmdArgument">Command argument.</param>
+		/// <returns>Collection of test file and TestCase object as test log in tuple.</returns>
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			TestInformation testInfo = cmdArgument.TestInfo;
 			string testFilenName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
 			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFilenName);
-			var reader = new TestHistoryReader(testInfo.TestFile, outputDirFile);
-			IEnumerable<TestCase> testCases = reader.ReadTest(testInfo);
+			var reader = new TestLogReader(testInfo.TestFile, outputDirFile);
+			(IEnumerable<string>, IEnumerable<TestCase>) filesAndTestCases = reader.ReadTest(testInfo);
 
-
-
-
-
-
-			throw new NotImplementedException();
+			return filesAndTestCases;
 		}
 	}
 }
