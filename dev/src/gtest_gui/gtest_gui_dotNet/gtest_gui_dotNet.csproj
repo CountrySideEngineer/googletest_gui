@@ -82,6 +82,9 @@
     <Compile Include="..\gtest_gui\Command\LoadTestHistoryCommand.cs">
       <Link>Command\LoadTestHistoryCommand.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Command\LoadTestLogCommand.cs">
+      <Link>Command\LoadTestLogCommand.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\TestExecuteAsyncCommand.cs">
       <Link>Command\TestExecuteAsyncCommand.cs</Link>
     </Compile>
@@ -112,6 +115,9 @@
     </Compile>
     <Compile Include="..\gtest_gui\Model\TestListReader.cs">
       <Link>Model\TestListReader.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Model\TestLogReader.cs">
+      <Link>Model\TestLogReader.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Model\TestResultReader.cs">
       <Link>Model\TestResultReader.cs</Link>
