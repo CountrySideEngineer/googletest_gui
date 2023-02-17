@@ -220,7 +220,7 @@ namespace gtest_gui.Model
 		/// <returns>Collection of test report file path.</returns>
 		public virtual IEnumerable<string> GetTestReportFiles()
 		{
-			var testReportDir = this.ReportDirPath();
+			string testReportDir = this.ReportDirPath();
 			if (Directory.Exists(testReportDir))
 			{
 				string repotrFileTemplate = "*.xml";
@@ -232,6 +232,27 @@ namespace gtest_gui.Model
 			{
 				throw new DirectoryNotFoundException();
 			}
+		}
+
+		/// <summary>
+		/// Returns collection of test log file path.
+		/// </summary>
+		/// <returns>Collection of test log file path.</returns>
+		public virtual IEnumerable<string> GetTestLogFiles()
+		{
+			string testOutputDir = OutputDirPath();
+			if (Directory.Exists(testOutputDir))
+			{
+				string outputFileTemplate = "*.log";
+				string[] logFiles = Directory.GetFiles(testOutputDir, outputFileTemplate);
+				IEnumerable<string> testLogFiles = new List<string>(logFiles);
+				return testLogFiles;
+			}
+			else
+			{
+				throw new DirectoryNotFoundException();
+			}
+
 		}
 
 		/// <summary>
