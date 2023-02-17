@@ -1,5 +1,6 @@
 ﻿using gtest_gui.Command.Argument;
 using gtest_gui.Model;
+using gtest2html;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,30 +8,27 @@ using System.Text;
 
 namespace gtest_gui.Command
 {
-	/// <summary>
-	/// Command class to get test log.
-	/// </summary>
 	public class LoadTestLogCommand : ITestCommand
 	{
 		/// <summary>
-		/// Execute command to read 
+		/// Default constructor.
 		/// </summary>
-		/// <param name="cmdArgument">Argumetn for command.</param>
-		/// <returns>Returs test log as <para>TestInformation</para> object.</returns>
+		public LoadTestLogCommand() { }
+
+		/// <summary>
+		/// Execute command to load test log.
+		/// </summary>
+		/// <param name="cmdArgument">Command argument.</param>
+		/// <returns>Collection of test file and TestCase object as test log in tuple.</returns>
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			string filePath = cmdArgument.TestInfo.TestFile;
-			var testListReader = new TestListReader()
-			{
-				TestFilePath = filePath
-			};
-			TestInformation testInformation = testListReader.Run();
-			string testExeFile = System.IO.Path.GetFileNameWithoutExtension(filePath);
-			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testExeFile);
-			var reader = new TestResultReader(filePath, outputDirFile);
-			reader.ReadTest(testInformation);
+			TestInformation testInfo = cmdArgument.TestInfo;
+			string testFilenName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
+			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFilenName);
+			var reader = new TestLogReader(testInfo.TestFile, outputDirFile);
+			IEnumerable<string> files = reader.ReadTest(testInfo);
 
-			return testInformation;
+			return files;
 		}
 	}
 }

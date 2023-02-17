@@ -18,12 +18,23 @@ namespace gtest_gui.Model
 		public string TestExeFileName { get; protected set; }
 
 		/// <summary>
+		/// The time the object created.
+		/// </summary>
+		protected DateTime _newedTimeStamp;
+
+		/// <summary>
+		/// Default time stamp format.
+		/// </summary>
+		public string TimeStampFormat { get; set; } = "yyyyMMddHHmmss";
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public OutputDirAndFile()
 		{
-			this.RootDirPath = Directory.GetCurrentDirectory();
-			this.TestExeFileName = string.Empty;
+			RootDirPath = Directory.GetCurrentDirectory();
+			TestExeFileName = string.Empty;
+			_newedTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -32,8 +43,9 @@ namespace gtest_gui.Model
 		/// <param name="rootDirPath">Root dir path user specified.</param>
 		public OutputDirAndFile(string rootDirPath)
 		{
-			this.RootDirPath = rootDirPath;
-			this.TestExeFileName = string.Empty;
+			RootDirPath = rootDirPath;
+			TestExeFileName = string.Empty;
+			_newedTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -45,6 +57,7 @@ namespace gtest_gui.Model
 		{
 			this.RootDirPath = rootDirPath;
 			this.TestExeFileName = testExeFileName;
+			_newedTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -55,11 +68,11 @@ namespace gtest_gui.Model
 		{
 			List<string> paths = new List<string>()
 			{
-				this.LogDirPath(),
-				this.OutputDirPath(),
-				this.ReportDirPath()
+				LogDirPath(),
+				OutputDirPath(),
+				ReportDirPath()
 			};
-			IEnumerable<DirectoryInfo> dirInfos = this.SetUpTestOutputDirecotries(paths);
+			IEnumerable<DirectoryInfo> dirInfos = SetUpTestOutputDirecotries(paths);
 
 			return dirInfos;
 		}
@@ -106,11 +119,11 @@ namespace gtest_gui.Model
 		/// <returns></returns>
 		public virtual string LogDirPath()
 		{
-			string logDirPath = $@"{this.RootDirPath}\log";
-			if ((!string.IsNullOrEmpty(this.TestExeFileName)) &&
-				(!string.IsNullOrWhiteSpace(this.TestExeFileName)))
+			string logDirPath = $@"{RootDirPath}\log";
+			if ((!string.IsNullOrEmpty(TestExeFileName)) &&
+				(!string.IsNullOrWhiteSpace(TestExeFileName)))
 			{
-				logDirPath = $@"{logDirPath}\{this.TestExeFileName}";
+				logDirPath = $@"{logDirPath}\{TestExeFileName}";
 			}
 			return logDirPath;
 		}
@@ -121,7 +134,7 @@ namespace gtest_gui.Model
 		/// <returns>Output directory path.</returns>
 		public virtual string OutputDirPath()
 		{
-			string logDirPath = this.LogDirPath();
+			string logDirPath = LogDirPath();
 			string outputDirPath = $@"{logDirPath}\output";
 			return outputDirPath;
 		}
@@ -132,7 +145,7 @@ namespace gtest_gui.Model
 		/// <returns>Repotr directory path.</returns>
 		public virtual string ReportDirPath()
 		{
-			string logDirPath = this.LogDirPath();
+			string logDirPath = LogDirPath();
 			string reportDirPath = $@"{logDirPath}\report";
 			return reportDirPath;
 		}
@@ -146,9 +159,9 @@ namespace gtest_gui.Model
 		{
 			try
 			{
-				string logFileName = this.TestLogAndReportName(testName);
+				string logFileName = TestLogAndReportName(testName);
 				string logFileNameWithExt = $"{logFileName}.log";
-				string logFilePath = $@"{this.OutputDirPath()}\{logFileNameWithExt}";
+				string logFilePath = $@"{OutputDirPath()}\{logFileNameWithExt}";
 				return logFilePath;
 			}
 			catch (NullReferenceException)
@@ -166,9 +179,9 @@ namespace gtest_gui.Model
 		{
 			try
 			{
-				string reportFileName = this.TestLogAndReportName(testName);
+				string reportFileName = TestLogAndReportName(testName);
 				string reportFileNameWithExt = $@"{reportFileName}.xml";
-				string reportFilePath = $@"{this.ReportDirPath()}\{reportFileNameWithExt}";
+				string reportFilePath = $@"{ReportDirPath()}\{reportFileNameWithExt}";
 				return reportFilePath;
 			}
 			catch (NullReferenceException)
@@ -187,7 +200,7 @@ namespace gtest_gui.Model
 		{
 			try
 			{
-				var dateTimeNow = DateTime.Now.ToString("yyyyMMddHHmmss");
+				var dateTimeNow = TimeStamp();
 				string fileName = $"{testName}_{dateTimeNow}";
 				return fileName;
 			}
@@ -207,7 +220,7 @@ namespace gtest_gui.Model
 		/// <returns>Collection of test report file path.</returns>
 		public virtual IEnumerable<string> GetTestReportFiles()
 		{
-			var testReportDir = this.ReportDirPath();
+			string testReportDir = this.ReportDirPath();
 			if (Directory.Exists(testReportDir))
 			{
 				string repotrFileTemplate = "*.xml";
@@ -218,6 +231,55 @@ namespace gtest_gui.Model
 			else
 			{
 				throw new DirectoryNotFoundException();
+			}
+		}
+
+		/// <summary>
+		/// Returns collection of test log file path.
+		/// </summary>
+		/// <returns>Collection of test log file path.</returns>
+		public virtual IEnumerable<string> GetTestLogFiles()
+		{
+			string testOutputDir = OutputDirPath();
+			if (Directory.Exists(testOutputDir))
+			{
+				string outputFileTemplate = "*.log";
+				string[] logFiles = Directory.GetFiles(testOutputDir, outputFileTemplate);
+				IEnumerable<string> testLogFiles = new List<string>(logFiles);
+				return testLogFiles;
+			}
+			else
+			{
+				throw new DirectoryNotFoundException();
+			}
+
+		}
+
+		/// <summary>
+		/// Returns time stamp in string type. 
+		/// </summary>
+		/// <returns>Time stamp in string with format specified by TimeStampFormat property.</returns>
+		public string TimeStamp()
+		{
+			var timeStamp = TimeStampWithFormat(TimeStampFormat);
+			return timeStamp;
+		}
+
+		/// <summary>
+		/// Returns time stamp in string type with format.
+		/// </summary>
+		/// <param name="format">Time stamp format.</param>
+		/// <returns>Time stmap in string.</returns>
+		public string TimeStampWithFormat(string format)
+		{
+			try
+			{
+				var timeStamp = _newedTimeStamp.ToString(format);
+				return timeStamp;
+			}
+			catch (FormatException)
+			{
+				throw;
 			}
 		}
 	}

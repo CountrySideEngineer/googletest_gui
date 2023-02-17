@@ -24,15 +24,19 @@ namespace gtest_gui.Model
 			: base(target, outputDirFile)
 		{}
 
-
-		public new IEnumerable<TestCase> ReadTest(TestInformation testInfo)
+		/// <summary>
+		/// Returns collection of tests.
+		/// </summary>
+		/// <param name="testInfo">Test information.</param>
+		/// <returns>Collection of tests.</returns>
+		public new virtual IEnumerable<TestCase> ReadTest(TestInformation testInfo)
 		{
 			try
 			{
 				string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
-				IEnumerable<string> testResultFiles = this.GetTestResultFiles(testFileName);
-				IEnumerable<TestCase> srcTestCases = this.GetAllTestCases(testResultFiles);
-				IEnumerable<TestCase> testCases = this.ExtractTestCase(testInfo, srcTestCases);
+				IEnumerable<string> testResultFiles = GetTestResultFiles(testFileName);
+				IEnumerable<TestCase> srcTestCases = GetAllTestCases(testResultFiles);
+				IEnumerable<TestCase> testCases = ExtractTestCase(testInfo, srcTestCases);
 
 				return testCases;
 			}
@@ -47,11 +51,17 @@ namespace gtest_gui.Model
 			}
 		}
 
+		/// <summary>
+		/// Extract test case data.
+		/// </summary>
+		/// <param name="testInfo">Test information.</param>
+		/// <param name="srcCases">Collection of TestCase object to be extractd.</param>
+		/// <returns>Extracted test case data.</returns>
 		protected virtual IEnumerable<TestCase> ExtractTestCase(TestInformation testInfo, IEnumerable<TestCase> srcCases)
 		{
 			try
 			{
-				var testItem = testInfo.TestItems.ElementAt(0);
+				var testItem = testInfo.TestItems.First();
 				var classAndTestName = testItem.Name.Split('.');
 				string className = classAndTestName[0];
 				string testName = classAndTestName[1];
@@ -61,7 +71,7 @@ namespace gtest_gui.Model
 				return testCases;
 			}
 			catch (Exception ex)
-			when ((ex is IndexOutOfRangeException) || (ex is NullReferenceException))
+			when ((ex is IndexOutOfRangeException) || (ex is InvalidOperationException))
 			{
 				throw;
 			}
