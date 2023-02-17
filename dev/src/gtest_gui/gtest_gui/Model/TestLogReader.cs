@@ -29,16 +29,14 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testInfo">Test information.</param>
 		/// <returns>Collection of test log file path and test case resutl as TestCase object.</returns>
-		public new virtual (IEnumerable<string> files, IEnumerable<TestCase> testCases) ReadTest(TestInformation testInfo)
+		public new virtual IEnumerable<string> ReadTest(TestInformation testInfo)
 		{
 			try
 			{
-				string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
-				IEnumerable<string> testResultFiles = GetTestResultFiles(testFileName);
-				IEnumerable<string> testLogFiles = ExtractTestFile(testInfo, testResultFiles);
-				IEnumerable<TestCase> testCases = GetAllTestCases(testLogFiles);
+				string testFileName = string.Empty;
+				IEnumerable<string> testResultFiles = OutputDirFile.GetTestLogFiles();
 
-				return (testLogFiles, testCases);
+				return testResultFiles;
 			}
 			catch (DirectoryNotFoundException)
 			{

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using CountrySideEngineer.ViewModel.Base;
 using System.IO;
+using gtest_gui.MoveWindow;
 
 namespace gtest_gui.ViewModel
 {
@@ -128,6 +129,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Delegate command of show log dialog.
+		/// </summary>
 		public DelegateCommand ShowLogCommand
 		{
 			get
@@ -149,17 +153,21 @@ namespace gtest_gui.ViewModel
 			this.TestCases = testCaseList;
 		}
 
+		/// <summary>
+		/// Show other window to show log content.
+		/// </summary>
 		public void ShowLogCommandExecute()
 		{
-			Console.WriteLine("ShowLogCommandExecute() called.");
-
 			var commandArg = new TestCommandArgument(TestInformation);
 			var command = new LoadTestLogCommand();
-			(IEnumerable<string> files, IEnumerable<TestCase> testCases) =
-				((IEnumerable<string>, IEnumerable<TestCase>))command.ExecuteCommand(commandArg);
-
+			IEnumerable<string> files = (IEnumerable<string>)command.ExecuteCommand(commandArg);
 			string file = files.ElementAt(SelectedIndex);
 
+			var mover = new Move2TestLog()
+			{
+				LogFilePath = file
+			};
+			mover.Move(this);
 		}
 	}
 }
