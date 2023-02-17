@@ -1,18 +1,18 @@
 ﻿using CountrySideEngineer.ViewModel.Base;
+using gtest_gui.Command;
+using gtest_gui.Command.Argument;
 using gtest_gui.Model;
+using gtest2html;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace gtest_gui.ViewModel
 {
 	public class TestLogViewModel : ViewModelBase
 	{
-		/// <summary>
-		/// Path to log file to display.
-		/// </summary>
-		protected string _logFilePath;
-
 		/// <summary>
 		/// Field of window title.
 		/// </summary>
@@ -24,17 +24,14 @@ namespace gtest_gui.ViewModel
 		protected string _logContent;
 
 		/// <summary>
-		/// Test information data.
-		/// </summary>
-		protected TestInformation _testInfo;
-
-		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public TestLogViewModel()
-		{
+		public TestLogViewModel() { }
 
-		}
+		/// <summary>
+		/// Path to file to show in the content area.
+		/// </summary>
+		public string LogFilePath { get; set; }
 
 		/// <summary>
 		/// Window title property.
@@ -43,11 +40,11 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				return _logFilePath;
+				return LogFilePath;
 			}
 			set
 			{
-				_logFilePath = value;
+				LogFilePath = value;
 				RaisePropertyChanged(nameof(WindowTitle));
 			}
 		}
@@ -65,6 +62,18 @@ namespace gtest_gui.ViewModel
 			{
 				_logContent = value;
 				RaisePropertyChanged(nameof(LogContent));
+			}
+		}
+
+		/// <summary>
+		/// Load log content from file.
+		/// </summary>
+		public void LoadTestLogCommandExecute()
+		{
+			using (var stream = new StreamReader(LogFilePath))
+			{
+				string logContent = stream.ReadToEnd();
+				LogContent = logContent;
 			}
 		}
 	}
