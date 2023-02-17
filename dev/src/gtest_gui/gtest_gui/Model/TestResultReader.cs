@@ -95,7 +95,6 @@ namespace gtest_gui.Model
 			{
 				var testSuites = GetTestSuites(testFile);
 				testSuitesList.Add(testSuites);
-
 			}
 			return testSuitesList;
 		}
