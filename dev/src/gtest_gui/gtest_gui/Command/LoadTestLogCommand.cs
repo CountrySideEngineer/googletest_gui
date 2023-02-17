@@ -26,9 +26,9 @@ namespace gtest_gui.Command
 			string testFilenName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
 			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFilenName);
 			var reader = new TestLogReader(testInfo.TestFile, outputDirFile);
-			(IEnumerable<string>, IEnumerable<TestCase>) filesAndTestCases = reader.ReadTest(testInfo);
+			IEnumerable<string> files = reader.ReadTest(testInfo);
 
-			return filesAndTestCases;
+			return files;
 		}
 	}
 }
