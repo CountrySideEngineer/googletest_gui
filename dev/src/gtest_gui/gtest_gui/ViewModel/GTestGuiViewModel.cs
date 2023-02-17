@@ -312,7 +312,7 @@ namespace gtest_gui.ViewModel
 		{
 			try
 			{
-				var command = new LoadTestLogCommand();
+				var command = new LoadTestCommand();
 				var argument = new TestCommandArgument(baseTestInfo);
 				TestInformation testInformation = (TestInformation)ExecuteCommand(command, argument);
 				if (testInformation.Equals(TestInfo))

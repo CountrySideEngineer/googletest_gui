@@ -41,6 +41,7 @@
                   ColumnHeaderStyle="{StaticResource DataGridViewColumnHeaderStyle}"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding TestCases}"
+                  SelectedIndex="{Binding SelectedIndex}"
                   IsReadOnly="True"
                   >
             <DataGrid.Columns>
@@ -62,6 +63,19 @@
                                     ElementStyle="{StaticResource DataGridColumnCenterTextStyle}" 
                                     CellStyle="{StaticResource DataGridCellOkNgStyle}"
                                     />
+                <DataGridTemplateColumn Header="実行ログ"
+                                        IsReadOnly="True"
+                                        CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="表示"
+                                    Style="{StaticResource DataGridColumnButtonStyle}"
+                                    Command="{Binding DataContext.ShowLogCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                    >
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
