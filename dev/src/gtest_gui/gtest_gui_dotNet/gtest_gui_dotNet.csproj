@@ -140,6 +140,9 @@
     <Compile Include="..\gtest_gui\MoveWindow\Move2Progress.cs">
       <Link>MoveWindow\Move2Progress.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2TestLog.cs">
+      <Link>MoveWindow\Move2TestLog.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\MoveWindow\Move2TestProgress.cs">
       <Link>MoveWindow\Move2TestProgress.cs</Link>
     </Compile>
@@ -148,6 +151,9 @@
     </Compile>
     <Compile Include="..\gtest_gui\ViewModel\TestHistoryViewModel.cs">
       <Link>ViewModel\TestHistoryViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\ViewModel\TestLogViewModel.cs">
+      <Link>ViewModel\TestLogViewModel.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\ViewModel\ViewModelBase.cs">
       <Link>ViewModel\ViewModelBase.cs</Link>
@@ -163,6 +169,10 @@
     </Compile>
     <Compile Include="..\gtest_gui\View\TestHistoryWindow.xaml.cs">
       <Link>View\TestHistoryWindow.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\View\TestLogWindow.xaml.cs">
+      <Link>View\TestLogWindow.xaml.cs</Link>
+      <DependentUpon>TestLogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -211,6 +221,11 @@
     </Page>
     <Page Include="..\gtest_gui\View\TestHistoryWindow.xaml">
       <Link>View\TestHistoryWindow.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\gtest_gui\View\TestLogWindow.xaml">
+      <Link>View\TestLogWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
