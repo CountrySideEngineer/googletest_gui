@@ -20,7 +20,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		public OutputLogBuilder()
 		{
-			this._logCollection = null;
+			_logCollection = null;
 		}
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace gtest_gui.Model
 		/// <param name="outputDirFile">Directory and file information to output log.</param>
 		public OutputLogBuilder(OutputDirAndFile outputDirFile)
 		{
-			this.OutputDirFile = outputDirFile;
+			OutputDirFile = outputDirFile;
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace gtest_gui.Model
 		{
 			if (null != e.Data)
 			{
-				this.Append(e.Data);
+				Append(e.Data);
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace gtest_gui.Model
 		public void OnDataReceiveFinished(object sender, TestDataFinishedEventArgs e)
 		{
 			TestItem testItem = e.TestItem;
-			this.FlushOutput(testItem.Name);
+			FlushOutput(testItem.Name);
 		}
 
 		/// <summary>
@@ -62,12 +62,12 @@ namespace gtest_gui.Model
 		/// <param name="testItem">Test name.</param>
 		protected void FlushOutput(string testName)
 		{
-			string logFilePath = this.OutputDirFile.LogFilePath(testName);
+			string logFilePath = OutputDirFile.LogFilePath(testName);
 			using (var writer = new StreamWriter(logFilePath))
 			{
-				writer.Write(this.ToString());
+				writer.Write(ToString());
 			}
-			this._logCollection.Clear();
+			_logCollection.Clear();
 		}
 
 		/// <summary>
@@ -76,12 +76,12 @@ namespace gtest_gui.Model
 		/// <param name="output">Log data to set.</param>
 		public void Append(string output)
 		{
-			if (null == this._logCollection)
+			if (null == _logCollection)
 			{
-				this._logCollection = new List<string>();
-				this._logCollection.Clear();
+				_logCollection = new List<string>();
+				_logCollection.Clear();
 			}
-			this._logCollection.Add(output);
+			_logCollection.Add(output);
 		}
 
 		/// <summary>
@@ -92,7 +92,7 @@ namespace gtest_gui.Model
 		public override string ToString()
 		{
 			string toString = string.Empty;
-			foreach (var item in this._logCollection)
+			foreach (var item in _logCollection)
 			{
 				toString += item;
 				toString += "\r\n";

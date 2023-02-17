@@ -71,6 +71,7 @@
                   ItemsSource="{Binding TestInfo.TestItems, Mode=TwoWay}"
                   SelectedIndex="{Binding SelectedTestIndex}"
                   IsEnabled="{Binding CanReloadTest}"
+                  IsReadOnly="True"
                   >
             <DataGrid.Columns>
                 <DataGridTemplateColumn CanUserResize="False">
