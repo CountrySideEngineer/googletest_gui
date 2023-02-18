@@ -64,17 +64,34 @@ namespace gtest_gui.Model
 		/// Setup output directory architecture.
 		/// </summary>
 		/// <param name="testName">Test name.</param>
+		/// <exception cref="NullReferenceException"></exception>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="UnauthorizedAccessException"></exception>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="PathTooLongException"></exception>
+		/// <exception cref="DirectoryNotFoundException"></exception>
+		/// <exception cref="NotSupportedException"></exception>
 		public virtual IEnumerable<DirectoryInfo> SetUpTestOutputDirecries(string testName)
 		{
-			List<string> paths = new List<string>()
-			{
-				LogDirPath(),
-				OutputDirPath(),
-				ReportDirPath()
-			};
-			IEnumerable<DirectoryInfo> dirInfos = SetUpTestOutputDirecotries(paths);
+			string logDir = LogDirPath();
+			string outputDir = OutputDirPath();
+			string reportDir = ReportDirPath();
 
-			return dirInfos;
+			try
+			{
+				List<string> paths = new List<string>()
+				{
+					logDir, outputDir, reportDir
+				};
+				IEnumerable<DirectoryInfo> dirInfos = SetUpTestOutputDirecotries(paths);
+
+				return dirInfos;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -82,6 +99,14 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="paths">Collection of directory path to create.</param>
 		/// <returns>Collection of <para>DirectoryInfo</para> object created.</returns>
+		/// <exception cref="NullReferenceException"></exception>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="UnauthorizedAccessException"></exception>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="PathTooLongException"></exception>
+		/// <exception cref="DirectoryNotFoundException"></exception>
+		/// <exception cref="NotSupportedException"></exception>
 		protected virtual IEnumerable<DirectoryInfo> SetUpTestOutputDirecotries(IEnumerable<string> paths)
 		{
 			try
@@ -155,6 +180,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testName">Test Name</param>
 		/// <returns>Log file name.</returns>
+		/// <exception cref="NullReferenceException"></exception>
 		public virtual string LogFilePath(string testName)
 		{
 			try
@@ -175,6 +201,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testName">Test name</param>
 		/// <returns>Report file name.</returns>
+		/// <exception cref="NullReferenceException"></exception>
 		public virtual string TestReportFilePath(string testName)
 		{
 			try
@@ -196,10 +223,16 @@ namespace gtest_gui.Model
 		/// <param name="testName">Test name.</param>
 		/// <returns>Log and report file name.</returns>
 		/// <exception cref="NullReferenceException">Implementation imvalid.</exception>
+		/// <exception cref="ArgumentNullException"></exception>
 		protected virtual string TestLogAndReportName(string testName)
 		{
 			try
 			{
+				if ((string.IsNullOrEmpty(testName)) || (string.IsNullOrWhiteSpace(testName)))
+				{
+					throw new ArgumentException();
+				}
+
 				var dateTimeNow = TimeStamp();
 				string fileName = $"{testName}_{dateTimeNow}";
 				return fileName;
@@ -218,6 +251,7 @@ namespace gtest_gui.Model
 		/// Returns collection of test report file path.
 		/// </summary>
 		/// <returns>Collection of test report file path.</returns>
+		/// <exception cref="DirectoryNotFoundException"></exception>
 		public virtual IEnumerable<string> GetTestReportFiles()
 		{
 			string testReportDir = ReportDirPath();
@@ -238,6 +272,7 @@ namespace gtest_gui.Model
 		/// Returns collection of test log file path.
 		/// </summary>
 		/// <returns>Collection of test log file path.</returns>
+		/// <exception cref="DirectoryNotFoundException"></exception>
 		public virtual IEnumerable<string> GetTestLogFiles()
 		{
 			string testOutputDir = OutputDirPath();
@@ -252,17 +287,24 @@ namespace gtest_gui.Model
 			{
 				throw new DirectoryNotFoundException();
 			}
-
 		}
 
 		/// <summary>
 		/// Returns time stamp in string type. 
 		/// </summary>
 		/// <returns>Time stamp in string with format specified by TimeStampFormat property.</returns>
+		/// <exception cref="FormatException"></exception>
 		public string TimeStamp()
 		{
-			var timeStamp = TimeStampWithFormat(TimeStampFormat);
-			return timeStamp;
+			try
+			{
+				string timeStamp = TimeStampWithFormat(TimeStampFormat);
+				return timeStamp;
+			}
+			catch (FormatException)
+			{
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -270,6 +312,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="format">Time stamp format.</param>
 		/// <returns>Time stmap in string.</returns>
+		/// <exception cref="FormatException"></exception>
 		public string TimeStampWithFormat(string format)
 		{
 			try
