@@ -75,11 +75,9 @@ namespace gtest_gui.Model
 			{
 				throw;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				Console.WriteLine(ex.Message);
-
-				throw ex;
+				throw;
 			}
 		}
 	}

@@ -55,8 +55,8 @@ namespace gtest_gui.Model
 		/// <param name="testExeFileName"></param>
 		public OutputDirAndFile(string rootDirPath, string testExeFileName)
 		{
-			this.RootDirPath = rootDirPath;
-			this.TestExeFileName = testExeFileName;
+			RootDirPath = rootDirPath;
+			TestExeFileName = testExeFileName;
 			_newedTimeStamp = DateTime.Now;
 		}
 
@@ -220,7 +220,7 @@ namespace gtest_gui.Model
 		/// <returns>Collection of test report file path.</returns>
 		public virtual IEnumerable<string> GetTestReportFiles()
 		{
-			string testReportDir = this.ReportDirPath();
+			string testReportDir = ReportDirPath();
 			if (Directory.Exists(testReportDir))
 			{
 				string repotrFileTemplate = "*.xml";

@@ -88,7 +88,7 @@ namespace gtest2html
 	{
 		public TestCase()
 		{
-			this.Failure = null;
+			Failure = null;
 		}
 
 		[XmlAttribute("name")]
@@ -116,7 +116,7 @@ namespace gtest2html
 		{
 			get
 			{
-				if (null == this.Failure)
+				if (null == Failure)
 				{
 					return "OK";
 				}
@@ -132,7 +132,7 @@ namespace gtest2html
 		{
 			get
 			{
-				if (null == this.Failure)
+				if (null == Failure)
 				{
 					return false;
 				}

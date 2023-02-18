@@ -21,11 +21,11 @@ namespace gtest_gui.Model
 		/// </summary>
 		public TestInformation()
 		{
-			this.TestFile = string.Empty;
+			TestFile = string.Empty;
 			var testItems = new List<TestItem>();
 			testItems.Clear();
 
-			this.TestItems = testItems;
+			TestItems = testItems;
 		}
 
 		/// <summary>
