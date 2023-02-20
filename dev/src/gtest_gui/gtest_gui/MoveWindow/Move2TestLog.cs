@@ -22,7 +22,7 @@ namespace gtest_gui.MoveWindow
 			var viewModel = (TestHistoryViewModel)srcContext;
 			var dstViewModel = new TestLogViewModel()
 			{
-				LogFilePath = LogFilePath
+				LogFilePath = this.LogFilePath
 			};
 			var dstWindow = new TestLogWindow()
 			{
