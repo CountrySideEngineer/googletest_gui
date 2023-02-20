@@ -50,7 +50,7 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="Padding" Value="0, 0, 8, 0"/>
     </Style>
-    <Style x:Key="DataGridColumnTestItemNameTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnRightTextStyle}" >
+    <Style x:Key="DataGridColumnTestItemNameTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataGridColumnLeftTextStyle}" >
         <Setter Property="Padding" Value="8, 0, 8, 0"/>
     </Style>
 
@@ -65,6 +65,20 @@
     <Style x:Key="TargetFileInputTextBox" TargetType="TextBox" BasedOn="{StaticResource ResourceKey=TextBoxCommonStyle}">
         <Setter Property="Margin" Value="8, 8"/>
         <Setter Property="Padding" Value="4, 0"/>
+    </Style>
+    <Style x:Key="LogTextBox" TargetType="TextBox" BasedOn="{StaticResource ResourceKey=TextBoxCommonStyle}">
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="FontFamily" Value="MS Gothic"/>
+        <Setter Property="FontSize" Value="12"/>
     </Style>
 
     <!-- Button -->

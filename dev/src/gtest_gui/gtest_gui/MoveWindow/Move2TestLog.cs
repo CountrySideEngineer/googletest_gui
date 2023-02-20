@@ -8,6 +8,9 @@ namespace gtest_gui.MoveWindow
 {
 	public class Move2TestLog : IMoveWindow
 	{
+		/// <summary>
+		/// Path to file to show in the window.
+		/// </summary>
 		public string LogFilePath { get; set; }
 
 		/// <summary>
@@ -19,7 +22,7 @@ namespace gtest_gui.MoveWindow
 			var viewModel = (TestHistoryViewModel)srcContext;
 			var dstViewModel = new TestLogViewModel()
 			{
-				LogFilePath = LogFilePath
+				LogFilePath = this.LogFilePath
 			};
 			var dstWindow = new TestLogWindow()
 			{

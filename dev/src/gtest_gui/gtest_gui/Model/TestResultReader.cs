@@ -26,8 +26,8 @@ namespace gtest_gui.Model
 		/// </summary>
 		public TestResultReader()
 		{
-			this.Target = string.Empty;
-			this.OutputDirFile = null;
+			Target = string.Empty;
+			OutputDirFile = null;
 		}
 
 		/// <summary>
@@ -38,8 +38,8 @@ namespace gtest_gui.Model
 		/// <remarks>If the <para>outputDirFile</para> is not set, null will be passed.</remarks>
 		public TestResultReader(string target, OutputDirAndFile outputDirFile = null)
 		{
-			this.Target = target;
-			this.OutputDirFile = outputDirFile;
+			Target = target;
+			OutputDirFile = outputDirFile;
 		}
 
 		/// <summary>
@@ -51,9 +51,9 @@ namespace gtest_gui.Model
 			try
 			{
 				string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
-				IEnumerable<string> testResultFiles = this.GetTestResultFiles(testFileName);
-				IEnumerable<TestCase> testCases = this.GetAllTestCases(testResultFiles);
-				this.SetTestResult(testInfo, testCases);
+				IEnumerable<string> testResultFiles = GetTestResultFiles(testFileName);
+				IEnumerable<TestCase> testCases = GetAllTestCases(testResultFiles);
+				SetTestResult(testInfo, testCases);
 			}
 			catch (DirectoryNotFoundException)
 			{
@@ -74,12 +74,12 @@ namespace gtest_gui.Model
 		{
 			try
 			{
-				IEnumerable<string> reportFiles = this.OutputDirFile.GetTestReportFiles();
+				IEnumerable<string> reportFiles = OutputDirFile.GetTestReportFiles();
 				return reportFiles;
 			}
-			catch (DirectoryNotFoundException ex)
+			catch (DirectoryNotFoundException)
 			{
-				throw ex;
+				throw;
 			}
 		}
 

@@ -49,8 +49,8 @@ namespace gtest_gui.Model
         /// </summary>
         public TestRunner()
 		{
-            this.Target = string.Empty;
-            this.OutputDirFile = null;
+            Target = string.Empty;
+            OutputDirFile = null;
 		}
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace gtest_gui.Model
         /// <param name="target">Path to test file.</param>
         public TestRunner(string target)
         {
-            this.Target = target;
-            this.OutputDirFile = null;
+            Target = target;
+            OutputDirFile = null;
         }
 
         /// <summary>
@@ -70,8 +70,8 @@ namespace gtest_gui.Model
         /// <param name="outputDirFile">OutputDirAndFile object handle test log and report.</param>
         public TestRunner(string target, OutputDirAndFile outputDirFile)
         {
-            this.Target = target;
-            this.OutputDirFile = outputDirFile;
+            Target = target;
+            OutputDirFile = outputDirFile;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace gtest_gui.Model
         /// </summary>
         public void Run(TestInformation information)
 		{
-            this.Run(this.Target, information);
+            Run(Target, information);
 		}
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace gtest_gui.Model
         /// <param name="testItem">Test data to run.</param>
         public virtual void Run(TestItem testItem)
 		{
-            this.Run(this.Target, testItem);
+            Run(Target, testItem);
 		}
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace gtest_gui.Model
         /// <returns>Test running process.</returns>
         protected virtual Process Run(string path, TestItem testItem)
 		{
-            string filterOption = this.GetFilterOption(path, testItem);
-            string outputOption = this.GetXmlOutputOption(path, testItem);
+            string filterOption = GetFilterOption(path, testItem);
+            string outputOption = GetXmlOutputOption(path, testItem);
             Process process = null;
 
             var procStartInfo = new ProcessStartInfo
@@ -128,14 +128,14 @@ namespace gtest_gui.Model
             using (process = new Process())
 			{
                 process.StartInfo = procStartInfo;
-                process.ErrorDataReceived += this.OnErrorDataReceivedEvent;
-                process.OutputDataReceived += this.OnOutputDataReceivedEvent;
+                process.ErrorDataReceived += OnErrorDataReceivedEvent;
+                process.OutputDataReceived += OnOutputDataReceivedEvent;
                 process.Start();
                 process.BeginOutputReadLine();
                 process.WaitForExit();
                 process.CancelOutputRead();
-                process.OutputDataReceived -= this.OnOutputDataReceivedEvent;
-                process.ErrorDataReceived -= this.OnErrorDataReceivedEvent;
+                process.OutputDataReceived -= OnOutputDataReceivedEvent;
+                process.ErrorDataReceived -= OnErrorDataReceivedEvent;
                 ;
             }
             return process;
@@ -151,16 +151,16 @@ namespace gtest_gui.Model
         public virtual void RunTestProc(string path, TestItem testItem)
 		{
             //pre-procedure.
-            this.OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
+            OutputDirFile.SetUpTestOutputDirecries(testItem.Name);
 
-            this.Run(path, testItem);
+            Run(path, testItem);
 
             //post procedure.
             var eventArg = new TestDataFinishedEventArgs()
             {
                 TestItem = testItem
             };
-            this.TestDataFinisedEventHandler?.Invoke(this, eventArg);
+            TestDataFinisedEventHandler?.Invoke(this, eventArg);
 		}
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace gtest_gui.Model
 		{
             if (null != e.Data)
 			{
-                this.TestDataReceivedEventHandler?.Invoke(this, e);
+                TestDataReceivedEventHandler?.Invoke(this, e);
 			}
 		}
 
@@ -185,7 +185,7 @@ namespace gtest_gui.Model
         {
             if (null != e.Data)
             {
-                this.TestDataReceivedEventHandler?.Invoke(this, e);
+                TestDataReceivedEventHandler?.Invoke(this, e);
             }
         }
 
@@ -209,7 +209,7 @@ namespace gtest_gui.Model
         /// <returns>Test output filter option.</returns>
         protected string GetXmlOutputOption(string fileName, TestItem testItem)
 		{
-            string xmlFilePath = this.OutputDirFile.TestReportFilePath(testItem.Name);
+            string xmlFilePath = OutputDirFile.TestReportFilePath(testItem.Name);
             string xmlOption = $"--gtest_output=xml:{xmlFilePath}";
             return xmlOption;
 		}
