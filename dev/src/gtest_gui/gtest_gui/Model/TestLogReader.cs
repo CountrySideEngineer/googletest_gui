@@ -45,7 +45,7 @@ namespace gtest_gui.Model
 			catch (Exception ex)
 			when ((ex is ArgumentNullException) || (ex is InvalidOperationException))
 			{
-				throw ex;
+				throw;
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace gtest_gui.Model
 			catch (Exception ex)
 			when ((ex is ArgumentNullException) || (ex is InvalidOperationException))
 			{
-				throw ex;
+				throw;
 			}
 		}
 	}

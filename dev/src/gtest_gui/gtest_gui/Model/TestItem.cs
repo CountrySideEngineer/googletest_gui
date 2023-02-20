@@ -14,7 +14,11 @@ namespace gtest_gui.Model
 		/// </summary>
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Whether the item is selected or not.
+		/// </summary>
 		bool _isSelected = false;
+
 		/// <summary>
 		/// Get and set the value indicates whether the test item is selected to run or not.
 		/// </summary>
@@ -38,9 +42,9 @@ namespace gtest_gui.Model
 		/// </summary>
 		public TestItem()
 		{
-			this.Name = string.Empty;
-			this.IsSelected = false;
-			this.Result = string.Empty;
+			Name = string.Empty;
+			IsSelected = false;
+			Result = string.Empty;
 		}
 
 		/// <summary>
@@ -55,7 +59,7 @@ namespace gtest_gui.Model
 			try
 			{
 				var src = (TestItem)obj;
-				if (this.Name.Equals(src.Name))
+				if (Name.Equals(src.Name))
 				{
 					isEqual = true;
 				}

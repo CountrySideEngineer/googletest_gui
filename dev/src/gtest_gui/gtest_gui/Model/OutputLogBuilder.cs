@@ -60,14 +60,27 @@ namespace gtest_gui.Model
 		/// Flush received data into a file.
 		/// </summary>
 		/// <param name="testItem">Test name.</param>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="NullReferenceException"></exception>
 		protected void FlushOutput(string testName)
 		{
-			string logFilePath = OutputDirFile.LogFilePath(testName);
-			using (var writer = new StreamWriter(logFilePath))
+			if ((string.IsNullOrEmpty(testName)) || (string.IsNullOrWhiteSpace(testName)))
 			{
-				writer.Write(ToString());
+				throw new ArgumentException();
 			}
-			_logCollection.Clear();
+			try
+			{
+				string logFilePath = OutputDirFile.LogFilePath(testName);
+				using (var writer = new StreamWriter(logFilePath))
+				{
+					writer.Write(ToString());
+				}
+				_logCollection.Clear();
+			}
+			catch (NullReferenceException)
+			{
+				throw;
+			}
 		}
 
 		/// <summary>

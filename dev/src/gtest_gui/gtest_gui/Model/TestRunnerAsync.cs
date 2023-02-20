@@ -70,10 +70,12 @@ namespace gtest_gui.Model
 				int testIndex = 0;
 				foreach (var testItem in targetTestItems)
 				{
-					var preProgInfo = new ProgressInfo(baseProgInfo);
-					preProgInfo.ProcessName = testItem.Name;
-					preProgInfo.Progress = (testIndex * 100) / testCount;
-					preProgInfo.Numerator = testIndex;
+					var preProgInfo = new ProgressInfo(baseProgInfo)
+					{
+						ProcessName = testItem.Name,
+						Progress = (testIndex * 100) / testCount,
+						Numerator = testIndex
+					};
 					progress.Report(preProgInfo);
 
 					runner.RunTestProc(TestInfo.TestFile, testItem);

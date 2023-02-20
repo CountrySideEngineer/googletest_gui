@@ -19,7 +19,7 @@ namespace gtest_gui.Model
         /// </summary>
         public TestListReader()
 		{
-            this.TestFilePath = string.Empty;
+            TestFilePath = string.Empty;
 		}
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace gtest_gui.Model
         /// <param name="testFilePath">Path to file to get the list of test to execute.</param>
         public TestListReader(string testFilePath)
 		{
-            this.TestFilePath = testFilePath;
+            TestFilePath = testFilePath;
 		}
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace gtest_gui.Model
         /// <param name="testFilePath">Path to file to read.</param>
         public virtual TestInformation Run()
 		{
-            TestInformation testInformation = this.Run(this.TestFilePath, this.OutputToList);
+            TestInformation testInformation = Run(TestFilePath, OutputToList);
             return testInformation;
 		}
 
@@ -48,7 +48,7 @@ namespace gtest_gui.Model
         /// <param name="testInformation"><para>TestInformation</para> object to set test list.</param>
         public virtual TestInformation Run(string testFilePath)
 		{
-            TestInformation testInformation = this.Run(testFilePath, this.OutputToList);
+            TestInformation testInformation = Run(testFilePath, OutputToList);
             return testInformation;
 		}
 
@@ -92,7 +92,7 @@ namespace gtest_gui.Model
         protected virtual IEnumerable<TestItem> OutputToList(StreamReader testOutputStream)
 		{
             string outputData = testOutputStream.ReadToEnd();
-            IEnumerable<TestItem> testItems = this.OutputToTestItem(outputData);
+            IEnumerable<TestItem> testItems = OutputToTestItem(outputData);
             return testItems;
 		}
 
