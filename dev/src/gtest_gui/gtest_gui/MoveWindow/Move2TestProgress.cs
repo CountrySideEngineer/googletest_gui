@@ -10,7 +10,6 @@ namespace gtest_gui.MoveWindow
 		public override void Move(object srcContext)
 		{
 			var testRunner = (TestRunner)srcContext;
-
 		}
 	}
 }

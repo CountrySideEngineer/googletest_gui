@@ -29,6 +29,9 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testInfo">Test information.</param>
 		/// <returns>Collection of tests.</returns>
+		/// <exception cref="DirectoryNotFoundException"></exception>
+		/// <exception cref="IndexOutOfRangeException"></exception>
+		/// <exception cref="NullReferenceException"></exception>
 		public new virtual IEnumerable<TestCase> ReadTest(TestInformation testInfo)
 		{
 			try
@@ -57,6 +60,8 @@ namespace gtest_gui.Model
 		/// <param name="testInfo">Test information.</param>
 		/// <param name="srcCases">Collection of TestCase object to be extractd.</param>
 		/// <returns>Extracted test case data.</returns>
+		/// <exception cref="IndexOutOfRangeException"></exception>
+		/// <exception cref="NullReferenceException"></exception>
 		protected virtual IEnumerable<TestCase> ExtractTestCase(TestInformation testInfo, IEnumerable<TestCase> srcCases)
 		{
 			try
@@ -75,11 +80,9 @@ namespace gtest_gui.Model
 			{
 				throw;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				Console.WriteLine(ex.Message);
-
-				throw ex;
+				throw;
 			}
 		}
 	}
