@@ -59,8 +59,14 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		protected DelegateCommand _changeTestSelectedByUserCommand;
 
+		/// <summary>
+		/// Delegate command to run the test.
+		/// </summary>
 		protected DelegateCommand _runTestCommand;
 
+		/// <summary>
+		/// Delegate command to show test execution history.
+		/// </summary>
 		protected DelegateCommand _showHistoryCommand;
 
 		/// <summary>
@@ -220,6 +226,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Show test history.
+		/// </summary>
 		public DelegateCommand ShowHistoryCommand
 		{
 			get
@@ -308,6 +317,10 @@ namespace gtest_gui.ViewModel
 			LoadTestCommandExecute(TestInfo);
 		}
 
+		/// <summary>
+		/// Load test data.
+		/// </summary>
+		/// <param name="baseTestInfo">Base test information.</param>
 		public void LoadTestCommandExecute(TestInformation baseTestInfo)
 		{
 			try
@@ -349,6 +362,9 @@ namespace gtest_gui.ViewModel
 			return cmdResult;
 		}
 
+		/// <summary>
+		/// Show test execution history in other window.
+		/// </summary>
 		public void ShowHistoryCommandExecute()
 		{
 			var mover = new Move2History();

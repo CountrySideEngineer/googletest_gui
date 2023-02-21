@@ -100,6 +100,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Name of test.
+		/// </summary>
 		public string TestName
 		{
 			get
@@ -115,6 +118,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Test information.
+		/// </summary>
 		public TestInformation TestInformation
 		{
 			get
@@ -144,13 +150,16 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Load test history.
+		/// </summary>
 		public void LoadTestHistoryCommandExecute()
 		{
 			var commandArg = new TestCommandArgument(this.TestInformation);
 			var command = new LoadTestHistoryCommand();
 			IEnumerable<TestCase> testCases = (IEnumerable<TestCase>)command.ExecuteCommand(commandArg);
 			List<TestCase> testCaseList = testCases.ToList();
-			this.TestCases = testCaseList;
+			TestCases = testCaseList;
 		}
 
 		/// <summary>
