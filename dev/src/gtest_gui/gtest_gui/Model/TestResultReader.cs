@@ -177,7 +177,7 @@ namespace gtest_gui.Model
 					string name = classAndCaseName[1];
 					var testCase = testCases.Where(_ =>
 						_.Name.Equals(name) && _.ClassName.Equals(className))
-						.OrderBy(_ => _.Timestamp)
+						.OrderByDescending(_ => _.Timestamp)
 						.FirstOrDefault();
 					testItem.Result = testCase.Judge;
 				}
