@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gtest_gui.View"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         Title="{Binding WindowTitle}"
         Height="600" Width="700"
         MinHeight="240" MinWidth="350"
