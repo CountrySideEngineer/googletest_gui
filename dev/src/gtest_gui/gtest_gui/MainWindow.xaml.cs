@@ -1,4 +1,5 @@
-﻿using System;
+﻿using gtest_gui.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,25 @@ namespace gtest_gui
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void Window_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			try
+			{
+				GTestGuiViewModel newViewModel = (GTestGuiViewModel)e.NewValue;
+				newViewModel.NotifyTestExecutionFinished += NotifyTestExectionSuceeded;
+			}
+			catch (InvalidCastException)
+			{
+
+			}
+
+		}
+
+		protected void NotifyTestExectionSuceeded(object testResult)
+		{
+			MessageBox.Show("テストの実行が完了しました。", "実行完了", MessageBoxButton.OK);
 		}
 	}
 }

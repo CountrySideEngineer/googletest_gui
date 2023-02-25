@@ -72,7 +72,7 @@ namespace gtest_gui.Model
 		/// <exception cref="PathTooLongException"></exception>
 		/// <exception cref="DirectoryNotFoundException"></exception>
 		/// <exception cref="NotSupportedException"></exception>
-		public virtual IEnumerable<DirectoryInfo> SetUpTestOutputDirecries(string testName)
+		public virtual IEnumerable<DirectoryInfo> SetUpTestOutputDirectories(string testName)
 		{
 			string logDir = LogDirPath();
 			string outputDir = OutputDirPath();
