@@ -141,7 +141,7 @@ namespace gtest_gui.ViewModel
 			set
 			{
 				_canRunTest = value;
-				RaisePropertyChanged("CanRunTest");
+				RaisePropertyChanged(nameof(CanRunTest));
 			}
 		}
 
@@ -157,7 +157,7 @@ namespace gtest_gui.ViewModel
 			set
 			{
 				_canReloadTest = value;
-				RaisePropertyChanged("CanReloadTest");
+				RaisePropertyChanged(nameof(CanReloadTest));
 			}
 		}
 
