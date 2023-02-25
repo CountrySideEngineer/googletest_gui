@@ -75,6 +75,17 @@ namespace gtest_gui.ViewModel
 		protected DelegateCommand _loadTestCommand;
 
 		/// <summary>
+		/// Delegate to notify the test finished.
+		/// </summary>
+		/// <param name="resultData"></param>
+		public delegate void NotifyTestExecutionFinishedDelegate(object resultData);
+
+		/// <summary>
+		/// Notify test execution finished.
+		/// </summary>
+		public NotifyTestExecutionFinishedDelegate NotifyTestExecutionFinished;
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public GTestGuiViewModel()
@@ -307,6 +318,8 @@ namespace gtest_gui.ViewModel
 			var argument = new TestCommandArgument(TestInfo);
 			_ = ExecuteCommand(command, argument);
 			LoadTestCommandExecute();
+
+			NotifyTestExecutionFinished?.Invoke(null);
 		}
 
 		/// <summary>
