@@ -10,6 +10,11 @@ namespace gtest_gui.Command
 {
 	public class LoadTestHistoryCommand : ITestCommand
 	{
+		/// <summary>
+		/// Execute command to load test history data.
+		/// </summary>
+		/// <param name="cmdArgument">Argument for command.</param>
+		/// <returns>Test history as a collection of TestCase object.</returns>
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			var testInfo = cmdArgument.TestInfo;
