@@ -71,7 +71,8 @@ namespace gtest_gui.Model
 				string className = classAndTestName[0];
 				string testName = classAndTestName[1];
 				var testCases = srcCases.Where(_ =>
-					_.Name.Equals(testName) && _.ClassName.Equals(className));
+					_.Name.Equals(testName) && _.ClassName.Equals(className))
+					.OrderByDescending(_ => _.Timestamp);
 
 				return testCases;
 			}

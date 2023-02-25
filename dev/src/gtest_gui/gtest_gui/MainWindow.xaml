@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Path=ApplicationTitle}"
-        Height="450" Width="800">
+        Height="450" Width="800" DataContextChanged="Window_DataContextChanged">
     <Window.DataContext>
         <vm:GTestGuiViewModel/>
     </Window.DataContext>

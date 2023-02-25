@@ -25,8 +25,8 @@ namespace gtest_gui.Command
         public DelegateCommand(Action Execute) : this(Execute, () => true) { }
         public DelegateCommand(Action Execute, Func<bool> CanExecute)
         {
-            this.execute = Execute ?? throw new ArgumentNullException(nameof(Execute));
-            this.canExecute = CanExecute ?? throw new ArgumentNullException(nameof(CanExecute));
+            execute = Execute ?? throw new ArgumentNullException(nameof(Execute));
+            canExecute = CanExecute ?? throw new ArgumentNullException(nameof(CanExecute));
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace gtest_gui.Command
         /// </summary>
         protected Action Exec
         {
-            get { return this.execute; }
-            set { this.execute = value; }
+            get { return execute; }
+            set { execute = value; }
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace gtest_gui.Command
         /// </summary>
         protected Func<Boolean> CanExec
         {
-            get { return this.canExecute; }
-            set { this.canExecute = value; }
+            get { return canExecute; }
+            set { canExecute = value; }
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace gtest_gui.Command
         /// <returns></returns>
         public Boolean CanExecute(object parameter)
         {
-            return this.canExecute();
+            return canExecute();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace gtest_gui.Command
         /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
-            this.execute();
+            execute();
         }
     }
 
@@ -98,7 +98,7 @@ namespace gtest_gui.Command
         /// <returns></returns>
         public Boolean CanExecute(object parameter)
         {
-            return this._CanExecute == null ? true : this._CanExecute(parameter);
+            return _CanExecute == null ? true : _CanExecute(parameter);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace gtest_gui.Command
         /// <param name="parameter">Parameter of command to execute.</param>
         public void Execute(object parameter)
         {
-            this._Execute((T)parameter);
+            _Execute((T)parameter);
         }
 
         /// <summary>
@@ -117,8 +117,8 @@ namespace gtest_gui.Command
         /// <param name="canExecute">Object indicates the command can execute or not.</param>
         public DelegateCommand(Action<T> execute, Predicate<object> canExecute)
         {
-            this._Execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this._CanExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
+            _Execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _CanExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
         }
     }
 }

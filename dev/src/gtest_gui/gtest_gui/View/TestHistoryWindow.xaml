@@ -9,7 +9,7 @@
         Title="実行履歴"
         Height="280" Width="400"
         MinHeight="240" MinWidth="350"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         >
     <Window.Resources>
         <ResourceDictionary>
