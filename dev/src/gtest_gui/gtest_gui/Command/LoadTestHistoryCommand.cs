@@ -18,8 +18,8 @@ namespace gtest_gui.Command
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			var testInfo = cmdArgument.TestInfo;
-			string testFilenName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
-			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFilenName);
+			string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
+			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFileName);
 			var reader = new TestHistoryReader(testInfo.TestFile, outputDirFile);
 			IEnumerable<TestCase> testCases = reader.ReadTest(testInfo);
 			return testCases;
