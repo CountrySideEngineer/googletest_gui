@@ -11,9 +11,18 @@ namespace gtest_gui.Command
 	public class LoadTestLogCommand : ITestCommand
 	{
 		/// <summary>
+		/// Output directory and file data.
+		/// </summary>
+		protected OutputDirAndFile _outputDirFile = null;
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public LoadTestLogCommand() { }
+		public LoadTestLogCommand()
+		{
+			string currentDir = Directory.GetCurrentDirectory();
+			_outputDirFile = new OutputDirAndFile(currentDir);
+		}
 
 		/// <summary>
 		/// Execute command to load test log.
@@ -23,12 +32,20 @@ namespace gtest_gui.Command
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			TestInformation testInfo = cmdArgument.TestInfo;
-			string testFilenName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
-			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFilenName);
-			var reader = new TestLogReader(testInfo.TestFile, outputDirFile);
-			IEnumerable<string> files = reader.ReadTest(testInfo);
+			TestCase testCase = cmdArgument.TestCase;
 
-			return files;
+			string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
+			_outputDirFile.TestExeFileName = testFileName;
+			_outputDirFile.TestTimeStamp = testCase.Timestamp;
+			var reader = new TestLogReader()
+			{
+				OutputDirFile = _outputDirFile,
+				TestCase = testCase
+			};
+			string content = reader.ReadTest(testInfo);
+			string path = reader.GetLogFilePath();
+
+			return (path, content);
 		}
 	}
 }

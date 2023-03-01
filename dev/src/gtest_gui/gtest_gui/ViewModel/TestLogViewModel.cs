@@ -93,7 +93,16 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void LoadTestLogCommandExecute()
 		{
-			//ToDo:Write codes here to load log data.
+			var command = new LoadTestLogCommand();
+			var commandArg = new TestCommandArgument()
+			{
+				TestInfo = TestInformation,
+				TestCase = _testCase
+			};
+			(string path, string content) = ((string, string))command.ExecuteCommand(commandArg);
+
+			WindowTitle = path;
+			LogContent = content;
 		}
 	}
 }
