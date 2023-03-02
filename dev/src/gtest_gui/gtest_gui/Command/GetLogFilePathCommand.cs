@@ -24,8 +24,8 @@ namespace gtest_gui.Command
 		/// <summary>
 		/// Execute command to get log file path.
 		/// </summary>
-		/// <param name="cmdArgument"></param>
-		/// <returns></returns>
+		/// <param name="cmdArgument">Command argument.</param>
+		/// <returns>Path to log specified by test case and test execution ilfe.</returns>
 		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			TestCase testCase = cmdArgument.TestCase;
