@@ -26,7 +26,7 @@ namespace gtest_gui.Command
 		/// </summary>
 		/// <param name="cmdArgument"></param>
 		/// <returns></returns>
-		public object ExecuteCommand(TestCommandArgument cmdArgument)
+		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			TestCase testCase = cmdArgument.TestCase;
 			string testFilePath = cmdArgument.TestInfo.TestFile;
