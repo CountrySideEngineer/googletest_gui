@@ -33,6 +33,7 @@ namespace gtest_gui.MoveWindow
 			{
 				DataContext = dstViewModel
 			};
+			dstViewModel.GetTestLogFilePathCommandExecute();
 			dstViewModel.LoadTestLogCommandExecute();
 			dstWindow.ShowDialog();
 		}

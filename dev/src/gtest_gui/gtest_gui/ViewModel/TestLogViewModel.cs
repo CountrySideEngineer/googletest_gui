@@ -104,5 +104,13 @@ namespace gtest_gui.ViewModel
 			WindowTitle = path;
 			LogContent = content;
 		}
+
+		/// <summary>
+		/// Get log file path to load.
+		/// </summary>
+		public void GetTestLogFilePathCommandExecute()
+		{
+
+		}
 	}
 }
