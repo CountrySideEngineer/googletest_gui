@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:gtest_gui.View"
         mc:Ignorable="d"
         Title="実行履歴"
-        Height="280" Width="400"
+        Height="280" Width="500"
         MinHeight="240" MinWidth="350"
         WindowStartupLocation="CenterScreen"
         >
@@ -53,18 +53,20 @@
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}"
                                     />
                 <DataGridTextColumn Header="実行時間"
-                                    Width="*"
+                                    Width="80"
                                     MinWidth="80"
                                     Binding="{Binding Time}"
                                     ElementStyle="{StaticResource DataGridColumnRightTextStyle}" />
                 <DataGridTextColumn Header="実行結果"
-                                    Width="*"
+                                    Width="80"
                                     MinWidth="80"
                                     Binding="{Binding Judge}"
                                     ElementStyle="{StaticResource DataGridColumnCenterTextStyle}" 
                                     CellStyle="{StaticResource DataGridCellOkNgStyle}"
                                     />
                 <DataGridTemplateColumn Header="実行ログ"
+                                    Width="80"
+                                    MinWidth="80"
                                         IsReadOnly="True"
                                         CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>

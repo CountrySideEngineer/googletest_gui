@@ -9,6 +9,8 @@ namespace gtest_gui.Model
 {
 	public class TestLogReader : TestHistoryReader
 	{
+		public TestCase TestCase { get; set; }
+
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
@@ -29,14 +31,14 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testInfo">Test information.</param>
 		/// <returns>Collection of test log file path and test case resutl as TestCase object.</returns>
-		public new virtual IEnumerable<string> ReadTest(TestInformation testInfo)
+		public new virtual string ReadTest(TestInformation testInfo)
 		{
 			try
 			{
-				string testFileName = string.Empty;
-				IEnumerable<string> testResultFiles = OutputDirFile.GetTestLogFiles();
+				string path = GetLogFilePath();
+				string content = GetLog(path);
 
-				return testResultFiles;
+				return content;
 			}
 			catch (DirectoryNotFoundException)
 			{
@@ -48,6 +50,24 @@ namespace gtest_gui.Model
 				throw;
 			}
 		}
+
+		public virtual string GetLogFilePath()
+		{
+			string path = OutputDirFile.LogFilePath(TestCase);
+
+			return path;
+		}
+
+		protected virtual string GetLog(string path)
+		{
+			using (var reader = new StreamReader(path))
+			{
+				string content = reader.ReadToEnd();
+
+				return content;
+			}
+		}
+
 
 		/// <summary>
 		/// Extract test file path of target test.
