@@ -99,9 +99,7 @@ namespace gtest_gui.ViewModel
 				TestInfo = TestInformation,
 				TestCase = _testCase
 			};
-			(string path, string content) = ((string, string))command.ExecuteCommand(commandArg);
-
-			WindowTitle = path;
+			string content = (string)command.ExecuteCommand(commandArg);
 			LogContent = content;
 		}
 
@@ -110,7 +108,15 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void GetTestLogFilePathCommandExecute()
 		{
-
+			var command = new GetLogFilePathCommand();
+			var commandArg = new TestCommandArgument()
+			{
+				TestInfo = TestInformation,
+				TestCase = _testCase
+			};
+			string filePath = (string)command.ExecuteCommand(commandArg);
+			string fileName = Path.GetFileName(filePath);
+			WindowTitle = fileName;
 		}
 	}
 }

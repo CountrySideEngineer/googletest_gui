@@ -29,7 +29,7 @@ namespace gtest_gui.Command
 		/// </summary>
 		/// <param name="cmdArgument">Command argument.</param>
 		/// <returns>Collection of test file and TestCase object as test log in tuple.</returns>
-		public object ExecuteCommand(TestCommandArgument cmdArgument)
+		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			TestInformation testInfo = cmdArgument.TestInfo;
 			TestCase testCase = cmdArgument.TestCase;
@@ -43,9 +43,8 @@ namespace gtest_gui.Command
 				TestCase = testCase
 			};
 			string content = reader.ReadTest(testInfo);
-			string path = reader.GetLogFilePath();
 
-			return (path, content);
+			return content;
 		}
 	}
 }
