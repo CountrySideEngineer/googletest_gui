@@ -1,4 +1,5 @@
 ﻿using gtest_gui.Model;
+using gtest2html;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,11 @@ namespace gtest_gui.Command.Argument
 		public TestInformation TestInfo { get; set; }
 
 		/// <summary>
+		/// Test case data.
+		/// </summary>
+		public TestCase TestCase { get; set; }
+
+		/// <summary>
 		/// Progress to notify test progress.
 		/// </summary>
 		public IProgress<TestInformation> Progress { get; set; }
@@ -22,17 +28,28 @@ namespace gtest_gui.Command.Argument
 		/// </summary>
 		public TestCommandArgument()
 		{
-			this.TestInfo = null;
+			TestInfo = null;
+			TestCase = null;
 		}
 
 		/// <summary>
 		/// Constructor with argument.
 		/// </summary>
-		/// <param name="targetFile">Path to file to execute test.</param>
-		/// <param name="testInfo">Test informations.</param>
+		/// <param name="testInfo">Test information.</param>
 		public TestCommandArgument(TestInformation testInfo)
 		{
-			this.TestInfo = testInfo;
+			TestInfo = testInfo;
+			TestCase = null;
+		}
+
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="testCase">Test case data.</param>
+		public TestCommandArgument(TestCase testCase)
+		{
+			TestInfo = null;
+			TestCase = testCase;
 		}
 
 		/// <summary>
