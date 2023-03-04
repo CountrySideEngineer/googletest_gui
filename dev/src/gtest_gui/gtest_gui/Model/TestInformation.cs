@@ -29,6 +29,16 @@ namespace gtest_gui.Model
 		}
 
 		/// <summary>
+		/// Copy constructor.
+		/// </summary>
+		/// <param name="src"></param>
+		public TestInformation(TestInformation src)
+		{
+			TestFile = src.TestFile;
+			TestItems = new List<TestItem>(src.TestItems);
+		}
+
+		/// <summary>
 		/// Compare with other TestInformation object.
 		/// </summary>
 		/// <param name="target">Object to compare.</param>
