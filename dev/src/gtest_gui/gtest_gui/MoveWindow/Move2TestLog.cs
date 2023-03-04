@@ -1,7 +1,9 @@
 ﻿using gtest_gui.View;
 using gtest_gui.ViewModel;
+using gtest2html;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace gtest_gui.MoveWindow
@@ -20,14 +22,18 @@ namespace gtest_gui.MoveWindow
 		public void Move(object srcContext)
 		{
 			var viewModel = (TestHistoryViewModel)srcContext;
-			var dstViewModel = new TestLogViewModel()
+			int selectedIndex = viewModel.SelectedIndex;
+			IEnumerable<TestCase> testCases = viewModel.TestCases;
+			TestCase testCase = testCases.ElementAt(selectedIndex);
+			var dstViewModel = new TestLogViewModel(testCase)
 			{
-				LogFilePath = this.LogFilePath
+				TestInformation = viewModel.TestInformation
 			};
 			var dstWindow = new TestLogWindow()
 			{
 				DataContext = dstViewModel
 			};
+			dstViewModel.GetTestLogFilePathCommandExecute();
 			dstViewModel.LoadTestLogCommandExecute();
 			dstWindow.ShowDialog();
 		}

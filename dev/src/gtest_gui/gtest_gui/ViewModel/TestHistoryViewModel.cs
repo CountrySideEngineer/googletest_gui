@@ -155,7 +155,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void LoadTestHistoryCommandExecute()
 		{
-			var commandArg = new TestCommandArgument(this.TestInformation);
+			var commandArg = new TestCommandArgument(TestInformation);
 			var command = new LoadTestHistoryCommand();
 			IEnumerable<TestCase> testCases = (IEnumerable<TestCase>)command.ExecuteCommand(commandArg);
 			List<TestCase> testCaseList = testCases.ToList();
@@ -167,15 +167,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void ShowLogCommandExecute()
 		{
-			var commandArg = new TestCommandArgument(TestInformation);
-			var command = new LoadTestLogCommand();
-			IEnumerable<string> files = (IEnumerable<string>)command.ExecuteCommand(commandArg);
-			string file = files.ElementAt(SelectedIndex);
-
-			var mover = new Move2TestLog()
-			{
-				LogFilePath = file
-			};
+			var mover = new Move2TestLog();
 			mover.Move(this);
 		}
 	}

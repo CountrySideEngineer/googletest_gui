@@ -42,20 +42,5 @@ namespace gtest_gui.MoveWindow
 			dstViewModel.LoadTestHistoryCommandExecute();
 			historyWindow.ShowDialog();
 		}
-
-		protected IEnumerable<TestCase> ExtractTestHistory(string testFilePath, TestItem testItem)
-		{
-			var testInfo = new TestInformation()
-			{
-				TestFile = testFilePath,
-				TestItems = new List<TestItem>
-				{
-					testItem
-				}
-			};
-			var reader = new TestHistoryReader();
-			IEnumerable<TestCase> testCases = reader.ReadTest(testInfo);
-			return testCases;
-		}
 	}
 }

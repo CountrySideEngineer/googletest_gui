@@ -13,6 +13,12 @@ namespace gtest_gui.ViewModel
 {
 	public class TestLogViewModel : ViewModelBase
 	{
+
+		/// <summary>
+		/// Test case date to handle in this view model.
+		/// </summary>
+		protected TestCase _testCase;
+
 		/// <summary>
 		/// Field of window title.
 		/// </summary>
@@ -26,7 +32,24 @@ namespace gtest_gui.ViewModel
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public TestLogViewModel() { }
+		public TestLogViewModel()
+		{
+			_testCase = null;
+		}
+
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="testCase"></param>
+		public TestLogViewModel(TestCase testCase)
+		{
+			_testCase = testCase;
+		}
+
+		/// <summary>
+		/// Test information.
+		/// </summary>
+		public TestInformation TestInformation { get; set; }
 
 		/// <summary>
 		/// Path to file to show in the content area.
@@ -70,11 +93,30 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void LoadTestLogCommandExecute()
 		{
-			using (var stream = new StreamReader(LogFilePath))
+			var command = new LoadTestLogCommand();
+			var commandArg = new TestCommandArgument()
 			{
-				string logContent = stream.ReadToEnd();
-				LogContent = logContent;
-			}
+				TestInfo = TestInformation,
+				TestCase = _testCase
+			};
+			string content = (string)command.ExecuteCommand(commandArg);
+			LogContent = content;
+		}
+
+		/// <summary>
+		/// Get log file path to load.
+		/// </summary>
+		public void GetTestLogFilePathCommandExecute()
+		{
+			var command = new GetLogFilePathCommand();
+			var commandArg = new TestCommandArgument()
+			{
+				TestInfo = TestInformation,
+				TestCase = _testCase
+			};
+			string filePath = (string)command.ExecuteCommand(commandArg);
+			string fileName = Path.GetFileName(filePath);
+			WindowTitle = fileName;
 		}
 	}
 }
