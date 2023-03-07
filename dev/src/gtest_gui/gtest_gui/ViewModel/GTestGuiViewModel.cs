@@ -260,7 +260,7 @@ namespace gtest_gui.ViewModel
 			{
 				if (null == _runSingleTestCommand)
 				{
-					_runSingleTestCommand = new DelegateCommand(RunSingleCommandExecute);
+					_runSingleTestCommand = new DelegateCommand(RunSingleTestCommandExecute);
 				}
 				return _runSingleTestCommand;
 			}
@@ -400,9 +400,14 @@ namespace gtest_gui.ViewModel
 		/// <summary>
 		/// Run selected one test.
 		/// </summary>
-		public void RunSingleCommandExecute()
+		public void RunSingleTestCommandExecute()
 		{
-			Console.WriteLine("RunSingleCommandExecute");
+			var command = new SingleTestExecuteCommand();
+			var commandArg = new SingleSelectedTestCommandArgument(TestInfo)
+			{
+				TestItemId = SelectedTestIndex
+			};
+			ExecuteCommand(command, commandArg);
 		}
 
 		protected bool _isCheckAll = false;
