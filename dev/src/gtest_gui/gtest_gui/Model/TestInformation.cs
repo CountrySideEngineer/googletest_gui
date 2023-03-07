@@ -31,11 +31,21 @@ namespace gtest_gui.Model
 		/// <summary>
 		/// Copy constructor.
 		/// </summary>
-		/// <param name="src"></param>
+		/// <param name="src">Copy source object.</param>
 		public TestInformation(TestInformation src)
 		{
 			TestFile = src.TestFile;
-			TestItems = new List<TestItem>(src.TestItems);
+			var testItems = new List<TestItem>();
+			foreach (var srcItem in src.TestItems)
+			{
+				TestItem newItem = new TestItem()
+				{
+					Name = srcItem.Name,
+					IsSelected = srcItem.IsSelected
+				};
+				testItems.Add(newItem);
+			}
+			TestItems = testItems;
 		}
 
 		/// <summary>
