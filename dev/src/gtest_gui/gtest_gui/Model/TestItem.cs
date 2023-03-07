@@ -48,6 +48,16 @@ namespace gtest_gui.Model
 		}
 
 		/// <summary>
+		/// Copy constructor.
+		/// </summary>
+		/// <param name="src">Copy source object.</param>
+		public TestItem(TestItem src)
+		{
+			Name = src.Name;
+			IsSelected = src.IsSelected;
+		}
+
+		/// <summary>
 		/// Determine whether the test datas are equal.
 		/// </summary>
 		/// <param name="obj">Instance to compare</param>
