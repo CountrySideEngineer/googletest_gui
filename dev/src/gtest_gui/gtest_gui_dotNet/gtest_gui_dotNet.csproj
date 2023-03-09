@@ -67,6 +67,9 @@
     <Compile Include="..\gtest_gui\Command\Argument\ProgressChangedCommandArgument.cs">
       <Link>Command\Argument\ProgressChangedCommandArgument.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Command\Argument\SingleSelectedTestCommandArgument.cs">
+      <Link>Command\Argument\SingleSelectedTestCommandArgument.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\Argument\TestCommandArgument.cs">
       <Link>Command\Argument\TestCommandArgument.cs</Link>
     </Compile>
@@ -87,6 +90,9 @@
     </Compile>
     <Compile Include="..\gtest_gui\Command\LoadTestLogCommand.cs">
       <Link>Command\LoadTestLogCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\SingleTestExecuteCommand.cs">
+      <Link>Command\SingleTestExecuteCommand.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Command\TestExecuteAsyncCommand.cs">
       <Link>Command\TestExecuteAsyncCommand.cs</Link>
