@@ -38,11 +38,7 @@ namespace gtest_gui.Model
 			var testItems = new List<TestItem>();
 			foreach (var srcItem in src.TestItems)
 			{
-				TestItem newItem = new TestItem()
-				{
-					Name = srcItem.Name,
-					IsSelected = srcItem.IsSelected
-				};
+				TestItem newItem = new TestItem(srcItem);
 				testItems.Add(newItem);
 			}
 			TestItems = testItems;
