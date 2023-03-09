@@ -408,6 +408,7 @@ namespace gtest_gui.ViewModel
 				TestItemId = SelectedTestIndex
 			};
 			ExecuteCommand(command, commandArg);
+			LoadTestCommandExecute();
 		}
 
 		protected bool _isCheckAll = false;
