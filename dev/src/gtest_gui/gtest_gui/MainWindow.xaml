@@ -72,7 +72,11 @@
                   SelectedIndex="{Binding SelectedTestIndex}"
                   IsEnabled="{Binding CanReloadTest}"
                   IsReadOnly="True"
+                  IsSynchronizedWithCurrentItem="True"
                   >
+            <DataGrid.InputBindings>
+                <MouseBinding Command="{Binding RunSingleTestCommand}" MouseAction="LeftDoubleClick"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.Header>
@@ -102,7 +106,8 @@
                                     IsReadOnly="True"
                                     ElementStyle="{StaticResource DataGridColumnCenterTextStyle}"
                                     CellStyle="{StaticResource DataGridCellOkNgStyle}"
-                                    />
+                                    >
+                </DataGridTextColumn>
                 <DataGridTemplateColumn IsReadOnly="False"
                                         Header="履歴"
                                         CanUserResize="False"

@@ -74,6 +74,8 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		protected DelegateCommand _loadTestCommand;
 
+		protected DelegateCommand _runSingleTestCommand;
+
 		/// <summary>
 		/// Delegate to notify the test finished.
 		/// </summary>
@@ -252,6 +254,18 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		public DelegateCommand RunSingleTestCommand
+		{
+			get
+			{
+				if (null == _runSingleTestCommand)
+				{
+					_runSingleTestCommand = new DelegateCommand(RunSingleTestCommandExecute);
+				}
+				return _runSingleTestCommand;
+			}
+		}
+
 		/// <summary>
 		/// Actual command function to select target test file.
 		/// </summary>
@@ -313,7 +327,6 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void RunTestCommandExecute()
 		{
-			//var command = new TestExecuteCommand();
 			var command = new TestExecuteAsyncCommand();
 			var argument = new TestCommandArgument(TestInfo);
 			_ = ExecuteCommand(command, argument);
@@ -382,6 +395,20 @@ namespace gtest_gui.ViewModel
 		{
 			var mover = new Move2History();
 			mover.Move(this);
+		}
+
+		/// <summary>
+		/// Run selected one test.
+		/// </summary>
+		public void RunSingleTestCommandExecute()
+		{
+			var command = new SingleTestExecuteCommand();
+			var commandArg = new SingleSelectedTestCommandArgument(TestInfo)
+			{
+				TestItemId = SelectedTestIndex
+			};
+			ExecuteCommand(command, commandArg);
+			LoadTestCommandExecute();
 		}
 
 		protected bool _isCheckAll = false;

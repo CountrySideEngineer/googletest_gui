@@ -29,6 +29,22 @@ namespace gtest_gui.Model
 		}
 
 		/// <summary>
+		/// Copy constructor.
+		/// </summary>
+		/// <param name="src">Copy source object.</param>
+		public TestInformation(TestInformation src)
+		{
+			TestFile = src.TestFile;
+			var testItems = new List<TestItem>();
+			foreach (var srcItem in src.TestItems)
+			{
+				TestItem newItem = new TestItem(srcItem);
+				testItems.Add(newItem);
+			}
+			TestItems = testItems;
+		}
+
+		/// <summary>
 		/// Compare with other TestInformation object.
 		/// </summary>
 		/// <param name="target">Object to compare.</param>
