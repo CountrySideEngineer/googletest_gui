@@ -107,6 +107,7 @@
                         <DataTemplate>
                             <Button Content="実行"
                                     Style="{StaticResource DataGridColumnButtonStyle}"
+                                    Command="{Binding DataContext.RunSingleTestCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                     />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
