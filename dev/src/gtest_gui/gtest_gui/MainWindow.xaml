@@ -99,6 +99,19 @@
                                     Binding="{Binding Name, Mode=TwoWay}"
                                     IsReadOnly="True"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+                <DataGridTemplateColumn IsReadOnly="True"
+                                        Header="実行"
+                                        CanUserResize="False"
+                                        >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="実行"
+                                    Style="{StaticResource DataGridColumnButtonStyle}"
+                                    Command="{Binding DataContext.RunSingleTestCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                    />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="結果"
                                     Width="80"
                                     CanUserResize="False"
@@ -108,7 +121,7 @@
                                     CellStyle="{StaticResource DataGridCellOkNgStyle}"
                                     >
                 </DataGridTextColumn>
-                <DataGridTemplateColumn IsReadOnly="False"
+                <DataGridTemplateColumn IsReadOnly="True"
                                         Header="履歴"
                                         CanUserResize="False"
                                         >
