@@ -13,6 +13,28 @@ namespace gtest_gui.Command
 	public class LoadTestCommand : ITestCommand
 	{
 		/// <summary>
+		/// Output directory and file data.
+		/// </summary>
+		public OutputDirAndFile OutputDirFile { get; set; } = null;
+
+		public TestListReader ListReader { get; set; } = null;
+
+		public TestResultReader ResultReader { get; set; } = null;
+
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public LoadTestCommand()
+		{
+			string currentDir = Directory.GetCurrentDirectory();
+			OutputDirFile = new OutputDirAndFile(currentDir);
+
+			ListReader = new TestListReader();
+
+			ResultReader = new TestResultReader();
+		}
+
+		/// <summary>
 		/// Execute command to read 
 		/// </summary>
 		/// <param name="cmdArgument">Argumetn for command.</param>
@@ -20,16 +42,16 @@ namespace gtest_gui.Command
 		public object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			string filePath = cmdArgument.TestInfo.TestFile;
-			var testListReader = new TestListReader()
-			{
-				TestFilePath = filePath
-			};
-			TestInformation testInformation = testListReader.Run();
-			string testExeFile = System.IO.Path.GetFileNameWithoutExtension(filePath);
-			var outputDirFile = new OutputDirAndFile(Directory.GetCurrentDirectory(), testExeFile);
-			var reader = new TestResultReader(filePath, outputDirFile);
-			reader.ReadTest(testInformation);
+			ListReader.TestFilePath = filePath;
+			IEnumerable<TestItem> testItems = ListReader.Read();
+			ResultReader.TargetPath = filePath;
+			ResultReader.OutputDirFile = OutputDirFile;
+			IEnumerable<TestItem> testResults = ResultReader.Read(testItems);
 
+			var testInformation = new TestInformation()
+			{
+				TestItems = testResults
+			};
 			return testInformation;
 		}
 	}
