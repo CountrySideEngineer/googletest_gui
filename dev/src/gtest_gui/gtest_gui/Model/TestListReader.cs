@@ -32,56 +32,69 @@ namespace gtest_gui.Model
 		}
 
         /// <summary>
-        /// Read test list.
+        /// Read test items.
         /// </summary>
-        /// <param name="testFilePath">Path to file to read.</param>
-        public virtual TestInformation Run()
+        /// <returns>Collection of test case as a IEnumerable object.</returns>
+        public virtual IEnumerable<TestItem> Read()
 		{
-            TestInformation testInformation = Run(TestFilePath, OutputToList);
-            return testInformation;
+            IEnumerable<TestItem> items = Read(TestFilePath, OutputToList);
+            return items;
 		}
 
         /// <summary>
-        /// Read test list.
+        /// Read test cases as a list.
         /// </summary>
-        /// <param name="testFilePath">Path to file to read.</param>
-        /// <param name="testInformation"><para>TestInformation</para> object to set test list.</param>
-        public virtual TestInformation Run(string testFilePath)
-		{
-            TestInformation testInformation = Run(testFilePath, OutputToList);
-            return testInformation;
-		}
-
-        /// <summary>
-        /// Read test list.
-        /// </summary>
-        /// <param name="testFilePath">Path to file to read.</param>
-        /// <param name="testInformation"><para>TestInformation</para> object to set test list.</param>
-        /// <param name="postTest">Action to run after read.</param>
-        public virtual TestInformation Run(string testFilePath,
+        /// <param name="path">Path to stream, file, to read file list from.</param>
+        /// <param name="postTest">Function to run after reading process.</param>
+        /// <returns>Collection of TestItem object.</returns>
+        public virtual IEnumerable<TestItem> Read(
+            string path, 
             Func<StreamReader, IEnumerable<TestItem>> postTest)
 		{
-            var procStartInfo = new ProcessStartInfo
+            ProcessStartInfo startInfo = GetProcessStartInfo();
+            startInfo.FileName = path;
+            startInfo.Arguments = "--gtest_list_tests";
+
+            IEnumerable<TestItem> items = RunProcess(startInfo, postTest);
+
+            return items;
+		}
+
+        /// <summary>
+        /// Run process to read test list.
+        /// </summary>
+        /// <param name="procInfo">Process information to run.</param>
+        /// <param name="postProcess">Function to run after the process finished.</param>
+        /// <returns>Collection of TestItem object.</returns>
+        protected virtual IEnumerable<TestItem> RunProcess(ProcessStartInfo procInfo,
+            Func<StreamReader, IEnumerable<TestItem>> postProcess)
+		{
+            using (var process = new Process())
+			{
+                process.StartInfo = procInfo;
+                process.Start();
+                process.WaitForExit();
+
+                IEnumerable<TestItem> testItems = postProcess?.Invoke(process.StandardOutput);
+
+                return testItems;
+			}
+		}
+
+        /// <summary>
+        /// Get ProcessStartInfo object to be used in process to read test list..
+        /// </summary>
+        /// <returns>ProcessStartInfo object.</returns>
+        protected virtual ProcessStartInfo GetProcessStartInfo()
+		{
+            var procStartInfo = new ProcessStartInfo()
             {
-                FileName = testFilePath,
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                Arguments = "--gtest_list_tests",
             };
-            using (var process = new Process())
-			{
-                process.StartInfo = procStartInfo;
-                process.Start();
-                process.WaitForExit();
-
-                IEnumerable<TestItem> testItems = postTest?.Invoke(process.StandardOutput);
-                var testInformation = new TestInformation();
-                testInformation.TestFile = testFilePath;
-                testInformation.TestItems = testItems;
-                return testInformation;
-			}
+            return procStartInfo;
 		}
 
         /// <summary>
