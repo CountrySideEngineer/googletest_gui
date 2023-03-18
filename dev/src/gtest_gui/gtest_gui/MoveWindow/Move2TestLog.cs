@@ -22,13 +22,11 @@ namespace gtest_gui.MoveWindow
 		public void Move(object srcContext)
 		{
 			var viewModel = (TestHistoryViewModel)srcContext;
+			string testFilePath = viewModel.TestFilePath;
 			int selectedIndex = viewModel.SelectedIndex;
 			IEnumerable<TestCase> testCases = viewModel.TestCases;
 			TestCase testCase = testCases.ElementAt(selectedIndex);
-			var dstViewModel = new TestLogViewModel(testCase)
-			{
-				TestInformation = viewModel.TestInformation
-			};
+			var dstViewModel = new TestLogViewModel(testFilePath, testCase);
 			var dstWindow = new TestLogWindow()
 			{
 				DataContext = dstViewModel

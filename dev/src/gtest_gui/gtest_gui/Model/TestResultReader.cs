@@ -14,7 +14,7 @@ namespace gtest_gui.Model
 		/// <summary>
 		/// Path to test execution file.
 		/// </summary>
-		public string Target { get; set; }
+		public string TargetPath { get; set; }
 
 		/// <summary>
 		/// The log and file information.
@@ -26,7 +26,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		public TestResultReader()
 		{
-			Target = string.Empty;
+			TargetPath = string.Empty;
 			OutputDirFile = null;
 		}
 
@@ -38,29 +38,28 @@ namespace gtest_gui.Model
 		/// <remarks>If the <para>outputDirFile</para> is not set, null will be passed.</remarks>
 		public TestResultReader(string target, OutputDirAndFile outputDirFile = null)
 		{
-			Target = target;
+			TargetPath = target;
 			OutputDirFile = outputDirFile;
 		}
 
 		/// <summary>
-		/// Read test data corresponding to the test execution file.
+		/// Read result of tests.
 		/// </summary>
-		/// <param name="testInfo">Test information file includes the test execution file.</param>
-		public virtual void ReadTest(TestInformation testInfo)
+		/// <param name="testItems">Collection of test to read result.</param>
+		/// <returns>Collection of TestItem whose result, as "Judge" property, has been set.</returns>
+		public virtual IEnumerable<TestCase> Read(IEnumerable<TestItem> testItems)
 		{
 			try
 			{
-				string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
-				IEnumerable<string> testResultFiles = GetTestResultFiles(testFileName);
-				IEnumerable<TestCase> testCases = GetAllTestCases(testResultFiles);
-				SetTestResult(testInfo, testCases);
+				string targetName = System.IO.Path.GetFileNameWithoutExtension(TargetPath);
+				IEnumerable<string> testResults = GetTestResultFiles(targetName);
+				IEnumerable<TestCase> testCases = GetAllTestCases(testResults);
+				return testCases;
 			}
 			catch (DirectoryNotFoundException)
 			{
-				/*
-				 *	The test has never been run.
-				 *	Skip the operation.
-				 */
+				var testCases = new List<TestCase>();
+				return testCases;
 			}
 		}
 
@@ -74,6 +73,7 @@ namespace gtest_gui.Model
 		{
 			try
 			{
+				OutputDirFile.TestExeFileName = fileName;
 				IEnumerable<string> reportFiles = OutputDirFile.GetTestReportFiles();
 				return reportFiles;
 			}
@@ -159,33 +159,6 @@ namespace gtest_gui.Model
 			IEnumerable<TestCase> testCases = GetAllTestCases(testSuite);
 
 			return testCases;
-		}
-
-		/// <summary>
-		/// Set result of test into test informations.
-		/// </summary>
-		/// <param name="testinfo"><para>TestInformation</para> object to set the result.</param>
-		/// <param name="testCases">Collection of <para>TestCase</para> object.</param>
-		protected virtual void SetTestResult(TestInformation testinfo, IEnumerable<TestCase> testCases)
-		{
-			foreach (var testItem in testinfo.TestItems)
-			{
-				try
-				{
-					var classAndCaseName = testItem.Name.Split('.');
-					string className = classAndCaseName[0];
-					string name = classAndCaseName[1];
-					var testCase = testCases.Where(_ =>
-						_.Name.Equals(name) && _.ClassName.Equals(className))
-						.OrderByDescending(_ => _.Timestamp)
-						.FirstOrDefault();
-					testItem.Result = testCase.Judge;
-				}
-				catch (NullReferenceException)
-				{
-					testItem.Result = string.Empty;	//No result can be found in the test case.
-				}
-			}
 		}
 	}
 }
