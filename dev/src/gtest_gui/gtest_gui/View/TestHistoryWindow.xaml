@@ -32,7 +32,7 @@
             <TextBlock Text="テスト名："
                        Style="{StaticResource TextBlockRightStyle}"
                            />
-            <TextBlock Text="{Binding TestInformation.TestItems[0].Name}"
+            <TextBlock Text="{Binding TestName}"
                        Style="{StaticResource TextBlockLeftStyle}"
                            />
         </StackPanel>

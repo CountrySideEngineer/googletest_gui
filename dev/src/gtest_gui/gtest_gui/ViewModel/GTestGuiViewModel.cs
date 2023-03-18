@@ -353,7 +353,12 @@ namespace gtest_gui.ViewModel
 			{
 				var command = new LoadTestCommand();
 				var argument = new TestCommandArgument(baseTestInfo);
-				TestInformation testInformation = (TestInformation)ExecuteCommand(command, argument);
+				IEnumerable<TestItem> testItems = (IEnumerable<TestItem>)ExecuteCommand(command, argument);
+				TestInformation testInformation = new TestInformation()
+				{
+					TestFile = baseTestInfo.TestFile,
+					TestItems = testItems
+				};
 				if (testInformation.Equals(TestInfo))
 				{
 					foreach (var testItem in TestInfo.TestItems)

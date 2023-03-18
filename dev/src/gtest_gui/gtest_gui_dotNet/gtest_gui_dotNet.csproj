@@ -64,6 +64,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\gtest_gui\Command\Argument\GetLogFilePathCommandArgument.cs">
+      <Link>Command\Argument\GetLogFilePathCommandArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\Argument\LoadTestHistoryCommandArgument.cs">
+      <Link>Command\Argument\LoadTestHistoryCommandArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\Argument\LoadTestLogCommandArgument.cs">
+      <Link>Command\Argument\LoadTestLogCommandArgument.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\Argument\ProgressChangedCommandArgument.cs">
       <Link>Command\Argument\ProgressChangedCommandArgument.cs</Link>
     </Compile>

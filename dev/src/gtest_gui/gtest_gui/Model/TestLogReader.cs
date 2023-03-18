@@ -9,8 +9,6 @@ namespace gtest_gui.Model
 {
 	public class TestLogReader : TestHistoryReader
 	{
-		public TestCase TestCase { get; set; }
-
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
@@ -26,16 +24,11 @@ namespace gtest_gui.Model
 			: base(target, outputDirAndFile)
 		{ }
 
-		/// <summary>
-		/// Returns collection of test log file path and the test case result as TestCase object.
-		/// </summary>
-		/// <param name="testInfo">Test information.</param>
-		/// <returns>Collection of test log file path and test case resutl as TestCase object.</returns>
-		public new virtual string ReadTest(TestInformation testInfo)
+		public virtual string Read(TestCase testCase)
 		{
 			try
 			{
-				string path = GetLogFilePath();
+				string path = GetLogFilePath(testCase);
 				string content = GetLog(path);
 
 				return content;
@@ -51,9 +44,9 @@ namespace gtest_gui.Model
 			}
 		}
 
-		public virtual string GetLogFilePath()
+		public virtual string GetLogFilePath(TestCase testCase)
 		{
-			string path = OutputDirFile.LogFilePath(TestCase);
+			string path = OutputDirFile.LogFilePath(testCase);
 
 			return path;
 		}
