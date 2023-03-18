@@ -39,13 +39,11 @@ namespace gtest_gui.Command
 		/// <returns>Test history as a collection of TestCase object.</returns>
 		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			string path = cmdArgument.TestInfo.TestFile;
-			ListReader.TestFilePath = path;
-			IEnumerable<TestItem> testItems = ListReader.Read();
-			ResultReader.TargetPath = path;
+			LoadTestHistoryCommandArgument arg = (LoadTestHistoryCommandArgument)cmdArgument;
+			ResultReader.TargetPath = arg.TestPath;
 			ResultReader.OutputDirFile = OutputDirFile;
-			IEnumerable<TestCase> testCases = ResultReader.Read(testItems);
-			IEnumerable<TestCase> cases = ExtractTestCase(testItems, testCases);
+			IEnumerable<TestCase> testCases = ResultReader.Read(arg.TestItems);
+			IEnumerable<TestCase> cases = ExtractTestCase(arg.TestItems, testCases);
 
 			return cases;
 		}

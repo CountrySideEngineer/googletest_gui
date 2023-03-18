@@ -29,8 +29,6 @@ namespace gtest_gui.Model
 			return null;
 		}
 
-
-
 		/// <summary>
 		/// Returns collection of tests.
 		/// </summary>
