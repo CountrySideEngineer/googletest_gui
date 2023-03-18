@@ -24,7 +24,7 @@ namespace gtest_gui.MoveWindow
 			string testFilePath = srcViewModel.TestInfo.TestFile;
 			var dstViewModel = new TestHistoryViewModel
 			{
-				TestFilePath = srcViewModel.TestInfo.TestFile,
+				TestFilePath = testFilePath,
 				TestItem = testItem
 			};
 			var historyWindow = new TestHistoryWindow()
