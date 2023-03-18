@@ -24,6 +24,13 @@ namespace gtest_gui.Model
 			: base(target, outputDirFile)
 		{}
 
+		public new virtual IEnumerable<TestCase> Read(IEnumerable<TestItem> testItems)
+		{
+			return null;
+		}
+
+
+
 		/// <summary>
 		/// Returns collection of tests.
 		/// </summary>
@@ -32,15 +39,13 @@ namespace gtest_gui.Model
 		/// <exception cref="DirectoryNotFoundException"></exception>
 		/// <exception cref="IndexOutOfRangeException"></exception>
 		/// <exception cref="NullReferenceException"></exception>
-		public new virtual IEnumerable<TestCase> ReadTest(TestInformation testInfo)
+		public virtual IEnumerable<TestCase> ReadTest(TestInformation testInfo)
 		{
 			try
 			{
 				string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
 				IEnumerable<string> testResultFiles = GetTestResultFiles(testFileName);
-				IEnumerable<TestCase> srcTestCases = GetAllTestCases(testResultFiles);
-				IEnumerable<TestCase> testCases = ExtractTestCase(testInfo, srcTestCases);
-
+				IEnumerable<TestCase> testCases = GetAllTestCases(testResultFiles);
 				return testCases;
 			}
 			catch (DirectoryNotFoundException)
@@ -53,39 +58,5 @@ namespace gtest_gui.Model
 				return null;
 			}
 		}
-
-		/// <summary>
-		/// Extract test case data.
-		/// </summary>
-		/// <param name="testInfo">Test information.</param>
-		/// <param name="srcCases">Collection of TestCase object to be extractd.</param>
-		/// <returns>Extracted test case data.</returns>
-		/// <exception cref="IndexOutOfRangeException"></exception>
-		/// <exception cref="NullReferenceException"></exception>
-		protected virtual IEnumerable<TestCase> ExtractTestCase(TestInformation testInfo, IEnumerable<TestCase> srcCases)
-		{
-			try
-			{
-				var testItem = testInfo.TestItems.First();
-				var classAndTestName = testItem.Name.Split('.');
-				string className = classAndTestName[0];
-				string testName = classAndTestName[1];
-				var testCases = srcCases.Where(_ =>
-					_.Name.Equals(testName) && _.ClassName.Equals(className))
-					.OrderByDescending(_ => _.Timestamp);
-
-				return testCases;
-			}
-			catch (Exception ex)
-			when ((ex is IndexOutOfRangeException) || (ex is InvalidOperationException))
-			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
 	}
 }
- 

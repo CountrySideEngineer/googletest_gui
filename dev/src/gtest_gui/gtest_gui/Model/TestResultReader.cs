@@ -47,14 +47,20 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testItems">Collection of test to read result.</param>
 		/// <returns>Collection of TestItem whose result, as "Judge" property, has been set.</returns>
-		public virtual IEnumerable<TestItem> Read(IEnumerable<TestItem> testItems)
+		public virtual IEnumerable<TestCase> Read(IEnumerable<TestItem> testItems)
 		{
-			string targetName = System.IO.Path.GetFileNameWithoutExtension(TargetPath);
-			IEnumerable<string> testResults = GetTestResultFiles(targetName);
-			IEnumerable<TestCase> testCases = GetAllTestCases(testResults);
-			SetTestResult(testItems, testCases);
-
-			return testItems;
+			try
+			{
+				string targetName = System.IO.Path.GetFileNameWithoutExtension(TargetPath);
+				IEnumerable<string> testResults = GetTestResultFiles(targetName);
+				IEnumerable<TestCase> testCases = GetAllTestCases(testResults);
+				return testCases;
+			}
+			catch (DirectoryNotFoundException)
+			{
+				var testCases = new List<TestCase>();
+				return testCases;
+			}
 		}
 
 		/// <summary>
@@ -153,33 +159,6 @@ namespace gtest_gui.Model
 			IEnumerable<TestCase> testCases = GetAllTestCases(testSuite);
 
 			return testCases;
-		}
-
-		/// <summary>
-		/// Set result of test into test informations.
-		/// </summary>
-		/// <param name="dstItems">Collection of TestItem to set the result.</param>
-		/// <param name="srcCases">Collection of TestCase from which to read the results.</param>
-		protected virtual void SetTestResult(IEnumerable<TestItem> dstItems, IEnumerable<TestCase> srcCases)
-		{
-			foreach (var item in dstItems)
-			{
-				try
-				{
-					string[] testCaseName = item.Name.Split('.');
-					string className = testCaseName[0];
-					string caseName = testCaseName[1];
-					var testCase = srcCases.Where(_ =>
-						_.Name.Equals(caseName) && _.ClassName.Equals(className))
-						.OrderByDescending(_ => _.Timestamp)
-						.FirstOrDefault();
-					item.Result = testCase.Judge;
-				}
-				catch (NullReferenceException)
-				{
-					item.Result = string.Empty;
-				}
-			}
 		}
 	}
 }
