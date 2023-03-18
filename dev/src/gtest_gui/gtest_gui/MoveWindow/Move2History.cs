@@ -22,18 +22,10 @@ namespace gtest_gui.MoveWindow
 			int selectedTestIndex = srcViewModel.SelectedTestIndex;
 			TestItem testItem = srcViewModel.TestInfo.TestItems.ElementAt(selectedTestIndex);
 			string testFilePath = srcViewModel.TestInfo.TestFile;
-			TestInformation testInfo = new TestInformation
-			{
-				TestFile = testFilePath,
-				TestItems = new List<TestItem>
-				{
-					testItem
-				}
-			};
-
 			var dstViewModel = new TestHistoryViewModel
 			{
-				TestInformation = testInfo
+				TestFilePath = testFilePath,
+				TestItem = testItem
 			};
 			var historyWindow = new TestHistoryWindow()
 			{

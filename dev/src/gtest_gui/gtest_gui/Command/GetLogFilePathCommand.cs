@@ -28,18 +28,18 @@ namespace gtest_gui.Command
 		/// <returns>Path to log specified by test case and test execution ilfe.</returns>
 		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			TestCase testCase = cmdArgument.TestCase;
-			string testFilePath = cmdArgument.TestInfo.TestFile;
+			var logFilePathArg = (GetLogFilePathCommandArgument)cmdArgument;
+			string testFilePath = logFilePathArg.TestPath;
 			string testFileName = Path.GetFileNameWithoutExtension(testFilePath);
+			TestCase testCase = logFilePathArg.TestCase;
 
 			_outptuDirFile.TestExeFileName = testFileName;
 			_outptuDirFile.TestTimeStamp = testCase.Timestamp;
 			var reader = new TestLogReader()
 			{
-				OutputDirFile = _outptuDirFile,
-				TestCase = testCase
+				OutputDirFile = _outptuDirFile
 			};
-			string logFilePath = reader.GetLogFilePath();
+			string logFilePath = reader.GetLogFilePath(testCase);
 
 			return logFilePath;
 		}
