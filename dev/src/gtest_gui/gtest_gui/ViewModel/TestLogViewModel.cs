@@ -13,6 +13,15 @@ namespace gtest_gui.ViewModel
 {
 	public class TestLogViewModel : ViewModelBase
 	{
+		/// <summary>
+		/// Path to file to execute tests.
+		/// </summary>
+		protected string _testFilePath;
+
+		/// <summary>
+		/// Log file path.
+		/// </summary>
+		protected string _logFilePath;
 
 		/// <summary>
 		/// Test case date to handle in this view model.
@@ -35,42 +44,40 @@ namespace gtest_gui.ViewModel
 		public TestLogViewModel()
 		{
 			_testCase = null;
+			LogFilePath = string.Empty;
 		}
 
 		/// <summary>
 		/// Constructor with argument.
 		/// </summary>
 		/// <param name="testCase"></param>
-		public TestLogViewModel(TestCase testCase)
+		public TestLogViewModel(string testFilePath, TestCase testCase)
 		{
+			_testFilePath = testFilePath;
 			_testCase = testCase;
 		}
 
 		/// <summary>
-		/// Test information.
-		/// </summary>
-		public TestInformation TestInformation { get; set; }
-
-		/// <summary>
 		/// Path to file to show in the content area.
 		/// </summary>
-		public string LogFilePath { get; set; }
+		public string LogFilePath
+		{
+			get
+			{
+				return _logFilePath;
+			}
+			set
+			{
+				_logFilePath = value;
+				RaisePropertyChanged(nameof(LogFilePath));
+				RaisePropertyChanged(nameof(WindowTitle));
+			}
+		}
 
 		/// <summary>
 		/// Window title property.
 		/// </summary>
-		public string WindowTitle
-		{
-			get
-			{
-				return LogFilePath;
-			}
-			set
-			{
-				LogFilePath = value;
-				RaisePropertyChanged(nameof(WindowTitle));
-			}
-		}
+		public string WindowTitle => LogFilePath;
 
 		/// <summary>
 		/// Log content property.
@@ -94,9 +101,9 @@ namespace gtest_gui.ViewModel
 		public void LoadTestLogCommandExecute()
 		{
 			var command = new LoadTestLogCommand();
-			var commandArg = new TestCommandArgument()
+			var commandArg = new LoadTestLogCommandArgument
 			{
-				TestInfo = TestInformation,
+				TestPath = _testFilePath,
 				TestCase = _testCase
 			};
 			string content = (string)command.ExecuteCommand(commandArg);
@@ -109,14 +116,14 @@ namespace gtest_gui.ViewModel
 		public void GetTestLogFilePathCommandExecute()
 		{
 			var command = new GetLogFilePathCommand();
-			var commandArg = new TestCommandArgument()
+			var commandArg = new GetLogFilePathCommandArgument()
 			{
-				TestInfo = TestInformation,
+				TestPath = _testFilePath,
 				TestCase = _testCase
 			};
 			string filePath = (string)command.ExecuteCommand(commandArg);
 			string fileName = Path.GetFileName(filePath);
-			WindowTitle = fileName;
+			LogFilePath = fileName;
 		}
 	}
 }

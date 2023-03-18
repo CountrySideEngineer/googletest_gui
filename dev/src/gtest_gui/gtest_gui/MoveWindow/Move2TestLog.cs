@@ -21,21 +21,19 @@ namespace gtest_gui.MoveWindow
 		/// <param name="srcContext">Data to show in the window.</param>
 		public void Move(object srcContext)
 		{
-			//var viewModel = (TestHistoryViewModel)srcContext;
-			//int selectedIndex = viewModel.SelectedIndex;
-			//IEnumerable<TestCase> testCases = viewModel.TestCases;
-			//TestCase testCase = testCases.ElementAt(selectedIndex);
-			//var dstViewModel = new TestLogViewModel(testCase)
-			//{
-			//	TestInformation = viewModel.TestInformation
-			//};
-			//var dstWindow = new TestLogWindow()
-			//{
-			//	DataContext = dstViewModel
-			//};
-			//dstViewModel.GetTestLogFilePathCommandExecute();
-			//dstViewModel.LoadTestLogCommandExecute();
-			//dstWindow.ShowDialog();
+			var viewModel = (TestHistoryViewModel)srcContext;
+			string testFilePath = viewModel.TestFilePath;
+			int selectedIndex = viewModel.SelectedIndex;
+			IEnumerable<TestCase> testCases = viewModel.TestCases;
+			TestCase testCase = testCases.ElementAt(selectedIndex);
+			var dstViewModel = new TestLogViewModel(testFilePath, testCase);
+			var dstWindow = new TestLogWindow()
+			{
+				DataContext = dstViewModel
+			};
+			dstViewModel.GetTestLogFilePathCommandExecute();
+			dstViewModel.LoadTestLogCommandExecute();
+			dstWindow.ShowDialog();
 		}
 	}
 }

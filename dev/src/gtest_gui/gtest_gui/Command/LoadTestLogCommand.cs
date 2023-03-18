@@ -31,18 +31,17 @@ namespace gtest_gui.Command
 		/// <returns>Collection of test file and TestCase object as test log in tuple.</returns>
 		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			TestInformation testInfo = cmdArgument.TestInfo;
-			TestCase testCase = cmdArgument.TestCase;
-
-			string testFileName = Path.GetFileNameWithoutExtension(testInfo.TestFile);
+			var testLogArg = (LoadTestLogCommandArgument)cmdArgument;
+			string testPath = testLogArg.TestPath;
+			TestCase testCase = testLogArg.TestCase;
+			string testFileName = Path.GetFileNameWithoutExtension(testPath);
 			_outputDirFile.TestExeFileName = testFileName;
 			_outputDirFile.TestTimeStamp = testCase.Timestamp;
 			var reader = new TestLogReader()
 			{
-				OutputDirFile = _outputDirFile,
-				TestCase = testCase
+				OutputDirFile = _outputDirFile
 			};
-			string content = reader.ReadTest(testInfo);
+			string content = reader.Read(testCase);
 
 			return content;
 		}

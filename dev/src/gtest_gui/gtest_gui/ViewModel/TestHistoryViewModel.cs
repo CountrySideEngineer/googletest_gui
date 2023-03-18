@@ -118,6 +118,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Path to test data file.
+		/// </summary>
 		public string TestFilePath
 		{
 			get
@@ -131,6 +134,9 @@ namespace gtest_gui.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Displayed test tesm , TestItem object.
+		/// </summary>
 		public TestItem TestItem
 		{
 			get
@@ -165,18 +171,18 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void LoadTestHistoryCommandExecute()
 		{
+			var testItems = new List<TestItem>()
+			{
+				TestItem
+			};
 			var commandArg = new LoadTestHistoryCommandArgument()
 			{
 				TestPath = TestFilePath,
-				TestItems = new List<TestItem>()
-				{
-					TestItem
-				}
+				TestItems = testItems
 			};
 			var command = new LoadTestHistoryCommand();
 			IEnumerable<TestCase> testCases = (IEnumerable<TestCase>)command.ExecuteCommand(commandArg);
-			List<TestCase> testCaseList = testCases.ToList();
-			TestCases = testCaseList;
+			TestCases = testCases;
 		}
 
 		/// <summary>
