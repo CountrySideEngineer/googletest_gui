@@ -77,7 +77,18 @@ namespace gtest_gui.ViewModel
 		/// <summary>
 		/// Window title property.
 		/// </summary>
-		public string WindowTitle => LogFilePath;
+		public string WindowTitle
+		{
+			get
+			{
+				string windowTitle = "実行ログ";
+				if ((!string.IsNullOrEmpty(LogFilePath)) && (!string.IsNullOrWhiteSpace(LogFilePath)))
+				{
+					windowTitle += " - " + LogFilePath;
+				}
+				return windowTitle;
+			}
+		}
 
 		/// <summary>
 		/// Log content property.
