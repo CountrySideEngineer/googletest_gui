@@ -91,11 +91,11 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				string title = "実行履歴";
+				string title = "テストケース実行履歴";
 				if ((!string.IsNullOrEmpty(TestFilePath)) &&
 					(!string.IsNullOrWhiteSpace(TestFilePath)))
 				{
-					title += "-" + TestFilePath;
+					title += " - " + TestFilePath;
 				}
 				return title;
 			}
