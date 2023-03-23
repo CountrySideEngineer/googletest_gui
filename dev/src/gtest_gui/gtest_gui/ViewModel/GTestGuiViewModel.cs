@@ -87,6 +87,8 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public NotifyTestExecutionFinishedDelegate NotifyTestExecutionFinished;
 
+		public NotifyTestExecutionFinishedDelegate NotifyTestExecutionFailed;
+
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
@@ -97,6 +99,7 @@ namespace gtest_gui.ViewModel
 			CanReloadTest = false;
 
 			NotifyTestExecutionFinished += NotifySuccess;
+			NotifyTestExecutionFailed += NotifyError;
 		}
 
 		/// <summary>
@@ -329,12 +332,19 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void RunTestCommandExecute()
 		{
-			var command = new TestExecuteAsyncCommand();
-			var argument = new TestCommandArgument(TestInfo);
-			_ = ExecuteCommand(command, argument);
-			LoadTestCommandExecute();
+			try
+			{
+				var command = new TestExecuteAsyncCommand();
+				var argument = new TestCommandArgument(TestInfo);
+				_ = ExecuteCommand(command, argument);
+				LoadTestCommandExecute();
 
-			NotifyTestExecutionFinished?.Invoke(null);
+				NotifyTestExecutionFinished?.Invoke(null);
+			}
+			catch (Exception)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
 		}
 
 		/// <summary>
