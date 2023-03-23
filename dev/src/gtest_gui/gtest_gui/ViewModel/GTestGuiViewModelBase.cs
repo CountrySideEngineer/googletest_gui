@@ -19,12 +19,7 @@ namespace gtest_gui.ViewModel
 		/// <param name="e"></param>
 		public virtual void RaiseNotifyErrorEvent(EventArgs e)
 		{
-			IMoveWindow mover = new Move2NgResult()
-			{
-				Title = "失敗",
-				Message = "処理中に"
-			};
-			MoveWindow(mover);
+			NotifyError(null);
 		}
 
 		/// <summary>
@@ -32,6 +27,21 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		/// <param name="e"></param>
 		public virtual void RaiseNotifySuccessEvent(EventArgs e)
+		{
+			NotifySuccess(null);
+		}
+
+		public virtual void NotifyError(object resultData)
+		{
+			IMoveWindow mover = new Move2NgResult()
+			{
+				Title = "失敗",
+				Message = "処理中にエラーが発生しました。"
+			};
+			MoveWindow(mover);
+		}
+
+		public virtual void NotifySuccess(object resultData)
 		{
 			IMoveWindow mover = new Move2OkResult()
 			{

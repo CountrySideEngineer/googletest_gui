@@ -95,6 +95,8 @@ namespace gtest_gui.ViewModel
 			TestInfo = new TestInformation();
 			CanRunTest = false;
 			CanReloadTest = false;
+
+			NotifyTestExecutionFinished += NotifySuccess;
 		}
 
 		/// <summary>
