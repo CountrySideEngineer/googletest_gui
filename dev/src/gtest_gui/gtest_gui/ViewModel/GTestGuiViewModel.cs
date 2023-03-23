@@ -17,7 +17,7 @@ namespace gtest_gui.ViewModel
 	/// <summary>
 	/// Main view model class of gtest_gui application.
 	/// </summary>
-	public class GTestGuiViewModel : ViewModelBase
+	public class GTestGuiViewModel : GTestGuiViewModelBase
 	{
 		/// <summary>
 		/// Test file path field.
