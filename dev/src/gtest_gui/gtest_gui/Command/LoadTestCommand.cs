@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using gtest_gui.Command.Exception;
 
 namespace gtest_gui.Command
 {
@@ -42,15 +43,23 @@ namespace gtest_gui.Command
 		/// <returns>Returs test log as <para>TestInformation</para> object.</returns>
 		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			string filePath = cmdArgument.TestInfo.TestFile;
-			ListReader.TestFilePath = filePath;
-			IEnumerable<TestItem> testItems = ListReader.Read();
-			ResultReader.TargetPath = filePath;
-			ResultReader.OutputDirFile = OutputDirFile;
-			IEnumerable<TestCase> testCases = ResultReader.Read(testItems);
-			SetResultToItem(testCases, testItems);
+			try
+			{
+				string filePath = cmdArgument.TestInfo.TestFile;
+				ListReader.TestFilePath = filePath;
+				IEnumerable<TestItem> testItems = ListReader.Read();
+				ResultReader.TargetPath = filePath;
+				ResultReader.OutputDirFile = OutputDirFile;
+				IEnumerable<TestCase> testCases = ResultReader.Read(testItems);
+				SetResultToItem(testCases, testItems);
 
-			return testItems;
+				return testItems;
+			}
+			catch (System.Exception ex)
+			{
+				var exception = new CommandException(ex);
+				throw exception;
+			}
 		}
 
 		protected virtual void SetResultToItem(IEnumerable<TestCase> cases, IEnumerable<TestItem> items)
