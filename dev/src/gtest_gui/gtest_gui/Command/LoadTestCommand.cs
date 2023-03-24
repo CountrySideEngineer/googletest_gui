@@ -20,8 +20,14 @@ namespace gtest_gui.Command
 		/// </summary>
 		public OutputDirAndFile OutputDirFile { get; set; } = null;
 
+		/// <summary>
+		/// Test list reader.
+		/// </summary>
 		public TestListReader ListReader { get; set; } = null;
 
+		/// <summary>
+		/// Test result reader.
+		/// </summary>
 		public TestResultReader ResultReader { get; set; } = null;
 
 		/// <summary>
