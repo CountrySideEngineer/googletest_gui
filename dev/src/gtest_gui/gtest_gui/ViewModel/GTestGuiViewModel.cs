@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using CountrySideEngineer.ViewModel.Base;
 using System.ComponentModel;
+using gtest_gui.Command.Exception;
 
 namespace gtest_gui.ViewModel
 {
@@ -87,6 +88,9 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public NotifyTestExecutionFinishedDelegate NotifyTestExecutionFinished;
 
+		/// <summary>
+		/// Notify command execution finished with failure.
+		/// </summary>
 		public NotifyTestExecutionFinishedDelegate NotifyTestExecutionFailed;
 
 		/// <summary>
@@ -383,6 +387,20 @@ namespace gtest_gui.ViewModel
 				TestInfo = testInformation;
 				UpdateCanCommandExecute();
 			}
+			catch (CommandException ex)
+			when (ex.InnerException is OutOfMemoryException)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
+			catch (CommandException ex)
+			when (ex.InnerException is IOException)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
+			catch (CommandException)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
 			catch (NullReferenceException ex)
 			{
 				Debug.Write(ex.Message);
@@ -401,8 +419,15 @@ namespace gtest_gui.ViewModel
 		/// <returns>Result of command.</returns>
 		protected object ExecuteCommand(ITestCommand command, TestCommandArgument commandArg)
 		{
-			object cmdResult = command.ExecuteCommand(commandArg);
-			return cmdResult;
+			try
+			{
+				object cmdResult = command.ExecuteCommand(commandArg);
+				return cmdResult;
+			}
+			catch (CommandException)
+			{
+				throw;
+			}
 		}
 
 		/// <summary>

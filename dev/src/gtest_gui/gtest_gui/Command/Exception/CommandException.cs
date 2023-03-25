@@ -11,6 +11,10 @@ namespace gtest_gui.Command.Exception
 		/// </summary>
 		public CommandException() : base() { }
 
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="innerException"></param>
 		public CommandException(System.Exception innerException) : base(string.Empty, innerException) { }
 	}
 }
