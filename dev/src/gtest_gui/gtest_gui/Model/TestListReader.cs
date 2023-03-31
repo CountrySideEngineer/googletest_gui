@@ -35,6 +35,9 @@ namespace gtest_gui.Model
         /// Read test items.
         /// </summary>
         /// <returns>Collection of test case as a IEnumerable object.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="OutOfMemoryException"></exception>
+        /// <exception cref="IOException"></exception>
         public virtual IEnumerable<TestItem> Read()
 		{
             try
