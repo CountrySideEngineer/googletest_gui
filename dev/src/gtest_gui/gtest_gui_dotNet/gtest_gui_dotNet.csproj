@@ -85,6 +85,9 @@
     <Compile Include="..\gtest_gui\Command\DelegateCommand.cs">
       <Link>Command\DelegateCommand.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Command\Exception\CommandException.cs">
+      <Link>Command\Exception\CommandException.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\GetLogFilePathCommand.cs">
       <Link>Command\GetLogFilePathCommand.cs</Link>
     </Compile>
@@ -155,8 +158,17 @@
     <Compile Include="..\gtest_gui\MoveWindow\Move2History.cs">
       <Link>MoveWindow\Move2History.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2NgResult.cs">
+      <Link>MoveWindow\Move2NgResult.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2OkResult.cs">
+      <Link>MoveWindow\Move2OkResult.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\MoveWindow\Move2Progress.cs">
       <Link>MoveWindow\Move2Progress.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2Result.cs">
+      <Link>MoveWindow\Move2Result.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\MoveWindow\Move2TestLog.cs">
       <Link>MoveWindow\Move2TestLog.cs</Link>
@@ -166,6 +178,9 @@
     </Compile>
     <Compile Include="..\gtest_gui\ViewModel\GTestGuiViewModel.cs">
       <Link>ViewModel\GTestGuiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\ViewModel\GTestGuiViewModelBase.cs">
+      <Link>ViewModel\GTestGuiViewModelBase.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\ViewModel\TestHistoryViewModel.cs">
       <Link>ViewModel\TestHistoryViewModel.cs</Link>
