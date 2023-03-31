@@ -62,9 +62,22 @@ namespace gtest_gui.Command
 				return testItems;
 			}
 			catch (System.Exception ex)
+			when (ex is NullReferenceException)
 			{
 				var exception = new CommandException(ex);
 				throw exception;
+			}
+			catch (System.Exception ex)
+			when (ex is ArgumentException)
+			{
+				var exception = new CommandException(ex);
+				throw;
+			}
+			catch (System.Exception ex)
+			when ((ex is OutOfMemoryException) || (ex is IOException))
+			{
+				var exception = new CommandException(ex);
+				throw;
 			}
 		}
 
