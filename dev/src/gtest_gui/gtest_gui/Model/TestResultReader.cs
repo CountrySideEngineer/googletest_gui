@@ -77,7 +77,7 @@ namespace gtest_gui.Model
 				IEnumerable<string> reportFiles = OutputDirFile.GetTestReportFiles();
 				return reportFiles;
 			}
-			catch (DirectoryNotFoundException)
+			catch (FileNotFoundException)
 			{
 				throw;
 			}
@@ -88,15 +88,17 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testFiles">Collection of test result file path.</param>
 		/// <returns>Colelction of <para>TestSuites</para> read from files.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="InvalidOperationException"></exception>
+		/// <exception cref="IOException"></exception>
 		protected virtual IEnumerable<TestSuites> GetTestSuites(IEnumerable<string> testFiles)
 		{
-			var testSuitesList = new List<TestSuites>();
 			foreach (var testFile in testFiles)
 			{
-				var testSuites = GetTestSuites(testFile);
-				testSuitesList.Add(testSuites);
+				TestSuites testSuites = GetTestSuites(testFile);
+				yield return testSuites;
 			}
-			return testSuitesList;
 		}
 
 		/// <summary>
@@ -120,15 +122,40 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testFile">Path to test result path.</param>
 		/// <returns><para>TestSuites</para> object read from test result file.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="InvalidOperationException"></exception>
+		/// <exception cref="IOException"></exception>
 		protected virtual TestSuites GetTestSuites(string testFile)
 		{
-			using (var reader = new StreamReader(testFile, false))
+			try
 			{
-				var serializer = new XmlSerializer(typeof(TestSuites));
-				var testSuites = (TestSuites)serializer.Deserialize(reader);
-				testSuites.FilePath = testFile;
+				using (var reader = new StreamReader(testFile, false))
+				{
+					var serializer = new XmlSerializer(typeof(TestSuites));
+					var testSuites = (TestSuites)serializer.Deserialize(reader);
+					testSuites.FilePath = testFile;
 
-				return testSuites;
+					return testSuites;
+				}
+			}
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) || (ex is ArgumentNullException))
+			{
+				throw new ArgumentException(ex.Message);
+			}
+			catch (System.Exception ex)
+			when ((ex is FileNotFoundException) || (ex is DirectoryNotFoundException))
+			{
+				throw new FileNotFoundException(ex.Message);
+			}
+			catch (InvalidOperationException)
+			{
+				throw;
+			}
+			catch (IOException)
+			{
+				throw;
 			}
 		}
 
