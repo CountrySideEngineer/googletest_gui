@@ -28,21 +28,10 @@ namespace gtest_gui
 
 		private void Window_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			try
-			{
-				GTestGuiViewModel newViewModel = (GTestGuiViewModel)e.NewValue;
-				newViewModel.NotifyTestExecutionFinished += NotifyTestExectionSuceeded;
-			}
-			catch (InvalidCastException)
-			{
-
-			}
-
 		}
 
 		protected void NotifyTestExectionSuceeded(object testResult)
 		{
-			MessageBox.Show("テストの実行が完了しました。", "実行完了", MessageBoxButton.OK);
 		}
 	}
 }
