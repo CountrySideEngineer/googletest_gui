@@ -71,13 +71,13 @@ namespace gtest_gui.Command
 			when (ex is ArgumentException)
 			{
 				var exception = new CommandException(ex);
-				throw;
+				throw exception;
 			}
 			catch (System.Exception ex)
 			when ((ex is OutOfMemoryException) || (ex is IOException))
 			{
 				var exception = new CommandException(ex);
-				throw;
+				throw exception;
 			}
 		}
 
