@@ -11,13 +11,14 @@ using System.Linq;
 using System.Text;
 using CountrySideEngineer.ViewModel.Base;
 using System.ComponentModel;
+using gtest_gui.Command.Exception;
 
 namespace gtest_gui.ViewModel
 {
 	/// <summary>
 	/// Main view model class of gtest_gui application.
 	/// </summary>
-	public class GTestGuiViewModel : ViewModelBase
+	public class GTestGuiViewModel : GTestGuiViewModelBase
 	{
 		/// <summary>
 		/// Test file path field.
@@ -88,6 +89,11 @@ namespace gtest_gui.ViewModel
 		public NotifyTestExecutionFinishedDelegate NotifyTestExecutionFinished;
 
 		/// <summary>
+		/// Notify command execution finished with failure.
+		/// </summary>
+		public NotifyTestExecutionFinishedDelegate NotifyTestExecutionFailed;
+
+		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public GTestGuiViewModel()
@@ -95,6 +101,9 @@ namespace gtest_gui.ViewModel
 			TestInfo = new TestInformation();
 			CanRunTest = false;
 			CanReloadTest = false;
+
+			NotifyTestExecutionFinished += NotifySuccess;
+			NotifyTestExecutionFailed += NotifyError;
 		}
 
 		/// <summary>
@@ -327,12 +336,19 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void RunTestCommandExecute()
 		{
-			var command = new TestExecuteAsyncCommand();
-			var argument = new TestCommandArgument(TestInfo);
-			_ = ExecuteCommand(command, argument);
-			LoadTestCommandExecute();
+			try
+			{
+				var command = new TestExecuteAsyncCommand();
+				var argument = new TestCommandArgument(TestInfo);
+				_ = ExecuteCommand(command, argument);
+				LoadTestCommandExecute();
 
-			NotifyTestExecutionFinished?.Invoke(null);
+				NotifyTestExecutionFinished?.Invoke(null);
+			}
+			catch (Exception)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
 		}
 
 		/// <summary>
@@ -371,6 +387,20 @@ namespace gtest_gui.ViewModel
 				TestInfo = testInformation;
 				UpdateCanCommandExecute();
 			}
+			catch (CommandException ex)
+			when (ex.InnerException is OutOfMemoryException)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
+			catch (CommandException ex)
+			when (ex.InnerException is IOException)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
+			catch (CommandException)
+			{
+				NotifyTestExecutionFailed?.Invoke(null);
+			}
 			catch (NullReferenceException ex)
 			{
 				Debug.Write(ex.Message);
@@ -389,8 +419,15 @@ namespace gtest_gui.ViewModel
 		/// <returns>Result of command.</returns>
 		protected object ExecuteCommand(ITestCommand command, TestCommandArgument commandArg)
 		{
-			object cmdResult = command.ExecuteCommand(commandArg);
-			return cmdResult;
+			try
+			{
+				object cmdResult = command.ExecuteCommand(commandArg);
+				return cmdResult;
+			}
+			catch (CommandException)
+			{
+				throw;
+			}
 		}
 
 		/// <summary>

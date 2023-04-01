@@ -11,16 +11,26 @@ namespace gtest_gui.Command
     {
 		public override object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			SingleSelectedTestCommandArgument arg = (SingleSelectedTestCommandArgument)cmdArgument;
-			TestInformation testInfo = new TestInformation(arg.TestInfo);
-			foreach (var item in testInfo.TestItems)
+			try
 			{
-				item.IsSelected = false;
-			}
-			testInfo.TestItems.ElementAt(arg.TestItemId).IsSelected = true;
-			TestCommandArgument cmdArg = new TestCommandArgument(testInfo);
+				SingleSelectedTestCommandArgument arg = (SingleSelectedTestCommandArgument)cmdArgument;
+				TestInformation testInfo = new TestInformation(arg.TestInfo);
+				foreach (var item in testInfo.TestItems)
+				{
+					item.IsSelected = false;
+				}
+				testInfo.TestItems.ElementAt(arg.TestItemId).IsSelected = true;
+				TestCommandArgument cmdArg = new TestCommandArgument(testInfo);
 
-			return base.ExecuteCommand(cmdArg);
+				return base.ExecuteCommand(cmdArg);
+			}
+			catch (System.Exception ex)
+			when ((ex is InvalidCastException) ||
+				(ex is ArgumentOutOfRangeException) ||
+				(ex is ArgumentNullException))
+			{
+				throw ex;
+			}
 		}
 	}
 }

@@ -70,12 +70,12 @@ namespace gtest_gui.Command
 
 				return testCases;
 			}
-			catch (Exception ex)
+			catch (System.Exception ex)
 			when ((ex is IndexOutOfRangeException) || (ex is InvalidOperationException))
 			{
 				throw;
 			}
-			catch (Exception)
+			catch (System.Exception)
 			{
 				throw;
 			}

@@ -49,7 +49,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="target">Object to compare.</param>
 		/// <returns>If the target equals this, retunrs true, otherwiese false.</returns>
-		public bool Equals(TestInformation target)
+		public virtual bool Equals(TestInformation target)
 		{
 			try
 			{

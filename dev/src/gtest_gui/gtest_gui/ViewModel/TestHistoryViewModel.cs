@@ -85,18 +85,19 @@ namespace gtest_gui.ViewModel
 		}
 
 		/// <summary>
-		/// Properrt of collection of test log files.
+		/// Window tilte property.
 		/// </summary>
-		public IEnumerable<string> TestLogFiles
+		public string WindowTitle
 		{
 			get
 			{
-				return _testLogFiles;
-			}
-			set
-			{
-				_testLogFiles = value;
-				RaisePropertyChanged(nameof(TestLogFiles));
+				string title = "テストケース実行履歴";
+				if ((!string.IsNullOrEmpty(TestFilePath)) &&
+					(!string.IsNullOrWhiteSpace(TestFilePath)))
+				{
+					title += " - " + TestFilePath;
+				}
+				return title;
 			}
 		}
 
