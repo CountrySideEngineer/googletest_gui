@@ -47,6 +47,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testItems">Collection of test to read result.</param>
 		/// <returns>Collection of TestItem whose result, as "Judge" property, has been set.</returns>
+		/// <exception cref="FileNotFoundException"></exception>
 		public virtual IEnumerable<TestCase> Read(IEnumerable<TestItem> testItems)
 		{
 			try
@@ -56,7 +57,8 @@ namespace gtest_gui.Model
 				IEnumerable<TestCase> testCases = GetAllTestCases(testResults);
 				return testCases;
 			}
-			catch (DirectoryNotFoundException)
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) || (ex is DirectoryNotFoundException))
 			{
 				var testCases = new List<TestCase>();
 				return testCases;
@@ -77,7 +79,7 @@ namespace gtest_gui.Model
 				IEnumerable<string> reportFiles = OutputDirFile.GetTestReportFiles();
 				return reportFiles;
 			}
-			catch (FileNotFoundException)
+			catch (DirectoryNotFoundException)
 			{
 				throw;
 			}
