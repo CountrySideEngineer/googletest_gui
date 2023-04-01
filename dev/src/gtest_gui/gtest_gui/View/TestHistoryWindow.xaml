@@ -6,7 +6,7 @@
         xmlns:converter="clr-namespace:gtest_gui.View.Converter"
         xmlns:local="clr-namespace:gtest_gui.View"
         mc:Ignorable="d"
-        Title="実行履歴"
+        Title="{Binding WindowTitle}"
         Height="280" Width="500"
         MinHeight="240" MinWidth="350"
         WindowStartupLocation="CenterScreen"

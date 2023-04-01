@@ -73,10 +73,6 @@ namespace gtest_gui.Model
 				{
 					isEqual = true;
 				}
-				else
-				{
-					isEqual = false;
-				}
 			}
 			catch (InvalidCastException)
 			{

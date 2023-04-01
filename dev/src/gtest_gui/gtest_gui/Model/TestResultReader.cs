@@ -47,6 +47,7 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testItems">Collection of test to read result.</param>
 		/// <returns>Collection of TestItem whose result, as "Judge" property, has been set.</returns>
+		/// <exception cref="FileNotFoundException"></exception>
 		public virtual IEnumerable<TestCase> Read(IEnumerable<TestItem> testItems)
 		{
 			try
@@ -56,7 +57,8 @@ namespace gtest_gui.Model
 				IEnumerable<TestCase> testCases = GetAllTestCases(testResults);
 				return testCases;
 			}
-			catch (DirectoryNotFoundException)
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) || (ex is DirectoryNotFoundException))
 			{
 				var testCases = new List<TestCase>();
 				return testCases;
@@ -88,15 +90,17 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testFiles">Collection of test result file path.</param>
 		/// <returns>Colelction of <para>TestSuites</para> read from files.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="InvalidOperationException"></exception>
+		/// <exception cref="IOException"></exception>
 		protected virtual IEnumerable<TestSuites> GetTestSuites(IEnumerable<string> testFiles)
 		{
-			var testSuitesList = new List<TestSuites>();
 			foreach (var testFile in testFiles)
 			{
-				var testSuites = GetTestSuites(testFile);
-				testSuitesList.Add(testSuites);
+				TestSuites testSuites = GetTestSuites(testFile);
+				yield return testSuites;
 			}
-			return testSuitesList;
 		}
 
 		/// <summary>
@@ -120,15 +124,40 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testFile">Path to test result path.</param>
 		/// <returns><para>TestSuites</para> object read from test result file.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="InvalidOperationException"></exception>
+		/// <exception cref="IOException"></exception>
 		protected virtual TestSuites GetTestSuites(string testFile)
 		{
-			using (var reader = new StreamReader(testFile, false))
+			try
 			{
-				var serializer = new XmlSerializer(typeof(TestSuites));
-				var testSuites = (TestSuites)serializer.Deserialize(reader);
-				testSuites.FilePath = testFile;
+				using (var reader = new StreamReader(testFile, false))
+				{
+					var serializer = new XmlSerializer(typeof(TestSuites));
+					var testSuites = (TestSuites)serializer.Deserialize(reader);
+					testSuites.FilePath = testFile;
 
-				return testSuites;
+					return testSuites;
+				}
+			}
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) || (ex is ArgumentNullException))
+			{
+				throw new ArgumentException(ex.Message);
+			}
+			catch (System.Exception ex)
+			when ((ex is FileNotFoundException) || (ex is DirectoryNotFoundException))
+			{
+				throw new FileNotFoundException(ex.Message);
+			}
+			catch (InvalidOperationException)
+			{
+				throw;
+			}
+			catch (IOException)
+			{
+				throw;
 			}
 		}
 
