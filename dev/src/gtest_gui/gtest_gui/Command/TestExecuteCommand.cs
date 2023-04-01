@@ -20,13 +20,30 @@ namespace gtest_gui.Command
 		/// </summary>
 		/// <param name="cmdArgument">Argument for test including target test file and information to run it.</param>
 		/// <returns>Returns always 0.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="UnauthorizedAccessException"></exception>
+		/// <exception cref="NotSupportedException"></exception>
 		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			TestRunner testRunner = SetUpTestRunner(cmdArgument);
-			TestInformation testInfo = cmdArgument.TestInfo;
-			testRunner.Run(testInfo);
+			try
+			{
+				TestRunner testRunner = SetUpTestRunner(cmdArgument);
+				TestInformation testInfo = cmdArgument.TestInfo;
+				testRunner.Run(testInfo);
 
-			return 0;
+				return 0;
+			}
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) ||
+				(ex is UnauthorizedAccessException) ||
+				(ex is NotSupportedException))
+			{
+				throw;
+			}
+			catch (NullReferenceException ex)
+			{
+				throw new ArgumentException(string.Empty, ex);
+			}
 		}
 
 		/// <summary>
@@ -34,21 +51,38 @@ namespace gtest_gui.Command
 		/// </summary>
 		/// <param name="cmdArg">Command argument used to setup TestRunner object.</param>
 		/// <returns>TestRunner object to run test.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="UnauthorizedAccessException"></exception>
+		/// <exception cref="NotSupportedException"></exception>
 		protected virtual TestRunner SetUpTestRunner(TestCommandArgument cmdArg)
 		{
-			string testFilePath = cmdArg.TestInfo.TestFile;
-			string testFileName = System.IO.Path.GetFileNameWithoutExtension(testFilePath);
-			var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFileName);
-			var testRunner = new TestRunner
+			try
 			{
-				Target = testFilePath,
-				OutputDirFile = outputDirInfo
-			};
-			var outputLogBuilder = new OutputLogBuilder(outputDirInfo);
-			testRunner.TestDataReceivedEventHandler += outputLogBuilder.OnDataReceived;
-			testRunner.TestDataFinisedEventHandler += outputLogBuilder.OnDataReceiveFinished;
+				string testFilePath = cmdArg.TestInfo.TestFile;
+				string testFileName = System.IO.Path.GetFileNameWithoutExtension(testFilePath);
+				var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFileName);
+				var testRunner = new TestRunner
+				{
+					Target = testFilePath,
+					OutputDirFile = outputDirInfo
+				};
+				var outputLogBuilder = new OutputLogBuilder(outputDirInfo);
+				testRunner.TestDataReceivedEventHandler += outputLogBuilder.OnDataReceived;
+				testRunner.TestDataFinisedEventHandler += outputLogBuilder.OnDataReceiveFinished;
 
-			return testRunner;
+				return testRunner;
+			}
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) ||
+				(ex is UnauthorizedAccessException) ||
+				(ex is NotSupportedException))
+			{
+				throw ex;
+			}
+			catch (NullReferenceException ex)
+			{
+				throw new ArgumentException(string.Empty, ex);
+			}
 		}
 	}
 }
