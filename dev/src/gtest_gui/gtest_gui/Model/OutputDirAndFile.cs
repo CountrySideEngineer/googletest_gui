@@ -198,17 +198,30 @@ namespace gtest_gui.Model
 			}
 		}
 
+		/// <summary>
+		/// Returns log file path.
+		/// </summary>
+		/// <param name="testCase">Test case data for log.</param>
+		/// <returns>Path to log file.</returns>
+		/// <exception cref="ArgumentNullException"></exception>
 		public virtual string LogFilePath(TestCase testCase)
 		{
-			DateTime timeStampBak = TestTimeStamp;
+			try
+			{
+				DateTime timeStampBak = TestTimeStamp;
 
-			TestTimeStamp = testCase.Timestamp;
-			string testName = $"{testCase.ClassName}.{testCase.Name}";
-			string logFilePath = LogFilePath(testName);
+				TestTimeStamp = testCase.Timestamp;
+				string testName = $"{testCase.ClassName}.{testCase.Name}";
+				string logFilePath = LogFilePath(testName);
 
-			TestTimeStamp = timeStampBak;
+				TestTimeStamp = timeStampBak;
 
-			return logFilePath;
+				return logFilePath;
+			}
+			catch (NullReferenceException)
+			{
+				throw new ArgumentNullException();
+			}
 		}
 
 		/// <summary>
