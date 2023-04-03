@@ -24,6 +24,11 @@ namespace gtest_gui.Model
 			: base(target, outputDirAndFile)
 		{ }
 
+		/// <summary>
+		/// Read test log data.
+		/// </summary>
+		/// <param name="testCase">Test case data to read.</param>
+		/// <returns>Read log datga.</returns>
 		public virtual string Read(TestCase testCase)
 		{
 			try
@@ -44,20 +49,60 @@ namespace gtest_gui.Model
 			}
 		}
 
+		/// <summary>
+		/// Get log file path.
+		/// </summary>
+		/// <param name="testCase">Test case information.</param>
+		/// <returns>Log file path.</returns>
+		/// <exception cref="ArgumentNullException"></exception>
 		public virtual string GetLogFilePath(TestCase testCase)
 		{
-			string path = OutputDirFile.LogFilePath(testCase);
+			try
+			{
+				string path = OutputDirFile.LogFilePath(testCase);
 
-			return path;
+				return path;
+			}
+			catch (ArgumentNullException)
+			{
+				throw;
+			}
 		}
 
+		/// <summary>
+		/// Get log from path
+		/// </summary>
+		/// <param name="path">Path to log data.</param>
+		/// <returns>Log data.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="OutOfMemoryException"></exception>
 		protected virtual string GetLog(string path)
 		{
-			using (var reader = new StreamReader(path))
+			try
 			{
-				string content = reader.ReadToEnd();
+				using (var reader = new StreamReader(path))
+				{
+					string content = reader.ReadToEnd();
 
-				return content;
+					return content;
+				}
+			}
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) || (ex is ArgumentNullException))
+			{
+				throw new ArgumentException(string.Empty, ex);
+			}
+			catch (System.Exception ex)
+			when ((ex is FileNotFoundException) || (ex is DirectoryNotFoundException))
+			{
+				throw new FileNotFoundException(string.Empty, ex);
+			}
+			catch (System.Exception ex)
+			when ((ex is IOException) || (ex is OutOfMemoryException))
+			{
+				throw;
 			}
 		}
 
