@@ -29,6 +29,11 @@ namespace gtest_gui.Model
 		/// </summary>
 		/// <param name="testCase">Test case data to read.</param>
 		/// <returns>Read log datga.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="InvalidOperationException"></exception>
+		/// <exception cref="OutOfMemoryException"></exception>
+		/// <exception cref="IOException"></exception>
 		public virtual string Read(TestCase testCase)
 		{
 			try
@@ -38,9 +43,13 @@ namespace gtest_gui.Model
 
 				return content;
 			}
-			catch (DirectoryNotFoundException)
+			catch (FileNotFoundException)
 			{
 				throw;
+			}
+			catch (ArgumentNullException ex)
+			{
+				throw new ArgumentException(ex.Message);
 			}
 			catch (Exception ex)
 			when ((ex is ArgumentNullException) || (ex is InvalidOperationException))
