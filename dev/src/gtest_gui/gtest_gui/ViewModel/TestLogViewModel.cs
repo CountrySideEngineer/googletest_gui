@@ -11,7 +11,7 @@ using System.Text;
 
 namespace gtest_gui.ViewModel
 {
-	public class TestLogViewModel : ViewModelBase
+	public class TestLogViewModel : GTestGuiViewModelBase
 	{
 		/// <summary>
 		/// Path to file to execute tests.
@@ -111,14 +111,21 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void LoadTestLogCommandExecute()
 		{
-			var command = new LoadTestLogCommand();
-			var commandArg = new LoadTestLogCommandArgument
+			try
 			{
-				TestPath = _testFilePath,
-				TestCase = _testCase
-			};
-			string content = (string)command.ExecuteCommand(commandArg);
-			LogContent = content;
+				var command = new LoadTestLogCommand();
+				var commandArg = new LoadTestLogCommandArgument
+				{
+					TestPath = _testFilePath,
+					TestCase = _testCase
+				};
+				string content = (string)command.ExecuteCommand(commandArg);
+				LogContent = content;
+			}
+			catch (Exception)
+			{
+				NotifyError(null);
+			}
 		}
 
 		/// <summary>
