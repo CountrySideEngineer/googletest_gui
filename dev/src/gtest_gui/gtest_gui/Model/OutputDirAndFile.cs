@@ -208,15 +208,12 @@ namespace gtest_gui.Model
 		{
 			try
 			{
-				DateTime timeStampBak = TestTimeStamp;
+				string testCasePath = testCase.Path;
+				string name = Path.GetFileNameWithoutExtension(testCasePath);
+				string outputDirPath = OutputDirPath();
+				string logPath = $@"{outputDirPath}\{name}.log";
 
-				TestTimeStamp = testCase.Timestamp;
-				string testName = $"{testCase.ClassName}.{testCase.Name}";
-				string logFilePath = LogFilePath(testName);
-
-				TestTimeStamp = timeStampBak;
-
-				return logFilePath;
+				return logPath;
 			}
 			catch (NullReferenceException)
 			{
