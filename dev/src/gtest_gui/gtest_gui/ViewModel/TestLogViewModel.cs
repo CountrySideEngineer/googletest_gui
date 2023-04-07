@@ -140,8 +140,7 @@ namespace gtest_gui.ViewModel
 				TestCase = _testCase
 			};
 			string filePath = (string)command.ExecuteCommand(commandArg);
-			string fileName = Path.GetFileName(filePath);
-			LogFilePath = fileName;
+			LogFilePath = filePath;
 		}
 	}
 }
