@@ -61,7 +61,7 @@ namespace gtest_gui.Command
 				string testFilePath = cmdArg.TestInfo.TestFile;
 				string testFileName = System.IO.Path.GetFileNameWithoutExtension(testFilePath);
 				var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFileName);
-				var testRunner = new TestRunner
+				var testRunner = new GoogleTestRunner
 				{
 					Target = testFilePath,
 					OutputDirFile = outputDirInfo
