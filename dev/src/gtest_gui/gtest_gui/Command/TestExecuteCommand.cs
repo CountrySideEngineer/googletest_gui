@@ -107,9 +107,10 @@ namespace gtest_gui.Command
 				string testFilePath = cmdArg.TestInfo.TestFile;
 				string testFileName = System.IO.Path.GetFileNameWithoutExtension(testFilePath);
 				OutputDirInfo.TestExeFileName = testFileName;
+				_logBuilder.OutputDirFile = OutputDirInfo;
+
 				_runner.Target = testFilePath;
 				_runner.OutputDirFile = OutputDirInfo;
-				_logBuilder.OutputDirFile = OutputDirInfo;
 				_runner.TestDataReceivedEventHandler += _logBuilder.OnDataReceived;
 				_runner.TestDataFinisedEventHandler += _logBuilder.OnDataReceiveFinished;
 			}
