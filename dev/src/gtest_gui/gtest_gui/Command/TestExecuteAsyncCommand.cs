@@ -14,6 +14,26 @@ namespace gtest_gui.Command
 {
 	public class TestExecuteAsyncCommand : TestExecuteCommand
 	{
+		protected TestRunnerAsync _runnerAsync;
+
+		protected CountrySideEngineer.ContentWindow.ContentWindow _contentWindow;
+
+		protected CountrySideEngineer.ProgressWindow.ProgressWindow _proressWindow;
+
+		public TestExecuteAsyncCommand() : base()
+		{
+			_runnerAsync = new TestRunnerAsync();
+			_contentWindow = new CountrySideEngineer.ContentWindow.ContentWindow();
+			_proressWindow = new CountrySideEngineer.ProgressWindow.ProgressWindow();
+		}
+
+		public TestExecuteAsyncCommand(TestRunner runner) : base(runner)
+		{
+			_runnerAsync = new TestRunnerAsync();
+			_contentWindow = new CountrySideEngineer.ContentWindow.ContentWindow();
+			_proressWindow = new CountrySideEngineer.ProgressWindow.ProgressWindow();
+		}
+
 		/// <summary>
 		/// Execute test async.
 		/// </summary>
@@ -22,22 +42,38 @@ namespace gtest_gui.Command
 		/// <remarks>This method will return contorl when the all test finished.</remarks>
 		public override object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			var _testRunner = base.SetUpTestRunner(cmdArgument);
+			SetUpTestRunner(cmdArgument);
+
 			string testFileName = System.IO.Path.GetFileNameWithoutExtension(cmdArgument.TestInfo.TestFile);
-			var _contentWindow = new CountrySideEngineer.ContentWindow.ContentWindow(testFileName);
-			_testRunner.TestDataReceivedEventHandler += _contentWindow.OnDataReceived;
-			_testRunner.TestDataFinisedEventHandler += _contentWindow.OnDataRefresh;
+			_contentWindow.ViewTitle = testFileName;
 			_contentWindow.Start();
-			TestRunnerAsync testRunnerAsync = new TestRunnerAsync()
-			{
-				TestRunner = _testRunner,
-				TestInfo = cmdArgument.TestInfo
-			};
-			var view = new CountrySideEngineer.ProgressWindow.ProgressWindow();
-			view.Start(testRunnerAsync);
+
+			_proressWindow.Start(_runnerAsync);
+
 			_contentWindow.Finish();
 
-			return null;
+			TearDownTestRunner();
+
+			return 0;
+		}
+
+		protected override void SetUpTestRunner(TestCommandArgument cmdArg)
+		{
+			base.SetUpTestRunner(cmdArg);
+
+			_runner.TestDataReceivedEventHandler += _contentWindow.OnDataReceived;
+			_runner.TestDataFinisedEventHandler += _contentWindow.OnDataRefresh;
+
+			_runnerAsync.TestRunner = _runner;
+			_runnerAsync.TestInfo = cmdArg.TestInfo;
+		}
+
+		protected override void TearDownTestRunner()
+		{
+			base.TearDownTestRunner();
+
+			_runner.TestDataReceivedEventHandler -= _contentWindow.OnDataReceived;
+			_runner.TestDataFinisedEventHandler -= _contentWindow.OnDataRefresh;
 		}
 	}
 }
