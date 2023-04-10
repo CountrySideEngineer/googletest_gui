@@ -29,7 +29,7 @@ namespace gtest_gui.Command
 		/// </summary>
 		public TestExecuteCommand()
 		{
-			_runner = new TestRunner();
+			_runner = new GoogleTestRunner();
 			_logBuilder = new OutputLogBuilder();
 			OutputDirInfo = new OutputDirAndFile();
 		}
