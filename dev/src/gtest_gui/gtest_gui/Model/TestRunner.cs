@@ -140,6 +140,7 @@ namespace gtest_gui.Model
         public virtual void RunTestProc(string path, TestItem testItem)
 		{
             //pre-procedure.
+            OutputDirFile.TestTimeStamp = DateTime.Now;
             OutputDirFile.SetUpTestOutputDirectories(testItem.Name);
 
             Run(path, testItem);
