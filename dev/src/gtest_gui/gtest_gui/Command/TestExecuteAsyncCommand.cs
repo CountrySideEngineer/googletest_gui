@@ -9,6 +9,7 @@ using CountrySideEngineer.ProgressWindow;
 using CountrySideEngineer.ProgressWindow.Model;
 using CountrySideEngineer.ProgressWindow.ViewModel;
 using System.Diagnostics;
+using gtest_gui.Command.Exception;
 
 namespace gtest_gui.Command
 {
@@ -42,21 +43,51 @@ namespace gtest_gui.Command
 		/// <remarks>This method will return contorl when the all test finished.</remarks>
 		public override object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
-			SetUpTestRunner(cmdArgument);
+			try
+			{
+				SetUpTestRunner(cmdArgument);
 
-			string testFileName = System.IO.Path.GetFileNameWithoutExtension(cmdArgument.TestInfo.TestFile);
-			_contentWindow.ViewTitle = testFileName;
-			_contentWindow.Start();
+				string testFileName = System.IO.Path.GetFileNameWithoutExtension(cmdArgument.TestInfo.TestFile);
+				_contentWindow.ViewTitle = testFileName;
+				_contentWindow.Start();
 
-			_proressWindow.Start(_runnerAsync);
+				_proressWindow.Start(_runnerAsync);
 
-			_contentWindow.Finish();
+				_contentWindow.Finish();
 
-			TearDownTestRunner();
+				TearDownTestRunner();
 
-			return 0;
+				return 0;
+			}
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) ||
+				(ex is UnauthorizedAccessException) ||
+				(ex is NotSupportedException))
+			{
+				var exception = new CommandException()
+				{
+					Code = 0x00000001,
+					Title = "テスト実行エラー",
+					Summary = "選択されたテストが実行できませんでした。" + Environment.NewLine +
+						"実行ファイルの有無、指定されたテストがGoogletestを使用しているか、確認してください。"
+				};
+				throw exception;
+			}
+			catch (System.Exception ex)
+			when (ex is NullReferenceException)
+			{
+				throw;
+			} 
 		}
 
+		/// <summary>
+		/// Set up TestRunner object with parameters passed with argument, TestCommandArgument.
+		/// </summary>
+		/// <param name="cmdArg">Command argument used to setup TestRunner object.</param>
+		/// <returns>TestRunner object to run test.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="UnauthorizedAccessException"></exception>
+		/// <exception cref="NotSupportedException"></exception>
 		protected override void SetUpTestRunner(TestCommandArgument cmdArg)
 		{
 			base.SetUpTestRunner(cmdArg);
