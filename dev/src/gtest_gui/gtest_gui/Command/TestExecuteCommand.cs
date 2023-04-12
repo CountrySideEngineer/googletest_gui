@@ -1,4 +1,5 @@
 ﻿using gtest_gui.Command.Argument;
+using gtest_gui.Command.Exception;
 using gtest_gui.Model;
 using gtest_gui.MoveWindow;
 using gtest_gui.View;
@@ -84,7 +85,13 @@ namespace gtest_gui.Command
 				(ex is UnauthorizedAccessException) ||
 				(ex is NotSupportedException))
 			{
-				throw;
+				throw new CommandException()
+				{
+					Code = 0x00000001,
+					Title = "テスト実行エラー",
+					Summary = "選択されたテストが実行できませんでした。" + Environment.NewLine +
+						"実行ファイルの有無、指定されたテストがGoogletestを使用しているか、確認してください。"
+				};
 			}
 			catch (NullReferenceException)
 			{
