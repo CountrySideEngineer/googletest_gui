@@ -12,11 +12,23 @@ namespace gtest_gui.Command.Exception
 		public ulong Code { get; set; }
 
 		/// <summary>
+		/// Title of error.
+		/// </summary>
+		public string Title { get; set; }
+
+		/// <summary>
+		/// Error summary.
+		/// </summary>
+		public string Summary { get; set; }
+
+		/// <summary>
 		/// Default exception
 		/// </summary>
 		public CommandException() : base()
 		{
 			Code = 0;
+			Title = string.Empty;
+			Summary = string.Empty;	
 		}
 
 		/// <summary>
