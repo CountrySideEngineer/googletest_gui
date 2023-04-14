@@ -345,6 +345,10 @@ namespace gtest_gui.ViewModel
 
 				NotifyTestExecutionFinished?.Invoke(null);
 			}
+			catch (CommandException ex)
+			{
+				NotifyTestExecutionFailed?.Invoke(ex);
+			}
 			catch (Exception)
 			{
 				NotifyTestExecutionFailed?.Invoke(null);

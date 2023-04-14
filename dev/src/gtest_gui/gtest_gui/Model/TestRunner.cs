@@ -112,19 +112,9 @@ namespace gtest_gui.Model
         /// <returns>Test running process.</returns>
         protected virtual Process Run(string path, TestItem testItem)
 		{
-            string filterOption = GetFilterOption(path, testItem);
-            string outputOption = GetXmlOutputOption(path, testItem);
+            ProcessStartInfo procStartInfo = GetProcessStartInfo(path, testItem);
             Process process = null;
 
-            var procStartInfo = new ProcessStartInfo
-            {
-                FileName = path,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                Arguments = $"{outputOption} {filterOption}"
-            };
             using (process = new Process())
 			{
                 process.StartInfo = procStartInfo;
@@ -136,7 +126,6 @@ namespace gtest_gui.Model
                 process.CancelOutputRead();
                 process.OutputDataReceived -= OnOutputDataReceivedEvent;
                 process.ErrorDataReceived -= OnErrorDataReceivedEvent;
-                ;
             }
             return process;
 		}
@@ -151,6 +140,7 @@ namespace gtest_gui.Model
         public virtual void RunTestProc(string path, TestItem testItem)
 		{
             //pre-procedure.
+            OutputDirFile.TestTimeStamp = DateTime.Now;
             OutputDirFile.SetUpTestOutputDirectories(testItem.Name);
 
             Run(path, testItem);
@@ -190,28 +180,22 @@ namespace gtest_gui.Model
         }
 
         /// <summary>
-        /// Create test filter option of google test framework.
+        /// Get ProcessStartInformation object to run a test.
         /// </summary>
-        /// <param name="fileName">Test file path.</param>
-        /// <param name="testItem">Test item information.</param>
-        /// <returns>Test filter string.</returns>
-        protected string GetFilterOption(string fileName, TestItem testItem)
-        {
-            string filterOption = $"--gtest_filter={testItem.Name}";
-            return filterOption;
-		}
-
-        /// <summary>
-        /// Create test result output in XML format option.
-        /// </summary>
-        /// <param name="fileName">Test file path.</param>
-        /// <param name="testItem">Test item information.</param>
-        /// <returns>Test output filter option.</returns>
-        protected string GetXmlOutputOption(string fileName, TestItem testItem)
+        /// <param name="path">Path to test execution file.</param>
+        /// <param name="item">Test item data.</param>
+        /// <returns>ProcessStartInformation object to run test with default parameter.</returns>
+        protected virtual ProcessStartInfo GetProcessStartInfo(string path, TestItem item)
 		{
-            string xmlFilePath = OutputDirFile.TestReportFilePath(testItem.Name);
-            string xmlOption = $"--gtest_output=xml:{xmlFilePath}";
-            return xmlOption;
-		}
+            ProcessStartInfo procInfo = new ProcessStartInfo()
+            {
+                FileName = path,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            };
+            return procInfo;
+        }
     }
 }

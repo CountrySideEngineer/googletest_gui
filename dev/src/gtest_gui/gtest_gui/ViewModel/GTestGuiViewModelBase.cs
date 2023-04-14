@@ -1,4 +1,5 @@
 ﻿using CountrySideEngineer.ViewModel.Base;
+using gtest_gui.Command.Exception;
 using gtest_gui.MoveWindow;
 using System;
 using System.Collections.Generic;
@@ -33,11 +34,20 @@ namespace gtest_gui.ViewModel
 
 		public virtual void NotifyError(object resultData)
 		{
-			IMoveWindow mover = new Move2NgResult()
+			var mover = new Move2NgResult();
+			var exception = (CommandException)resultData;
+
+			try
 			{
-				Title = "失敗",
-				Message = "処理中にエラーが発生しました。"
-			};
+				mover.Title = exception.Title;
+				mover.Message = exception.Summary;
+			}
+			catch (Exception ex)
+			when ((ex is NullReferenceException) || (ex is InvalidCastException))
+			{
+				mover.Title = "コマンドエラー";
+				mover.Message = "処理中にエラーが発生しました。";
+			}
 			MoveWindow(mover);
 		}
 

@@ -1,4 +1,5 @@
 ﻿using gtest_gui.Command.Argument;
+using gtest_gui.Command.Exception;
 using gtest_gui.Model;
 using gtest_gui.MoveWindow;
 using gtest_gui.View;
@@ -16,6 +17,48 @@ namespace gtest_gui.Command
 	public class TestExecuteCommand : ITestCommand
 	{
 		/// <summary>
+		/// Field of TestRunner object to run test.
+		/// </summary>
+		protected TestRunner _runner;
+
+		protected OutputLogBuilder _logBuilder;
+
+		public OutputDirAndFile OutputDirInfo { get; set; }
+
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public TestExecuteCommand()
+		{
+			_runner = new GoogleTestRunner();
+			_logBuilder = new OutputLogBuilder();
+			OutputDirInfo = new OutputDirAndFile();
+		}
+
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="runner">TestRunner object to run test.</param>
+		public TestExecuteCommand(TestRunner runner)
+		{
+			_runner = runner;
+			_logBuilder = new OutputLogBuilder();
+			OutputDirInfo = new OutputDirAndFile();
+		}
+
+		/// <summary>
+		/// Constructor with arguments.
+		/// </summary>
+		/// <param name="runner">TestRunner object to run test.</param>
+		/// <param name="outputDirInfo">OutputDirAndFile object includes output directory and file data.</param>
+		public TestExecuteCommand(TestRunner runner, OutputDirAndFile outputDirInfo)
+		{
+			_runner = runner;
+			_logBuilder = new OutputLogBuilder();
+			OutputDirInfo = outputDirInfo;
+		}
+
+		/// <summary>
 		/// Execute test.
 		/// </summary>
 		/// <param name="cmdArgument">Argument for test including target test file and information to run it.</param>
@@ -23,13 +66,17 @@ namespace gtest_gui.Command
 		/// <exception cref="ArgumentException"></exception>
 		/// <exception cref="UnauthorizedAccessException"></exception>
 		/// <exception cref="NotSupportedException"></exception>
+		/// <exception cref="NullReferenceException">Invalid exception.</exception>
 		public virtual object ExecuteCommand(TestCommandArgument cmdArgument)
 		{
 			try
 			{
-				TestRunner testRunner = SetUpTestRunner(cmdArgument);
+				SetUpTestRunner(cmdArgument);
+
 				TestInformation testInfo = cmdArgument.TestInfo;
-				testRunner.Run(testInfo);
+				_runner.Run(testInfo);
+
+				TearDownTestRunner();
 
 				return 0;
 			}
@@ -38,11 +85,18 @@ namespace gtest_gui.Command
 				(ex is UnauthorizedAccessException) ||
 				(ex is NotSupportedException))
 			{
-				throw;
+				var exception = new CommandException()
+				{
+					Code = 0x00000001,
+					Title = "テスト実行エラー",
+					Summary = "選択されたテストが実行できませんでした。" + Environment.NewLine +
+						"実行ファイルの有無、指定されたテストがGoogletestを使用しているか、確認してください。"
+				};
+				throw exception;
 			}
-			catch (NullReferenceException ex)
+			catch (NullReferenceException)
 			{
-				throw new ArgumentException(string.Empty, ex);
+				throw;
 			}
 		}
 
@@ -54,23 +108,19 @@ namespace gtest_gui.Command
 		/// <exception cref="ArgumentException"></exception>
 		/// <exception cref="UnauthorizedAccessException"></exception>
 		/// <exception cref="NotSupportedException"></exception>
-		protected virtual TestRunner SetUpTestRunner(TestCommandArgument cmdArg)
+		protected virtual void SetUpTestRunner(TestCommandArgument cmdArg)
 		{
 			try
 			{
 				string testFilePath = cmdArg.TestInfo.TestFile;
 				string testFileName = System.IO.Path.GetFileNameWithoutExtension(testFilePath);
-				var outputDirInfo = new OutputDirAndFile(Directory.GetCurrentDirectory(), testFileName);
-				var testRunner = new TestRunner
-				{
-					Target = testFilePath,
-					OutputDirFile = outputDirInfo
-				};
-				var outputLogBuilder = new OutputLogBuilder(outputDirInfo);
-				testRunner.TestDataReceivedEventHandler += outputLogBuilder.OnDataReceived;
-				testRunner.TestDataFinisedEventHandler += outputLogBuilder.OnDataReceiveFinished;
+				OutputDirInfo.TestExeFileName = testFileName;
+				_logBuilder.OutputDirFile = OutputDirInfo;
 
-				return testRunner;
+				_runner.Target = testFilePath;
+				_runner.OutputDirFile = OutputDirInfo;
+				_runner.TestDataReceivedEventHandler += _logBuilder.OnDataReceived;
+				_runner.TestDataFinisedEventHandler += _logBuilder.OnDataReceiveFinished;
 			}
 			catch (System.Exception ex)
 			when ((ex is ArgumentException) ||
@@ -79,10 +129,16 @@ namespace gtest_gui.Command
 			{
 				throw ex;
 			}
-			catch (NullReferenceException ex)
+			catch (NullReferenceException)
 			{
-				throw new ArgumentException(string.Empty, ex);
+				throw;
 			}
+		}
+
+		protected virtual void TearDownTestRunner()
+		{
+			_runner.TestDataReceivedEventHandler -= _logBuilder.OnDataReceived;
+			_runner.TestDataFinisedEventHandler -= _logBuilder.OnDataReceiveFinished;
 		}
 	}
 }
