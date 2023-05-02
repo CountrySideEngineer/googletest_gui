@@ -70,10 +70,7 @@ namespace gtest_gui.Model
 		{
             try
 			{
-                ProcessStartInfo startInfo = GetProcessStartInfo();
-                startInfo.FileName = path;
-                startInfo.Arguments = "--gtest_list_tests";
-
+                ProcessStartInfo startInfo = CreateProcStartInfo(path);
                 IEnumerable<TestItem> items = RunProcess(startInfo, postTest);
 
                 return items;
@@ -90,7 +87,8 @@ namespace gtest_gui.Model
         /// <param name="procInfo">Process information to run.</param>
         /// <param name="postProcess">Function to run after the process finished.</param>
         /// <returns>Collection of TestItem object.</returns>
-        protected virtual IEnumerable<TestItem> RunProcess(ProcessStartInfo procInfo,
+        protected virtual IEnumerable<TestItem> RunProcess(
+            ProcessStartInfo procInfo,
             Func<StreamReader, IEnumerable<TestItem>> postProcess)
 		{
             try
@@ -113,10 +111,11 @@ namespace gtest_gui.Model
 		}
 
         /// <summary>
-        /// Get ProcessStartInfo object to be used in process to read test list..
+        /// Get ProcessStartInfo object to be used in process to read test list.
         /// </summary>
+        /// <param name="fileName">Path to file to run.</param>
         /// <returns>ProcessStartInfo object.</returns>
-        protected virtual ProcessStartInfo GetProcessStartInfo()
+        protected virtual ProcessStartInfo CreateProcStartInfo(string fileName)
 		{
             var procStartInfo = new ProcessStartInfo()
             {
@@ -124,6 +123,7 @@ namespace gtest_gui.Model
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
+                FileName = fileName
             };
             return procStartInfo;
 		}
