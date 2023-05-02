@@ -371,7 +371,7 @@ namespace gtest_gui.ViewModel
 		{
 			try
 			{
-				var command = new LoadTestCommand();
+				var command = new LoadTestFromGoogleTestCommand();
 				var argument = new TestCommandArgument(baseTestInfo);
 				IEnumerable<TestItem> testItems = (IEnumerable<TestItem>)ExecuteCommand(command, argument);
 				TestInformation testInformation = new TestInformation()

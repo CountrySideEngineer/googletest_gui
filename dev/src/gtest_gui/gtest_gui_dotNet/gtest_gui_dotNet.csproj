@@ -100,6 +100,9 @@
     <Compile Include="..\gtest_gui\Command\LoadTestCommand.cs">
       <Link>Command\LoadTestCommand.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Command\LoadTestFromGoogleTestCommand.cs">
+      <Link>Command\LoadTestFromGoogleTestCommand.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\LoadTestHistoryCommand.cs">
       <Link>Command\LoadTestHistoryCommand.cs</Link>
     </Compile>
@@ -118,6 +121,9 @@
     <Compile Include="..\gtest_gui\MainWindow.xaml.cs">
       <Link>MainWindow.xaml.cs</Link>
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\gtest_gui\Model\GoogleTestListReader.cs">
+      <Link>Model\GoogleTestListReader.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Model\GoogleTestRunner.cs">
       <Link>Model\GoogleTestRunner.cs</Link>
