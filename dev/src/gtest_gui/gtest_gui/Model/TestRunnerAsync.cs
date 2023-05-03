@@ -62,7 +62,10 @@ namespace gtest_gui.Model
 				};
 				if (!(0 < testCount))
 				{
-					var endProgInfo = new ProgressInfo(baseProgInfo);
+					var endProgInfo = new ProgressInfo(baseProgInfo)
+					{
+						Progress = 100
+					};
 					endProgInfo.Progress = 100;
 					progress.Report(endProgInfo);
 					return;

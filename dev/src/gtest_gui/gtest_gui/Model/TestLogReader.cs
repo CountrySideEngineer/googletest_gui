@@ -25,22 +25,31 @@ namespace gtest_gui.Model
 		{ }
 
 		/// <summary>
-		/// Returns collection of test log file path and the test case result as TestCase object.
+		/// Read test log data.
 		/// </summary>
-		/// <param name="testInfo">Test information.</param>
-		/// <returns>Collection of test log file path and test case resutl as TestCase object.</returns>
-		public new virtual IEnumerable<string> ReadTest(TestInformation testInfo)
+		/// <param name="testCase">Test case data to read.</param>
+		/// <returns>Read log datga.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="InvalidOperationException"></exception>
+		/// <exception cref="OutOfMemoryException"></exception>
+		/// <exception cref="IOException"></exception>
+		public virtual string Read(TestCase testCase)
 		{
 			try
 			{
-				string testFileName = string.Empty;
-				IEnumerable<string> testResultFiles = OutputDirFile.GetTestLogFiles();
+				string path = GetLogFilePath(testCase);
+				string content = GetLog(path);
 
-				return testResultFiles;
+				return content;
 			}
-			catch (DirectoryNotFoundException)
+			catch (FileNotFoundException)
 			{
 				throw;
+			}
+			catch (ArgumentNullException ex)
+			{
+				throw new ArgumentException(ex.Message);
 			}
 			catch (Exception ex)
 			when ((ex is ArgumentNullException) || (ex is InvalidOperationException))
@@ -48,6 +57,64 @@ namespace gtest_gui.Model
 				throw;
 			}
 		}
+
+		/// <summary>
+		/// Get log file path.
+		/// </summary>
+		/// <param name="testCase">Test case information.</param>
+		/// <returns>Log file path.</returns>
+		/// <exception cref="ArgumentNullException"></exception>
+		public virtual string GetLogFilePath(TestCase testCase)
+		{
+			try
+			{
+				string path = OutputDirFile.LogFilePath(testCase);
+
+				return path;
+			}
+			catch (ArgumentNullException)
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Get log from path
+		/// </summary>
+		/// <param name="path">Path to log data.</param>
+		/// <returns>Log data.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="FileNotFoundException"></exception>
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="OutOfMemoryException"></exception>
+		protected virtual string GetLog(string path)
+		{
+			try
+			{
+				using (var reader = new StreamReader(path))
+				{
+					string content = reader.ReadToEnd();
+
+					return content;
+				}
+			}
+			catch (System.Exception ex)
+			when ((ex is ArgumentException) || (ex is ArgumentNullException))
+			{
+				throw new ArgumentException(string.Empty, ex);
+			}
+			catch (System.Exception ex)
+			when ((ex is FileNotFoundException) || (ex is DirectoryNotFoundException))
+			{
+				throw new FileNotFoundException(string.Empty, ex);
+			}
+			catch (System.Exception ex)
+			when ((ex is IOException) || (ex is OutOfMemoryException))
+			{
+				throw;
+			}
+		}
+
 
 		/// <summary>
 		/// Extract test file path of target test.

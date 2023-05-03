@@ -25,14 +25,14 @@ namespace gtest_gui.ViewModel
 		protected IEnumerable<string> _testLogFiles;
 
 		/// <summary>
-		/// Test name.
+		/// Path to file to execute tests.
 		/// </summary>
-		protected TestInformation _testName;
+		protected string _testFilePath;
 
 		/// <summary>
-		/// Test information.
+		/// Test item of to handle in the view model.
 		/// </summary>
-		protected TestInformation _testInformation;
+		protected TestItem _testItem;
 
 		/// <summary>
 		/// Current selected test index.
@@ -49,7 +49,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public TestHistoryViewModel()
 		{
-			this._testCases = null;
+			_testCases = null;
 		}
 
 		/// <summary>
@@ -75,28 +75,29 @@ namespace gtest_gui.ViewModel
 		{
 			get
 			{
-				return this._testCases;
+				return _testCases;
 			}
 			set
 			{
-				this._testCases = value;
-				this.RaisePropertyChanged(nameof(this.TestCases));
+				_testCases = value;
+				RaisePropertyChanged(nameof(this.TestCases));
 			}
 		}
 
 		/// <summary>
-		/// Properrt of collection of test log files.
+		/// Window tilte property.
 		/// </summary>
-		public IEnumerable<string> TestLogFiles
+		public string WindowTitle
 		{
 			get
 			{
-				return _testLogFiles;
-			}
-			set
-			{
-				_testLogFiles = value;
-				RaisePropertyChanged(nameof(TestLogFiles));
+				string title = "テストケース実行履歴";
+				if ((!string.IsNullOrEmpty(TestFilePath)) &&
+					(!string.IsNullOrWhiteSpace(TestFilePath)))
+				{
+					title += " - " + TestFilePath;
+				}
+				return title;
 			}
 		}
 
@@ -109,7 +110,7 @@ namespace gtest_gui.ViewModel
 			{
 				try
 				{
-					return this.TestInformation.TestItems.ElementAt(0).Name;
+					return TestItem.Name;
 				}
 				catch (Exception)
 				{
@@ -119,19 +120,35 @@ namespace gtest_gui.ViewModel
 		}
 
 		/// <summary>
-		/// Test information.
+		/// Path to test data file.
 		/// </summary>
-		public TestInformation TestInformation
+		public string TestFilePath
 		{
 			get
 			{
-				return this._testInformation;
+				return _testFilePath;
 			}
 			set
 			{
-				this._testInformation = value;
-				this.RaisePropertyChanged(nameof(TestInformation));
-				this.RaisePropertyChanged(nameof(TestName));
+				_testFilePath = value;
+				RaisePropertyChanged(nameof(TestFilePath));
+			}
+		}
+
+		/// <summary>
+		/// Displayed test tesm , TestItem object.
+		/// </summary>
+		public TestItem TestItem
+		{
+			get
+			{
+				return _testItem;
+			}
+			set
+			{
+				_testItem = value;
+				RaisePropertyChanged(nameof(TestItem));
+				RaisePropertyChanged(nameof(TestName));
 			}
 		}
 
@@ -155,11 +172,18 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void LoadTestHistoryCommandExecute()
 		{
-			var commandArg = new TestCommandArgument(this.TestInformation);
+			var testItems = new List<TestItem>()
+			{
+				TestItem
+			};
+			var commandArg = new LoadTestHistoryCommandArgument()
+			{
+				TestPath = TestFilePath,
+				TestItems = testItems
+			};
 			var command = new LoadTestHistoryCommand();
 			IEnumerable<TestCase> testCases = (IEnumerable<TestCase>)command.ExecuteCommand(commandArg);
-			List<TestCase> testCaseList = testCases.ToList();
-			TestCases = testCaseList;
+			TestCases = testCases;
 		}
 
 		/// <summary>
@@ -167,15 +191,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public void ShowLogCommandExecute()
 		{
-			var commandArg = new TestCommandArgument(TestInformation);
-			var command = new LoadTestLogCommand();
-			IEnumerable<string> files = (IEnumerable<string>)command.ExecuteCommand(commandArg);
-			string file = files.ElementAt(SelectedIndex);
-
-			var mover = new Move2TestLog()
-			{
-				LogFilePath = file
-			};
+			var mover = new Move2TestLog();
 			mover.Move(this);
 		}
 	}

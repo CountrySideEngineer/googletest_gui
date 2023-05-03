@@ -10,6 +10,8 @@ namespace gtest2html
 	[XmlRoot("testsuites")]
 	public class TestSuites
 	{
+		protected string _path;
+
 		[XmlAttribute("tests")]
 		public int Tests { get; set; }
 
@@ -42,7 +44,36 @@ namespace gtest2html
 		/// <summary>
 		/// Test suite xml file path.
 		/// </summary>
-		public string FilePath { get; set; }
+		public string FilePath
+		{
+			get
+			{
+				return _path;
+			}
+			set
+			{
+				_path = value;
+				SetPathToItems();
+			}
+		}
+
+		/// <summary>
+		/// Set path to sub items.
+		/// </summary>
+		protected void SetPathToItems()
+		{
+			try
+			{
+				foreach (var item in TestItems)
+				{
+					item.Path = _path;
+				}
+			}
+			catch (NullReferenceException)
+			{
+				//Ignore the exception.
+			}
+		}
 
 		/// <summary>
 		/// Test data xml file name.
@@ -58,6 +89,8 @@ namespace gtest2html
 	[XmlRoot("testsuite")]
 	public class TestSuite
 	{
+		public string _path;
+
 		[XmlAttribute("name")]
 		public string Name { get; set; }
 
@@ -81,6 +114,40 @@ namespace gtest2html
 
 		[XmlElement("testcase")]
 		public List<TestCase> TestCases { get; set; }
+
+		/// <summary>
+		/// Test suite xml path.
+		/// </summary>
+		public string Path
+		{
+			get
+			{
+				return _path;
+			}
+			set
+			{
+				_path = value;
+				SetPathToTestCase();
+			}
+		}
+
+		/// <summary>
+		/// Set path to sub items.
+		/// </summary>
+		protected void SetPathToTestCase()
+		{
+			try
+			{
+				foreach (var testCase in TestCases)
+				{
+					testCase.Path = _path;
+				}
+			}
+			catch (NullReferenceException)
+			{
+				//Ignore the exception.
+			}
+		}
 	}
 
 	[XmlRoot("testcase")]
@@ -142,6 +209,11 @@ namespace gtest2html
 				}
 			}
 		}
+
+		/// <summary>
+		/// Test case xml path.
+		/// </summary>
+		public string Path { get; set; }
 	}
 
 	[XmlRoot("failure")]

@@ -32,56 +32,100 @@ namespace gtest_gui.Model
 		}
 
         /// <summary>
-        /// Read test list.
+        /// Read test items.
         /// </summary>
-        /// <param name="testFilePath">Path to file to read.</param>
-        public virtual TestInformation Run()
+        /// <returns>Collection of test case as a IEnumerable object.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="OutOfMemoryException"></exception>
+        /// <exception cref="IOException"></exception>
+        public virtual IEnumerable<TestItem> Read()
 		{
-            TestInformation testInformation = Run(TestFilePath, OutputToList);
-            return testInformation;
+            try
+			{
+                IEnumerable<TestItem> items = Read(TestFilePath, OutputToList);
+                return items;
+            }
+            catch (Exception ex)
+            when (ex is ArgumentException)
+			{
+                throw;
+			}
+            catch (Exception ex)
+            when ((ex is OutOfMemoryException) || (ex is IOException))
+			{
+                throw;
+			}
 		}
 
         /// <summary>
-        /// Read test list.
+        /// Read test cases as a list.
         /// </summary>
-        /// <param name="testFilePath">Path to file to read.</param>
-        /// <param name="testInformation"><para>TestInformation</para> object to set test list.</param>
-        public virtual TestInformation Run(string testFilePath)
-		{
-            TestInformation testInformation = Run(testFilePath, OutputToList);
-            return testInformation;
-		}
-
-        /// <summary>
-        /// Read test list.
-        /// </summary>
-        /// <param name="testFilePath">Path to file to read.</param>
-        /// <param name="testInformation"><para>TestInformation</para> object to set test list.</param>
-        /// <param name="postTest">Action to run after read.</param>
-        public virtual TestInformation Run(string testFilePath,
+        /// <param name="path">Path to stream, file, to read file list from.</param>
+        /// <param name="postTest">Function to run after reading process.</param>
+        /// <returns>Collection of TestItem object.</returns>
+        /// <exception cref="Exception"></exception>
+        public virtual IEnumerable<TestItem> Read(
+            string path, 
             Func<StreamReader, IEnumerable<TestItem>> postTest)
 		{
-            var procStartInfo = new ProcessStartInfo
+            try
+			{
+                ProcessStartInfo startInfo = CreateProcStartInfo(path);
+                IEnumerable<TestItem> items = RunProcess(startInfo, postTest);
+
+                return items;
+            }
+            catch (Exception)
+			{
+                throw;
+			}
+        }
+
+        /// <summary>
+        /// Run process to read test list.
+        /// </summary>
+        /// <param name="procInfo">Process information to run.</param>
+        /// <param name="postProcess">Function to run after the process finished.</param>
+        /// <returns>Collection of TestItem object.</returns>
+        protected virtual IEnumerable<TestItem> RunProcess(
+            ProcessStartInfo procInfo,
+            Func<StreamReader, IEnumerable<TestItem>> postProcess)
+		{
+            try
+			{
+                using (var process = new Process())
+                {
+                    process.StartInfo = procInfo;
+                    process.Start();
+                    process.WaitForExit();
+
+                    IEnumerable<TestItem> testItems = postProcess?.Invoke(process.StandardOutput);
+
+                    return testItems;
+                }
+            }
+            catch (Exception)
+			{
+                throw;
+			}
+		}
+
+        /// <summary>
+        /// Get ProcessStartInfo object to be used in process to read test list.
+        /// </summary>
+        /// <param name="fileName">Path to file to run.</param>
+        /// <returns>ProcessStartInfo object.</returns>
+        protected virtual ProcessStartInfo CreateProcStartInfo(string fileName)
+		{
+            var procStartInfo = new ProcessStartInfo()
             {
-                FileName = testFilePath,
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                Arguments = "--gtest_list_tests",
+                FileName = fileName
             };
-            using (var process = new Process())
-			{
-                process.StartInfo = procStartInfo;
-                process.Start();
-                process.WaitForExit();
-
-                IEnumerable<TestItem> testItems = postTest?.Invoke(process.StandardOutput);
-                var testInformation = new TestInformation();
-                testInformation.TestFile = testFilePath;
-                testInformation.TestItems = testItems;
-                return testInformation;
-			}
+            return procStartInfo;
 		}
 
         /// <summary>
@@ -89,11 +133,22 @@ namespace gtest_gui.Model
         /// </summary>
         /// <param name="testOutputStream">Stream to read test list from.</param>
         /// <param name="testInformation"><para>TestInformation</para> object to set test information read from stream.</param>
+        /// <exception cref="OutOfMemoryException"></exception>
+        /// <exception cref="IOException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         protected virtual IEnumerable<TestItem> OutputToList(StreamReader testOutputStream)
 		{
-            string outputData = testOutputStream.ReadToEnd();
-            IEnumerable<TestItem> testItems = OutputToTestItem(outputData);
-            return testItems;
+            try
+			{
+                string outputData = testOutputStream.ReadToEnd();
+                IEnumerable<TestItem> testItems = OutputToTestItem(outputData);
+                return testItems;
+            }
+            catch (Exception ex)
+            when ((ex is OutOfMemoryException) || (ex is IOException))
+			{
+                throw ex;
+			}
 		}
 
         /// <summary>
@@ -101,38 +156,49 @@ namespace gtest_gui.Model
         /// </summary>
         /// <param name="output">Standard output data.</param>
         /// <returns>List of test items read from <para>output</para>.</returns>
+        /// <exception cref="ArgumentException"></exception>
         protected virtual IEnumerable<TestItem> OutputToTestItem(string output)
 		{
-            var outputInArray = output.Replace("\r\n", "\n").Split(new[] { '\n', '\r'});
-            /*
-             * The head item in array is expalanation of test, for example test file.
-             * Skip the data because it is not information about test case.
-             */
-            outputInArray = outputInArray.Where((source, index) => 0 < index).ToArray();
+            try
+			{
+                var outputInArray = output.Replace("\r\n", "\n").Split(new[] { '\n', '\r' });
+                /*
+                 * The head item in array is expalanation of test, for example test file.
+                 * Skip the data because it is not information about test case.
+                 */
+                outputInArray = outputInArray.Where((source, index) => 0 < index).ToArray();
 
-            var testSuiteName = string.Empty;
-            var testItems = new List<TestItem>();
-            foreach (var item in outputInArray)
-            {
-                if (item.EndsWith("."))
+                var testSuiteName = string.Empty;
+                var testItems = new List<TestItem>();
+                foreach (var item in outputInArray)
                 {
-                    testSuiteName = item;
-                }
-                else
-                {
-                    var testName = item.Trim();
-                    if (!(string.IsNullOrEmpty(testName)))
+                    if (item.EndsWith("."))
                     {
-                        var testItem = new TestItem
+                        testSuiteName = item;
+                    }
+                    else
+                    {
+                        var testName = item.Trim();
+                        if (!(string.IsNullOrEmpty(testName)))
                         {
-                            Name = testSuiteName + testName,
-                            IsSelected = false
-                        };
-                        testItems.Add(testItem);
+                            var testItem = new TestItem
+                            {
+                                Name = testSuiteName + testName,
+                                IsSelected = false
+                            };
+                            testItems.Add(testItem);
+                        }
                     }
                 }
+                return testItems;
             }
-            return testItems;
+            catch (Exception ex)
+            when ((ex is ArgumentException) ||
+                (ex is ArgumentNullException) ||
+                (ex is NullReferenceException))
+			{
+                throw new ArgumentException();
+			}
         }
     }
 }

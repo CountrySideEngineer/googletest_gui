@@ -1,6 +1,8 @@
-﻿using System;
+﻿using gtest2html;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace gtest_gui.Model
@@ -15,12 +17,12 @@ namespace gtest_gui.Model
 		/// <summary>
 		/// Test execute file name.
 		/// </summary>
-		public string TestExeFileName { get; protected set; }
+		public string TestExeFileName { get; set; }
 
 		/// <summary>
 		/// The time the object created.
 		/// </summary>
-		protected DateTime _newedTimeStamp;
+		public DateTime TestTimeStamp { get; set; }
 
 		/// <summary>
 		/// Default time stamp format.
@@ -34,7 +36,7 @@ namespace gtest_gui.Model
 		{
 			RootDirPath = Directory.GetCurrentDirectory();
 			TestExeFileName = string.Empty;
-			_newedTimeStamp = DateTime.Now;
+			TestTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -45,7 +47,7 @@ namespace gtest_gui.Model
 		{
 			RootDirPath = rootDirPath;
 			TestExeFileName = string.Empty;
-			_newedTimeStamp = DateTime.Now;
+			TestTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -57,7 +59,7 @@ namespace gtest_gui.Model
 		{
 			RootDirPath = rootDirPath;
 			TestExeFileName = testExeFileName;
-			_newedTimeStamp = DateTime.Now;
+			TestTimeStamp = DateTime.Now;
 		}
 
 		/// <summary>
@@ -197,6 +199,29 @@ namespace gtest_gui.Model
 		}
 
 		/// <summary>
+		/// Returns log file path.
+		/// </summary>
+		/// <param name="testCase">Test case data for log.</param>
+		/// <returns>Path to log file.</returns>
+		/// <exception cref="ArgumentNullException"></exception>
+		public virtual string LogFilePath(TestCase testCase)
+		{
+			try
+			{
+				string testCasePath = testCase.Path;
+				string name = Path.GetFileNameWithoutExtension(testCasePath);
+				string outputDirPath = OutputDirPath();
+				string logPath = $@"{outputDirPath}\{name}.log";
+
+				return logPath;
+			}
+			catch (NullReferenceException)
+			{
+				throw new ArgumentNullException();
+			}
+		}
+
+		/// <summary>
 		/// Returns report file name the result of test should be set.
 		/// </summary>
 		/// <param name="testName">Test name</param>
@@ -233,8 +258,8 @@ namespace gtest_gui.Model
 					throw new ArgumentException();
 				}
 
-				var dateTimeNow = TimeStamp();
-				string fileName = $"{testName}_{dateTimeNow}";
+				string timeStamp = TimeStamp();
+				string fileName = $"{testName}_{timeStamp}";
 				return fileName;
 			}
 			catch (NullReferenceException)
@@ -289,6 +314,16 @@ namespace gtest_gui.Model
 			}
 		}
 
+		public virtual string GetTestLogFile(string testName)
+		{
+			string logFileName = TestLogAndReportName(testName);
+			IEnumerable<string> logFiles = GetTestLogFiles();
+			IEnumerable<string> logFile = logFiles.Where(_ => _.Contains(logFileName));
+			string logFileItem = logFile.First();
+
+			return logFileItem;
+		}
+
 		/// <summary>
 		/// Returns time stamp in string type. 
 		/// </summary>
@@ -307,6 +342,12 @@ namespace gtest_gui.Model
 			}
 		}
 
+		public string TimeStamp(DateTime dateTime)
+		{
+			string timeStamp = TimeStampWithFormat(dateTime, TimeStampFormat);
+			return timeStamp;
+		}
+
 		/// <summary>
 		/// Returns time stamp in string type with format.
 		/// </summary>
@@ -317,8 +358,21 @@ namespace gtest_gui.Model
 		{
 			try
 			{
-				var timeStamp = _newedTimeStamp.ToString(format);
+				string timeStamp = TimeStampWithFormat(TestTimeStamp, format);
 				return timeStamp;
+			}
+			catch (FormatException)
+			{
+				throw;
+			}
+		}
+
+		public string TimeStampWithFormat(DateTime timeStamp, string format)
+		{
+			try
+			{
+				string timeStampValue = timeStamp.ToString(format);
+				return timeStampValue;
 			}
 			catch (FormatException)
 			{

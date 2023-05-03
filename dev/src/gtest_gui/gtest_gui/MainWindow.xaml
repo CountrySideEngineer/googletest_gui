@@ -72,7 +72,11 @@
                   SelectedIndex="{Binding SelectedTestIndex}"
                   IsEnabled="{Binding CanReloadTest}"
                   IsReadOnly="True"
+                  IsSynchronizedWithCurrentItem="True"
                   >
+            <DataGrid.InputBindings>
+                <MouseBinding Command="{Binding RunSingleTestCommand}" MouseAction="LeftDoubleClick"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.Header>
@@ -95,6 +99,19 @@
                                     Binding="{Binding Name, Mode=TwoWay}"
                                     IsReadOnly="True"
                                     ElementStyle="{StaticResource DataGridColumnTestItemNameTextStyle}" />
+                <DataGridTemplateColumn IsReadOnly="True"
+                                        Header="実行"
+                                        CanUserResize="False"
+                                        >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="実行"
+                                    Style="{StaticResource DataGridColumnButtonStyle}"
+                                    Command="{Binding DataContext.RunSingleTestCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                    />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="結果"
                                     Width="80"
                                     CanUserResize="False"
@@ -102,8 +119,9 @@
                                     IsReadOnly="True"
                                     ElementStyle="{StaticResource DataGridColumnCenterTextStyle}"
                                     CellStyle="{StaticResource DataGridCellOkNgStyle}"
-                                    />
-                <DataGridTemplateColumn IsReadOnly="False"
+                                    >
+                </DataGridTextColumn>
+                <DataGridTemplateColumn IsReadOnly="True"
                                         Header="履歴"
                                         CanUserResize="False"
                                         >

@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ContentWindow">
       <HintPath>..\lib\ContentWindow.dll</HintPath>
@@ -64,8 +67,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\gtest_gui\Command\Argument\GetLogFilePathCommandArgument.cs">
+      <Link>Command\Argument\GetLogFilePathCommandArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\Argument\LoadTestHistoryCommandArgument.cs">
+      <Link>Command\Argument\LoadTestHistoryCommandArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\Argument\LoadTestLogCommandArgument.cs">
+      <Link>Command\Argument\LoadTestLogCommandArgument.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\Argument\ProgressChangedCommandArgument.cs">
       <Link>Command\Argument\ProgressChangedCommandArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\Argument\SingleSelectedTestCommandArgument.cs">
+      <Link>Command\Argument\SingleSelectedTestCommandArgument.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Command\Argument\TestCommandArgument.cs">
       <Link>Command\Argument\TestCommandArgument.cs</Link>
@@ -73,17 +88,29 @@
     <Compile Include="..\gtest_gui\Command\DelegateCommand.cs">
       <Link>Command\DelegateCommand.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Command\Exception\CommandException.cs">
+      <Link>Command\Exception\CommandException.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\GetLogFilePathCommand.cs">
+      <Link>Command\GetLogFilePathCommand.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\ITestCommand.cs">
       <Link>Command\ITestCommand.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Command\LoadTestCommand.cs">
       <Link>Command\LoadTestCommand.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\Command\LoadTestFromGoogleTestCommand.cs">
+      <Link>Command\LoadTestFromGoogleTestCommand.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\Command\LoadTestHistoryCommand.cs">
       <Link>Command\LoadTestHistoryCommand.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Command\LoadTestLogCommand.cs">
       <Link>Command\LoadTestLogCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Command\SingleTestExecuteCommand.cs">
+      <Link>Command\SingleTestExecuteCommand.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Command\TestExecuteAsyncCommand.cs">
       <Link>Command\TestExecuteAsyncCommand.cs</Link>
@@ -94,6 +121,12 @@
     <Compile Include="..\gtest_gui\MainWindow.xaml.cs">
       <Link>MainWindow.xaml.cs</Link>
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\gtest_gui\Model\GoogleTestListReader.cs">
+      <Link>Model\GoogleTestListReader.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\Model\GoogleTestRunner.cs">
+      <Link>Model\GoogleTestRunner.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\Model\OutputDirAndFile.cs">
       <Link>Model\OutputDirAndFile.cs</Link>
@@ -137,8 +170,17 @@
     <Compile Include="..\gtest_gui\MoveWindow\Move2History.cs">
       <Link>MoveWindow\Move2History.cs</Link>
     </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2NgResult.cs">
+      <Link>MoveWindow\Move2NgResult.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2OkResult.cs">
+      <Link>MoveWindow\Move2OkResult.cs</Link>
+    </Compile>
     <Compile Include="..\gtest_gui\MoveWindow\Move2Progress.cs">
       <Link>MoveWindow\Move2Progress.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\MoveWindow\Move2Result.cs">
+      <Link>MoveWindow\Move2Result.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\MoveWindow\Move2TestLog.cs">
       <Link>MoveWindow\Move2TestLog.cs</Link>
@@ -148,6 +190,9 @@
     </Compile>
     <Compile Include="..\gtest_gui\ViewModel\GTestGuiViewModel.cs">
       <Link>ViewModel\GTestGuiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\gtest_gui\ViewModel\GTestGuiViewModelBase.cs">
+      <Link>ViewModel\GTestGuiViewModelBase.cs</Link>
     </Compile>
     <Compile Include="..\gtest_gui\ViewModel\TestHistoryViewModel.cs">
       <Link>ViewModel\TestHistoryViewModel.cs</Link>
