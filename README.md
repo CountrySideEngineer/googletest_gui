@@ -15,3 +15,4 @@ The application supports function to generate reports in "xml" format supported 
 To know how to use this application, check the wiki page below.
 
 - [Wiki](https://github.com/CountrySideEngineer/googletest_gui/wiki)
+- [Wiki(ja)](https://github.com/CountrySideEngineer/googletest_gui/wiki/Home(ja))
