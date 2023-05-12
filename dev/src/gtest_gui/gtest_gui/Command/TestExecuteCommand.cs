@@ -135,6 +135,9 @@ namespace gtest_gui.Command
 			}
 		}
 
+		/// <summary>
+		/// Tear down the test.
+		/// </summary>
 		protected virtual void TearDownTestRunner()
 		{
 			_runner.TestDataReceivedEventHandler -= _logBuilder.OnDataReceived;
