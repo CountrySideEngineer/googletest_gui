@@ -15,12 +15,24 @@ namespace gtest_gui.Command
 {
 	public class TestExecuteAsyncCommand : TestExecuteCommand
 	{
+		/// <summary>
+		/// Run test async.
+		/// </summary>
 		protected TestRunnerAsync _runnerAsync;
 
+		/// <summary>
+		/// Content window class.
+		/// </summary>
 		protected CountrySideEngineer.ContentWindow.ContentWindow _contentWindow;
 
-		protected CountrySideEngineer.ProgressWindow.ProgressWindow _proressWindow;
+		/// <summary>
+		/// Progress window class.
+		/// </summary>
+		protected ProgressWindow _proressWindow;
 
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public TestExecuteAsyncCommand() : base()
 		{
 			_runnerAsync = new TestRunnerAsync();
@@ -28,6 +40,10 @@ namespace gtest_gui.Command
 			_proressWindow = new CountrySideEngineer.ProgressWindow.ProgressWindow();
 		}
 
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="runner"></param>
 		public TestExecuteAsyncCommand(TestRunner runner) : base(runner)
 		{
 			_runnerAsync = new TestRunnerAsync();
@@ -47,8 +63,7 @@ namespace gtest_gui.Command
 			{
 				SetUpTestRunner(cmdArgument);
 
-				string testFileName = System.IO.Path.GetFileNameWithoutExtension(cmdArgument.TestInfo.TestFile);
-				_contentWindow.ViewTitle = testFileName;
+				_contentWindow.ViewTitle = System.IO.Path.GetFileNameWithoutExtension(cmdArgument.TestInfo.TestFile);
 				_contentWindow.Start();
 
 				_proressWindow.Start(_runnerAsync);
@@ -99,6 +114,9 @@ namespace gtest_gui.Command
 			_runnerAsync.TestInfo = cmdArg.TestInfo;
 		}
 
+		/// <summary>
+		/// Teardown the test.
+		/// </summary>
 		protected override void TearDownTestRunner()
 		{
 			base.TearDownTestRunner();
