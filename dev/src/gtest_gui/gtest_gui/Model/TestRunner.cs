@@ -110,14 +110,11 @@ namespace gtest_gui.Model
         /// <param name="path">Path to file.</param>
         /// <param name="testItem">Test information.</param>
         /// <returns>Test running process.</returns>
-        protected virtual Process Run(string path, TestItem testItem)
+        protected virtual void Run(string path, TestItem testItem)
 		{
-            ProcessStartInfo procStartInfo = GetProcessStartInfo(path, testItem);
-            Process process = null;
-
-            using (process = new Process())
+            using (var process = new Process())
 			{
-                process.StartInfo = procStartInfo;
+                process.StartInfo = GetProcessStartInfo(path, testItem);
                 process.ErrorDataReceived += OnErrorDataReceivedEvent;
                 process.OutputDataReceived += OnOutputDataReceivedEvent;
                 process.Start();
@@ -127,7 +124,6 @@ namespace gtest_gui.Model
                 process.OutputDataReceived -= OnOutputDataReceivedEvent;
                 process.ErrorDataReceived -= OnErrorDataReceivedEvent;
             }
-            return process;
 		}
 
         /// <summary>
