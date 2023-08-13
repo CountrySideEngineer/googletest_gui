@@ -1,7 +1,7 @@
 # googletest_gui
 
 [![LICENSE](https://img.shields.io/badge/License-MIT-brightfreen.svg)](https://spdx.org/licenses/MIT)
-![APP_VER](https://img.shields.io/badge/GTEST__GUI-v0.9.2-%230067C5)
+![APP_VER](https://img.shields.io/badge/GTEST__GUI-v0.10.0-%230067C5)
 ![DOT_NET_CORE](https://img.shields.io/badge/Core-3.1-%20?style=flat&logo=.NET&color=%23512BD4)
 ![DOT_NET_FRAMEWORK](https://img.shields.io/badge/Framework-4.7.1-a?style=flat&logo=.NET)
 
