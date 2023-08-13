@@ -24,11 +24,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="LogTextBox"
-                 Text="{Binding LogContent}"
-                 Style="{StaticResource LogTextBox}"
-                 Grid.Row="1"
-                 Grid.Column="1"
-                 />
+        <RichTextBox x:Name="LogTextBox"
+                     Grid.Row="1"
+                     Style="{StaticResource LogRichTextBox}" Loaded="LogTextBox_Loaded"
+                     >
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="{Binding LogContent}"
+                         />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Grid>
 </Window>

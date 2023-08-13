@@ -80,6 +80,27 @@
         <Setter Property="FontFamily" Value="MS Gothic"/>
         <Setter Property="FontSize" Value="12"/>
     </Style>
+    
+    <!-- RichTextBox -->
+    <Style x:Key="RichTextBoxCommonStyle" TargetType="RichTextBox">
+        <Setter Property="Margin" Value="8, 16"/>
+        <Setter Property="Padding" Value="0, 0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="LogRichTextBox" TargetType="RichTextBox" BasedOn="{StaticResource ResourceKey=RichTextBoxCommonStyle}">
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="FontFamily" Value="MS Gothic"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
 
     <!-- Button -->
     <Style x:Key="ButtonCommonStyle"  TargetType="Button">

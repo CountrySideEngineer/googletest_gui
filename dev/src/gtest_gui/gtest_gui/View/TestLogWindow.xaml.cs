@@ -21,5 +21,70 @@ namespace gtest_gui.View
 		{
 			InitializeComponent();
 		}
+
+		private void LogTextBox_Loaded(object sender, RoutedEventArgs e)
+		{
+			HighLightText();
+		}
+
+		private void HighLightText()
+		{
+			HighLightTextOK();
+			HighLightTextNG();
+		}
+
+		private void HighLightTextOK()
+		{
+			var hilightTextData = new List<string>
+			{
+				"[==========]",
+				"[----------]",
+				"[ RUN      ]",
+				"[       OK ]",
+				"[  PASSED  ]",
+			};
+			foreach (var textData in hilightTextData)
+			{
+				HighLightText(textData, Brushes.SpringGreen);
+			}
+		}
+
+		private void HighLightTextNG()
+		{
+			var hilightTextData = new List<string>
+			{
+				"[  FAILED  ]",
+			};
+			foreach (var textData in hilightTextData)
+			{
+				HighLightText(textData, Brushes.Red);
+			}
+		}
+
+		private void HighLightText(string keyword, Brush color)
+		{
+			try
+			{
+				int leftLen = 0;
+				TextPointer start = LogTextBox.Document.ContentStart;
+				do
+				{
+					TextPointer stop = start.GetPositionAtOffset(keyword.Length);
+					var wrapRange = new TextRange(start, stop);
+					var wrapText = wrapRange.Text;
+					if (wrapText.Equals(keyword))
+					{
+						wrapRange.ApplyPropertyValue(TextElement.ForegroundProperty, color);
+						start = stop;
+					}
+					else
+					{
+						start = start.GetPositionAtOffset(1);
+					}
+					leftLen = start.GetOffsetToPosition(LogTextBox.Document.ContentEnd);
+				} while ((0 < leftLen) && (keyword.Length < leftLen));
+			}
+			catch (ArgumentException) { }
+		}
 	}
 }
