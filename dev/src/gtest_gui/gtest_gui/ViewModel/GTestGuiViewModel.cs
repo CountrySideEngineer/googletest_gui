@@ -128,10 +128,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public TestInformation TestInfo
 		{
-			get
-			{
-				return _testInfo;
-			}
+			get => _testInfo;
 			set
 			{
 				_testInfo = value;
@@ -145,10 +142,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public bool CanRunTest
 		{
-			get
-			{
-				return _canRunTest;
-			}
+			get => _canRunTest;
 			set
 			{
 				_canRunTest = value;
@@ -161,10 +155,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public bool CanReloadTest
 		{
-			get
-			{
-				return _canReloadTest;
-			}
+			get => _canReloadTest;
 			set
 			{
 				_canReloadTest = value;
@@ -177,10 +168,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public int SelectedTestIndex
 		{
-			get
-			{
-				return _selectedTestIndex;
-			}
+			get => _selectedTestIndex;
 			set
 			{
 				_selectedTestIndex = value;
