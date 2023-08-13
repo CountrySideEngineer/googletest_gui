@@ -62,10 +62,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public string LogFilePath
 		{
-			get
-			{
-				return _logFilePath;
-			}
+			get => _logFilePath;
 			set
 			{
 				_logFilePath = value;
@@ -95,10 +92,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public string LogContent
 		{
-			get
-			{
-				return _logContent;
-			}
+			get => _logContent;
 			set
 			{
 				_logContent = value;
