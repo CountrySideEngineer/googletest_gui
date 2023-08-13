@@ -27,12 +27,18 @@ namespace gtest_gui.View
 			HighLightText();
 		}
 
+		/// <summary>
+		/// Highlight OK and NG words text in log window.
+		/// </summary>
 		private void HighLightText()
 		{
 			HighLightTextOK();
 			HighLightTextNG();
 		}
 
+		/// <summary>
+		/// Highlight words about test result OK!
+		/// </summary>
 		private void HighLightTextOK()
 		{
 			var hilightTextData = new List<string>
@@ -49,6 +55,9 @@ namespace gtest_gui.View
 			}
 		}
 
+		/// <summary>
+		/// Highlight word about test result NG.
+		/// </summary>
 		private void HighLightTextNG()
 		{
 			var hilightTextData = new List<string>
@@ -61,6 +70,11 @@ namespace gtest_gui.View
 			}
 		}
 
+		/// <summary>
+		/// Highlight words match with keyword match with argument keyword by argument color.
+		/// </summary>
+		/// <param name="keyword">A word to change format.</param>
+		/// <param name="color">A color to set to the keyword.</param>
 		private void HighLightText(string keyword, Brush color)
 		{
 			try
