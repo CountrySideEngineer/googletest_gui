@@ -57,10 +57,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public int SelectedIndex
 		{
-			get
-			{
-				return _selectedIndex;
-			}
+			get => _selectedIndex;
 			set
 			{
 				_selectedIndex = value;
@@ -73,14 +70,11 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public IEnumerable<TestCase> TestCases
 		{
-			get
-			{
-				return _testCases;
-			}
+			get => _testCases;
 			set
 			{
 				_testCases = value;
-				RaisePropertyChanged(nameof(this.TestCases));
+				RaisePropertyChanged(nameof(TestCases));
 			}
 		}
 
@@ -124,10 +118,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public string TestFilePath
 		{
-			get
-			{
-				return _testFilePath;
-			}
+			get => _testFilePath;
 			set
 			{
 				_testFilePath = value;
@@ -140,10 +131,7 @@ namespace gtest_gui.ViewModel
 		/// </summary>
 		public TestItem TestItem
 		{
-			get
-			{
-				return _testItem;
-			}
+			get => _testItem;
 			set
 			{
 				_testItem = value;
